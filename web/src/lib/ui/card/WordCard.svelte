@@ -29,7 +29,7 @@
 	};
 
 	// Outside the forward review every enabled block is expanded, in template order.
-	const blocks = $derived(app.settings.template.filter((b) => b.mode !== 'off'));
+	const blocks = $derived(app.settings.template.filter((b) => b.mode !== 'off' && b.id in BLOCKS));
 
 	let heading: HTMLElement;
 	$effect(() => {

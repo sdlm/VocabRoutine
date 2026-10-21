@@ -14,6 +14,12 @@
 		onPick: (choice: string) => void;
 	} = $props();
 
+	function label(choice: string): string | undefined {
+		if (!closed) return undefined;
+		if (choice === answer) return `${choice} — верно`;
+		return choice === picked ? `${choice} — неверно` : undefined;
+	}
+
 	function state(choice: string): string {
 		if (!closed) return '';
 		if (choice === answer) return 'ok';
@@ -23,7 +29,7 @@
 
 <div class="grid">
 	{#each choices as c (c)}
-		<button type="button" class={state(c)} disabled={closed} onclick={() => onPick(c)}>{c}</button>
+		<button type="button" class={state(c)} disabled={closed} aria-label={label(c)} onclick={() => onPick(c)}>{c}</button>
 	{/each}
 </div>
 
@@ -35,6 +41,7 @@
 		margin-bottom: 10px;
 	}
 	button {
+		touch-action: manipulation;
 		padding: 16px 4px;
 		border-radius: var(--radius);
 		background: var(--surface-2);

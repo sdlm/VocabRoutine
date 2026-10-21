@@ -22,18 +22,27 @@
 	const showTranslation = $derived(settings.showTranslation || view.hints.translation);
 	const showMeta = $derived(settings.showMeta || view.hints.meta);
 
+	/** Runs a hint inside the tap and keeps the keyboard up. */
+	const use = (fn: () => void) => () => {
+		fn();
+		input?.focus();
+	};
+
 	const hints: Hint[] = $derived.by(() => {
 		const list: Hint[] = [];
-		if (!settings.showTranslation) list.push({ label: 'Перевод', used: view.hints.translation, onUse: () => useHint('translation') });
+		if (!settings.showTranslation) {
+			list.push({ id: 'translation', label: 'Перевод', used: view.hints.translation, onUse: use(() => useHint('translation')) });
+		}
 		if (typing) {
 			const max = maxHintLetters(gap.answer);
 			list.push({
-				label: view.prefix.length === 0 ? '1-я буква' : '2-я буква',
+				id: 'letter',
+				label: view.prefix.length === 0 || max < 2 ? '1-я буква' : '2-я буква',
 				used: view.prefix.length >= max,
-				onUse: useLetterHint
+				onUse: use(useLetterHint)
 			});
 		}
-		if (!settings.showMeta) list.push({ label: 'Мета', used: view.hints.meta, onUse: () => useHint('meta') });
+		if (!settings.showMeta) list.push({ id: 'meta', label: 'Мета', used: view.hints.meta, onUse: use(() => useHint('meta')) });
 		return list;
 	});
 
@@ -47,6 +56,16 @@
 		if (typing && !view.closed) input?.focus();
 	});
 
+	// The next word's controls appear under the finger right after «Дальше»,
+	// so taps that arrive right after the view changes are ignored.
+	let stamp = 0;
+	$effect(() => {
+		void view.wordId;
+		void view.closed;
+		stamp = Date.now();
+	});
+	const tooSoon = () => Date.now() - stamp < 400;
+
 	function check() {
 		const value = view.prefix + view.typed;
 		if (!value.trim()) return;
@@ -55,15 +74,19 @@
 
 	/** «Дальше» runs inside the tap, so focusing the next field opens the keyboard on iOS. */
 	function next() {
+		if (tooSoon()) return;
 		flushSync(nextCloze);
 		if (app.settings.cloze.answerMode === 'typing') input?.focus();
 	}
 
 	function gaveUp() {
+		if (tooSoon()) return;
 		answerCloze('gaveUp', null);
 	}
 
-	const closedText = $derived(view.closed?.outcome === 'wrong' ? view.closed.picked : gap.answer);
+	// Only typing shows the typed word on red; «4 слова» always shows the answer on green.
+	const typedWrong = $derived(typing && view.closed?.outcome === 'wrong');
+	const closedText = $derived(typedWrong ? view.closed!.picked : gap.answer);
 </script>
 
 {#snippet words(segments: ReturnType<typeof linkWords>)}
@@ -75,13 +98,13 @@
 {/snippet}
 
 <div class="sentence">
-	{@render words(before)}{#if view.closed}<span class="inl" class:ok={view.closed.outcome !== 'wrong'} class:bad={view.closed.outcome === 'wrong'}
+	{@render words(before)}{#if view.closed}<span class="inl" class:ok={!typedWrong} class:bad={typedWrong}
 			>{closedText}</span
 		>{:else if typing}<span class="inl"
 			>{#if view.prefix}<b class="locked">{view.prefix}</b>{/if}<input
 				bind:this={input}
 				bind:value={view.typed}
-				style:width="{Math.max(6 - view.prefix.length, view.typed.length + 1)}ch"
+				style:width="{Math.max(6 - view.prefix.length, view.typed.length + 2)}ch"
 				enterkeyhint="done"
 				autocomplete="off"
 				autocapitalize="none"
@@ -89,6 +112,7 @@
 				spellcheck="false"
 				aria-label="Пропущенное слово"
 				onkeydown={(e) => {
+					if (e.isComposing) return;
 					if (e.key === 'Enter') {
 						e.preventDefault();
 						check();
@@ -116,11 +140,20 @@
 		<button class="primary" onclick={next}>Дальше</button>
 	</div>
 {:else if typing}
-	<div class="dock" style:bottom="{kb.px}px" class:raised={kb.px > 0}>
+	<!-- pointerdown/mousedown are cancelled so taps in the dock keep the input focused and the keyboard open -->
+	<div
+		class="dock"
+		style:bottom="{kb.px}px"
+		class:raised={kb.px > 0}
+		role="toolbar"
+		tabindex="-1"
+		onpointerdown={(e) => e.preventDefault()}
+		onmousedown={(e) => e.preventDefault()}
+	>
 		<HintsRow {hints} />
 		<div class="btns">
-			<button class="give" onpointerdown={(e) => e.preventDefault()} onclick={gaveUp}>Сдаться</button>
-			<button class="skip" onpointerdown={(e) => e.preventDefault()} onclick={next}>Дальше</button>
+			<button class="give" onpointerdown={(e) => e.preventDefault()} onmousedown={(e) => e.preventDefault()} onclick={gaveUp}>Сдаться</button>
+			<button class="skip" onpointerdown={(e) => e.preventDefault()} onmousedown={(e) => e.preventDefault()} onclick={next}>Дальше</button>
 		</div>
 	</div>
 {:else}
@@ -131,7 +164,10 @@
 			answer={gap.answer}
 			picked={null}
 			closed={false}
-			onPick={(c) => answerCloze(c === gap.answer ? 'correct' : 'wrong', c)}
+			onPick={(c) => {
+				if (tooSoon()) return;
+				answerCloze(c === gap.answer ? 'correct' : 'wrong', c);
+			}}
 		/>
 		<div class="btns">
 			<button class="give" onclick={gaveUp}>Сдаться</button>
@@ -139,6 +175,8 @@
 		</div>
 	</div>
 {/if}
+
+<div class="spacer" aria-hidden="true"></div>
 
 <style>
 	.sentence {
@@ -222,12 +260,16 @@
 	.dock.raised {
 		padding-bottom: 8px;
 	}
+	.spacer {
+		height: 280px;
+	}
 	.btns {
 		display: flex;
 		gap: 8px;
 	}
 	.btns button,
 	.primary {
+		touch-action: manipulation;
 		flex: 1;
 		padding: 14px 0;
 		border-radius: var(--radius);

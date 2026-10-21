@@ -1,8 +1,12 @@
 <script lang="ts" generics="T extends string">
-	let { options, value = $bindable() }: { options: { value: T; label: string }[]; value: T } = $props();
+	let {
+		options,
+		value = $bindable(),
+		label
+	}: { options: { value: T; label: string }[]; value: T; label?: string } = $props();
 </script>
 
-<div class="seg" role="radiogroup">
+<div class="seg" role="radiogroup" aria-label={label}>
 	{#each options as o (o.value)}
 		<button type="button" role="radio" aria-checked={value === o.value} class:on={value === o.value} onclick={() => (value = o.value)}>
 			{o.label}

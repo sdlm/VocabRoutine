@@ -1,5 +1,7 @@
 <script lang="ts" module>
 	export interface Hint {
+		/** Stable key for the list. */
+		id: string;
 		label: string;
 		used: boolean;
 		onUse: () => void;
@@ -12,9 +14,12 @@
 
 {#if hints.length}
 	<div class="hints">
-		{#each hints as h (h.label)}
+		{#each hints as h (h.id)}
 			<!-- pointerdown is cancelled so the input keeps focus and the keyboard stays open -->
-			<button type="button" class:used={h.used} disabled={h.used} onpointerdown={(e) => e.preventDefault()} onclick={h.onUse}>
+			<button type="button" class:used={h.used} aria-disabled={h.used}
+				onpointerdown={(e) => e.preventDefault()}
+				onclick={() => !h.used && h.onUse()}
+			>
 				{h.label}
 			</button>
 		{/each}

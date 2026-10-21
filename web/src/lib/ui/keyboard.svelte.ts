@@ -8,7 +8,9 @@ export function keyboardInset(): { readonly px: number } {
 		const vv = window.visualViewport;
 		if (!vv) return;
 		const update = () => {
-			px = Math.max(0, Math.round(window.innerHeight - vv.height - vv.offsetTop));
+			const raw = Math.round(window.innerHeight - vv.height - vv.offsetTop);
+			// Small values come from Safari toolbar transitions, and pinch zoom changes the visual viewport.
+			px = raw < 80 || vv.scale > 1 ? 0 : raw;
 		};
 		update();
 		vv.addEventListener('resize', update);

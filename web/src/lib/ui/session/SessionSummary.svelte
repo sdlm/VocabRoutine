@@ -27,7 +27,7 @@
 	.summary {
 		display: flex;
 		flex-direction: column;
-		min-height: 100dvh;
+		min-height: calc(100dvh - var(--tabbar-h) - var(--safe-bottom) - 24px);
 		padding: calc(var(--safe-top) + 48px) 0 calc(var(--safe-bottom) + 24px);
 	}
 	.head {

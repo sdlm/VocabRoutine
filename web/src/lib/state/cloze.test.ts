@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, test } from 'vitest';
 import { DAY, dayKey } from '$lib/domain/time';
-import { answerCloze, cloze, ensureClozeSession, nextCloze, syncClozeView, useLetterHint } from './cloze.svelte';
+import { answerCloze, cloze, ensureClozeSession, finishClozeSession, nextCloze, syncClozeView, useLetterHint } from './cloze.svelte';
 import { app, resetDemo } from './store.svelte';
 
 const today = () => app.activity[dayKey(Date.now())]?.counted ?? 0;
@@ -109,7 +109,33 @@ describe('useLetterHint', () => {
 		const v = cloze.view!;
 		useLetterHint();
 		useLetterHint();
+		useLetterHint();
 		expect(v.prefix).toHaveLength(2);
 		expect(v.typed).toBe('');
+	});
+});
+
+describe('finishClozeSession', () => {
+	test('starts a new session right away when words are due', () => {
+		start();
+		for (let i = 0; i < 3; i++) {
+			answerCloze('correct', 'x');
+			nextCloze();
+		}
+		app.learning.journey.cloze!.dueAt = Date.now() - 1000;
+		finishClozeSession();
+		expect(app.sessions.cloze!.queue).toEqual(['journey']);
+		expect(cloze.view?.wordId).toBe('journey');
+	});
+
+	test('leaves no session when nothing is due', () => {
+		start();
+		for (let i = 0; i < 3; i++) {
+			answerCloze('correct', 'x');
+			nextCloze();
+		}
+		finishClozeSession();
+		expect(app.sessions.cloze).toBeNull();
+		expect(cloze.view).toBeNull();
 	});
 });

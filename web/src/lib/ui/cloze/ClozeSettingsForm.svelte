@@ -11,7 +11,7 @@
 </script>
 
 <Group label="Способ ответа">
-	<Segmented options={modes} bind:value={app.settings.cloze.answerMode} />
+	<Segmented label="Способ ответа" options={modes} bind:value={app.settings.cloze.answerMode} />
 </Group>
 <Group label="Всегда показывать">
 	<Toggle label="Перевод предложения" note="Если выключено, открывается подсказкой" bind:checked={app.settings.cloze.showTranslation} />

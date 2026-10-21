@@ -1,5 +1,5 @@
 import { wordById } from '$lib/content';
-import { applyLetterHint, choices, parseCloze } from '$lib/domain/cloze';
+import { applyLetterHint, choices, maxHintLetters, parseCloze } from '$lib/domain/cloze';
 import {
 	closeWord,
 	isNewInCloze,
@@ -126,7 +126,9 @@ export function useLetterHint(): void {
 	const v = cloze.view;
 	if (!v || v.closed) return;
 	const word = wordById.get(v.wordId)!;
-	const next = applyLetterHint(parseCloze(word.cloze[v.sentence].en).answer, v.prefix, v.typed);
+	const answer = parseCloze(word.cloze[v.sentence].en).answer;
+	if (v.prefix.length >= maxHintLetters(answer)) return;
+	const next = applyLetterHint(answer, v.prefix, v.typed);
 	v.prefix = next.prefix;
 	v.typed = next.typed;
 }
@@ -139,4 +141,6 @@ export function useHint(kind: 'translation' | 'meta'): void {
 export function finishClozeSession(): void {
 	app.sessions.cloze = null;
 	cloze.view = null;
+	ensureClozeSession();
+	syncClozeView();
 }

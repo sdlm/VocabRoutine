@@ -1,13 +1,14 @@
 <script lang="ts">
 	let { label, note, checked = $bindable() }: { label: string; note?: string; checked: boolean } = $props();
+	const noteId = $props.id();
 </script>
 
 <label class="row">
 	<span class="text">
 		{label}
-		{#if note}<small>{note}</small>{/if}
+		{#if note}<small id={noteId}>{note}</small>{/if}
 	</span>
-	<input type="checkbox" role="switch" bind:checked />
+	<input type="checkbox" role="switch" aria-describedby={note ? noteId : undefined} bind:checked />
 </label>
 
 <style>

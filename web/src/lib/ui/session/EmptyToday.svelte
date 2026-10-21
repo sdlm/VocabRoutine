@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { plural, WORD_FORMS } from '$lib/format';
+	import { HOUR } from '$lib/domain/time';
 	import { upcoming } from '$lib/domain/queue';
 	import { formatInterval } from '$lib/domain/srs';
 	import { href } from '$lib/nav';
@@ -18,7 +19,8 @@
 		<p>
 			{next.laterToday.count === 1 ? 'Следующее' : 'Следующие'}
 			{next.laterToday.count}
-			{plural(next.laterToday.count, WORD_FORMS)} — через {formatInterval(next.laterToday.inMs)}
+			{plural(next.laterToday.count, WORD_FORMS)} —
+			{next.laterToday.inMs < HOUR ? 'меньше чем через час' : `через ${formatInterval(next.laterToday.inMs)}`}
 		</p>
 	{/if}
 	<p>Завтра в очереди: {next.tomorrow}</p>
