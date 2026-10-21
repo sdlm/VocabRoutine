@@ -7,6 +7,7 @@
 	import { answerCloze, nextCloze, useHint, useLetterHint, type ClozeView } from '$lib/state/cloze.svelte';
 	import { app } from '$lib/state/store.svelte';
 	import { keyboardInset } from '$lib/ui/keyboard.svelte';
+	import { tapGuard } from '$lib/ui/tap-guard.svelte';
 	import ChoiceGrid from './ChoiceGrid.svelte';
 	import HintsRow, { type Hint } from './HintsRow.svelte';
 
@@ -56,18 +57,7 @@
 		if (typing && !view.closed) input?.focus();
 	});
 
-	// The next word's controls appear under the finger right after «Дальше»,
-	// so taps that arrive right after the view changes are ignored. Not on mount:
-	// coming back from a card or the settings leaves nothing under the finger.
-	let stamp = 0;
-	let mounted = false;
-	$effect(() => {
-		void view.wordId;
-		void view.closed;
-		if (mounted) stamp = Date.now();
-		mounted = true;
-	});
-	const tooSoon = () => Date.now() - stamp < 400;
+	const tooSoon = tapGuard(() => [view.wordId, view.closed]);
 
 	function check() {
 		const value = view.prefix + view.typed;

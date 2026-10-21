@@ -1,15 +1,9 @@
 <script lang="ts">
-	import type { Component } from 'svelte';
 	import type { Word } from '$lib/content/types';
-	import { BLOCK_LABEL, metaTags } from '$lib/content/labels';
-	import type { BlockId } from '$lib/state/schema';
+	import { metaTags } from '$lib/content/labels';
 	import { app } from '$lib/state/store.svelte';
-	import Block from './Block.svelte';
-	import CollocationsBlock from './CollocationsBlock.svelte';
-	import DefinitionBlock from './DefinitionBlock.svelte';
-	import ExamplesBlock from './ExamplesBlock.svelte';
-	import SimilarBlock from './SimilarBlock.svelte';
-	import TranslationsBlock from './TranslationsBlock.svelte';
+	import { enabledBlocks } from '$lib/state/template';
+	import CardBlocks from './CardBlocks.svelte';
 
 	let {
 		word,
@@ -19,17 +13,6 @@
 		/** True once the word heading scrolled under the navbar; the page then shows the word there. */
 		headerHidden?: boolean;
 	} = $props();
-
-	const BLOCKS: Record<BlockId, Component<{ word: Word }>> = {
-		translations: TranslationsBlock,
-		definition: DefinitionBlock,
-		examples: ExamplesBlock,
-		collocations: CollocationsBlock,
-		similar: SimilarBlock
-	};
-
-	// Outside the forward review every enabled block is expanded, in template order.
-	const blocks = $derived(app.settings.template.filter((b) => b.mode !== 'off' && b.id in BLOCKS));
 
 	let heading: HTMLElement;
 	$effect(() => {
@@ -49,10 +32,8 @@
 	</div>
 </header>
 
-{#each blocks as b (b.id)}
-	{@const Body = BLOCKS[b.id]}
-	<Block label={BLOCK_LABEL[b.id]}><Body {word} /></Block>
-{/each}
+<!-- Outside the forward review every enabled block is open, in template order. -->
+<CardBlocks {word} blocks={enabledBlocks(app.settings.template)} />
 
 <style>
 	h1 {
