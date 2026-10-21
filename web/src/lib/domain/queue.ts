@@ -1,4 +1,4 @@
-import { dayKey } from './time';
+import { dayKey, nextMidnight } from './time';
 import type { LearningEntry, QueueSettings } from './types';
 
 export interface ForwardItem {
@@ -48,4 +48,23 @@ export function clozeQueue(entries: LearningEntry[], now: number): string[] {
 		.filter((e) => e.cloze !== null && e.cloze.dueAt <= now)
 		.sort((a, b) => a.cloze!.dueAt - b.cloze!.dueAt)
 		.map((e) => e.wordId);
+}
+
+export interface Upcoming {
+	/** Words due later today and the time until the first of them; null if none. */
+	laterToday: { count: number; inMs: number } | null;
+	/** Words that will be due by the end of tomorrow, later today included. */
+	tomorrow: number;
+}
+
+/** Numbers for «На сегодня всё», from the due dates of one mode. */
+export function upcoming(dueAts: number[], now: number): Upcoming {
+	const midnight = nextMidnight(now);
+	const endOfTomorrow = nextMidnight(midnight);
+	const future = dueAts.filter((t) => t > now);
+	const today = future.filter((t) => t < midnight);
+	return {
+		laterToday: today.length ? { count: today.length, inMs: Math.min(...today) - now } : null,
+		tomorrow: future.filter((t) => t < endOfTomorrow).length
+	};
 }

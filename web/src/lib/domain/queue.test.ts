@@ -1,6 +1,6 @@
 import { describe, expect, test } from 'vitest';
 import { newEntry } from './learning';
-import { clozeQueue, forwardQueue, newLeftToday } from './queue';
+import { clozeQueue, forwardQueue, newLeftToday, upcoming } from './queue';
 import { DAY, HOUR } from './time';
 import type { LearningEntry, QueueSettings } from './types';
 
@@ -65,5 +65,16 @@ describe('clozeQueue', () => {
 		});
 		const entries = [inCloze('c2', NOW - HOUR), inCloze('c1', NOW - DAY), inCloze('later', NOW + HOUR), review('notInCloze', NOW - DAY)];
 		expect(clozeQueue(entries, NOW)).toEqual(['c1', 'c2']);
+	});
+});
+
+describe('upcoming', () => {
+	test('counts words later today and by the end of tomorrow', () => {
+		const dueAts = [NOW - HOUR, NOW + 3 * HOUR, NOW + 5 * HOUR, NOW + DAY, NOW + 3 * DAY];
+		expect(upcoming(dueAts, NOW)).toEqual({ laterToday: { count: 2, inMs: 3 * HOUR }, tomorrow: 3 });
+	});
+	test('nothing later today', () => {
+		expect(upcoming([NOW + DAY], NOW)).toEqual({ laterToday: null, tomorrow: 1 });
+		expect(upcoming([], NOW)).toEqual({ laterToday: null, tomorrow: 0 });
 	});
 });

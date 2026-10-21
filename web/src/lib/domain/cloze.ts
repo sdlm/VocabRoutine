@@ -54,3 +54,18 @@ export function linkWords(text: string, formIndex: Map<string, string>): Segment
 	}
 	return out;
 }
+
+/** How many letters the «1-я буква» / «2-я буква» hint may reveal. */
+export function maxHintLetters(answer: string): number {
+	return Math.min(2, Math.max(0, answer.length - 1));
+}
+
+/**
+ * Reveal one more letter of the answer as a locked prefix. What the user typed
+ * is kept when it agrees with the new prefix, otherwise it is cleared.
+ */
+export function applyLetterHint(answer: string, prefix: string, typed: string): { prefix: string; typed: string } {
+	const next = answer.slice(0, prefix.length + 1);
+	const full = prefix + typed;
+	return { prefix: next, typed: full.toLowerCase().startsWith(next.toLowerCase()) ? full.slice(next.length) : '' };
+}

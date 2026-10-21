@@ -1,5 +1,5 @@
 import { describe, expect, test } from 'vitest';
-import { choices, isCorrect, linkWords, parseCloze } from './cloze';
+import { applyLetterHint, choices, isCorrect, linkWords, maxHintLetters, parseCloze } from './cloze';
 
 describe('parseCloze', () => {
 	test('splits around the single gap', () => {
@@ -56,5 +56,21 @@ describe('linkWords', () => {
 	});
 	test('matching ignores case', () => {
 		expect(linkWords('Deploy it', index)[0]).toEqual({ text: 'Deploy', wordId: 'deploy' });
+	});
+});
+
+describe('letter hint', () => {
+	test('at most two letters, never the whole word', () => {
+		expect(maxHintLetters('deployed')).toBe(2);
+		expect(maxHintLetters('go')).toBe(1);
+	});
+	test('first letter into an empty field', () => {
+		expect(applyLetterHint('deployed', '', '')).toEqual({ prefix: 'd', typed: '' });
+	});
+	test('second letter keeps typing that agrees with the prefix', () => {
+		expect(applyLetterHint('deployed', 'd', 'epl')).toEqual({ prefix: 'de', typed: 'pl' });
+	});
+	test('typing that contradicts the prefix is cleared', () => {
+		expect(applyLetterHint('deployed', '', 'xyz')).toEqual({ prefix: 'd', typed: '' });
 	});
 });

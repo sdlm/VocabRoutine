@@ -14,3 +14,9 @@ export function shiftDay(key: string, n: number): string {
 	const [y, m, d] = key.split('-').map(Number);
 	return dayKey(new Date(y, m - 1, d + n).getTime());
 }
+
+/** Start of the next local day. */
+export function nextMidnight(ts: number): number {
+	const d = new Date(ts);
+	return new Date(d.getFullYear(), d.getMonth(), d.getDate() + 1).getTime();
+}
