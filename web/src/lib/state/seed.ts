@@ -76,6 +76,6 @@ export function makeSeed(now: number): AppState {
 		learning,
 		settings,
 		activity: seedActivity(dayKey(now), settings.dailyGoal),
-		sessions: { cloze: null }
+		sessions: { forward: null, cloze: null }
 	};
 }

@@ -1,4 +1,5 @@
 import type { ClozeSession } from '$lib/domain/cloze-session';
+import type { ForwardSession } from '$lib/domain/forward-session';
 import { DAY } from '$lib/domain/time';
 import type { Activity, LearningEntry, QueueSettings } from '$lib/domain/types';
 
@@ -32,6 +33,7 @@ export interface Settings {
 
 /** Active review sessions; null when there is none. */
 export interface Sessions {
+	forward: ForwardSession | null;
 	cloze: ClozeSession | null;
 }
 

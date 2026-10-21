@@ -1,14 +1,17 @@
 import { wordById } from '$lib/content';
 import { defaultSettings, type AppState } from './schema';
 import type { ClozeSession } from '$lib/domain/cloze-session';
+import type { ForwardSession } from '$lib/domain/forward-session';
+import type { SessionClock } from '$lib/domain/session';
 import type { LearningEntry } from '$lib/domain/types';
 import { makeSeed } from './seed';
+import { normalizeTemplate } from './template';
 
 export const STORAGE_KEY = 'vocabroutine:v1';
 
 const isObj = (v: unknown): v is Record<string, unknown> => v !== null && typeof v === 'object' && !Array.isArray(v);
 
-function isClozeSession(v: unknown): v is ClozeSession {
+function isSession(v: unknown): v is SessionClock & Record<string, unknown> {
 	return (
 		isObj(v) &&
 		typeof v.day === 'string' &&
@@ -19,6 +22,14 @@ function isClozeSession(v: unknown): v is ClozeSession {
 		Array.isArray(v.queue) &&
 		Array.isArray(v.done)
 	);
+}
+
+function isClozeSession(v: unknown): v is ClozeSession {
+	return isSession(v) && (v.queue as unknown[]).every((q) => typeof q === 'string');
+}
+
+function isForwardSession(v: unknown): v is ForwardSession {
+	return isSession(v) && Array.isArray(v.revealed) && (v.queue as unknown[]).every(isObj);
 }
 
 /**
@@ -46,10 +57,13 @@ export function parseState(json: string | null, now: number): AppState {
 				...s,
 				cloze: { ...d.cloze, ...s.cloze },
 				queue: { ...d.queue, ...s.queue },
-				template: Array.isArray(s.template) ? s.template : d.template
+				template: normalizeTemplate(s.template)
 			},
 			activity: raw.activity as AppState['activity'],
-			sessions: { cloze: isClozeSession(sessions.cloze) ? sessions.cloze : null }
+			sessions: {
+				forward: isForwardSession(sessions.forward) ? sessions.forward : null,
+				cloze: isClozeSession(sessions.cloze) ? sessions.cloze : null
+			}
 		};
 	} catch {
 		return makeSeed(now);

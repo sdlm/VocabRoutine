@@ -1,5 +1,6 @@
 import { describe, expect, test } from 'vitest';
 import { startClozeSession } from '$lib/domain/cloze-session';
+import { startForwardSession } from '$lib/domain/forward-session';
 import { parseState } from './persist';
 import { defaultSettings } from './schema';
 import { makeSeed } from './seed';
@@ -61,7 +62,7 @@ describe('parseState', () => {
 
 	test('state saved before sessions existed gets empty sessions', () => {
 		const { sessions: _, ...old } = makeSeed(NOW);
-		expect(parseState(JSON.stringify(old), NOW).sessions).toEqual({ cloze: null });
+		expect(parseState(JSON.stringify(old), NOW).sessions).toEqual({ forward: null, cloze: null });
 	});
 
 	test('a valid Cloze session is restored, a malformed one is dropped', () => {
@@ -70,5 +71,23 @@ describe('parseState', () => {
 		const broken = { ...makeSeed(NOW), sessions: { cloze: { queue: 'oops' } } };
 		expect(parseState(JSON.stringify(valid), NOW).sessions.cloze).toEqual(session);
 		expect(parseState(JSON.stringify(broken), NOW).sessions.cloze).toBeNull();
+	});
+
+	test('a valid forward session is restored, a malformed one is dropped', () => {
+		const session = startForwardSession([{ wordId: 'often', kind: 'review' }], NOW);
+		const valid = { ...makeSeed(NOW), sessions: { forward: session, cloze: null } };
+		const noRevealed = { ...makeSeed(NOW), sessions: { forward: { ...session, revealed: 2 }, cloze: null } };
+		const badStep = { ...makeSeed(NOW), sessions: { forward: { ...session, queue: [null] }, cloze: null } };
+		expect(parseState(JSON.stringify(valid), NOW).sessions.forward).toEqual(session);
+		expect(parseState(JSON.stringify(noRevealed), NOW).sessions.forward).toBeNull();
+		expect(parseState(JSON.stringify(badStep), NOW).sessions.forward).toBeNull();
+	});
+
+	test('a broken template is repaired', () => {
+		const saved = makeSeed(NOW);
+		const raw = { ...saved, settings: { ...saved.settings, template: [{ id: 'examples', mode: 'shown' }, { id: 'audio', mode: 'tap' }] } };
+		const t = parseState(JSON.stringify(raw), NOW).settings.template;
+		expect(t[0]).toEqual({ id: 'examples', mode: 'shown' });
+		expect(t.map((b) => b.id).sort()).toEqual(['collocations', 'definition', 'examples', 'similar', 'translations']);
 	});
 });
