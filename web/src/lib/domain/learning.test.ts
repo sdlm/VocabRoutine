@@ -13,6 +13,10 @@ describe('introduceForward', () => {
 		expect(e.forward).toEqual({ intervalMs: 4 * HOUR, dueAt: T0 + 4 * HOUR });
 		expect(e.cloze).toBeNull();
 	});
+	test('throws when the word was already introduced', () => {
+		const e = introduceForward(newEntry('deploy', T0), T0, s);
+		expect(() => introduceForward(e, T0 + DAY, s)).toThrow('introduceForward: deploy was already introduced');
+	});
 });
 
 describe('gradeForward', () => {

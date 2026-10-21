@@ -43,7 +43,12 @@ describe('forwardQueue', () => {
 		const entries = [review('r1', NOW - 4), review('r2', NOW - 3), review('r3', NOW - 2), review('r4', NOW - 1), fresh('n1', 1), fresh('n2', 2)];
 		expect(ids(forwardQueue(entries, { ...s, newOrder: 'first' }, NOW))).toEqual(['n1', 'n2', 'r1', 'r2', 'r3', 'r4']);
 		expect(ids(forwardQueue(entries, { ...s, newOrder: 'last' }, NOW))).toEqual(['r1', 'r2', 'r3', 'r4', 'n1', 'n2']);
-		expect(ids(forwardQueue(entries, { ...s, newOrder: 'mixed' }, NOW))).toEqual(['r1', 'n1', 'r2', 'n2', 'r3', 'r4']);
+		expect(ids(forwardQueue(entries, { ...s, newOrder: 'mixed' }, NOW))).toEqual(['r1', 'n1', 'r2', 'r3', 'n2', 'r4']);
+	});
+
+	test('mixed spreads many new words evenly between few reviews', () => {
+		const entries = [review('r1', NOW - 2), review('r2', NOW - 1), ...[1, 2, 3, 4, 5].map((i) => fresh(`n${i}`, i))];
+		expect(ids(forwardQueue(entries, { ...s, newOrder: 'mixed' }, NOW))).toEqual(['n1', 'r1', 'n2', 'n3', 'r2', 'n4', 'n5']);
 	});
 
 	test('mixed with no reviews returns only new words', () => {

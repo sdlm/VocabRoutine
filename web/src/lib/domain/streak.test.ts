@@ -15,6 +15,12 @@ function history(counts: number[]): Activity {
 }
 
 describe('streakInfo', () => {
+	test('a goal of 0 or less is treated as 1 and terminates', () => {
+		const info = streakInfo(history([0, 0]), 0, TODAY);
+		expect(info.current).toBe(0);
+		expect(info.remainingToday).toBe(1);
+	});
+
 	test('empty history', () => {
 		expect(streakInfo({}, 10, TODAY)).toEqual({ current: 0, record: 0, todayCounted: 0, remainingToday: 10, goalReachedToday: false });
 	});

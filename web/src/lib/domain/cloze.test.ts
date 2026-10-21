@@ -23,6 +23,10 @@ describe('isCorrect', () => {
 	test('ignores case and surrounding spaces', () => {
 		expect(isCorrect('  Deployed ', 'deployed')).toBe(true);
 	});
+	test('treats typographic apostrophes and repeated spaces as equal', () => {
+		expect(isCorrect('don’t', "don't")).toBe(true);
+		expect(isCorrect('a  b', 'a b')).toBe(true);
+	});
 	test('any typo is an error', () => {
 		expect(isCorrect('deplyed', 'deployed')).toBe(false);
 	});

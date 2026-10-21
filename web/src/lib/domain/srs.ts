@@ -1,4 +1,4 @@
-import { DAY } from './time';
+import { DAY, HOUR } from './time';
 import type { Result, SrsSettings } from './types';
 
 export function nextInterval(prevMs: number, result: Result, s: SrsSettings): number {
@@ -7,16 +7,19 @@ export function nextInterval(prevMs: number, result: Result, s: SrsSettings): nu
 }
 
 function decimal(v: number): string {
-	return (Math.round(v * 10) / 10).toString().replace('.', ',');
+	return v.toString().replace('.', ',');
 }
 
-/** Same rules as the demo in 07-settings.html. */
+/** Same rules as the demo in 07-settings.html. Rounds first, then picks the unit. */
 export function formatInterval(ms: number): string {
-	const d = ms / DAY;
-	if (d < 1) return `${Math.round(d * 24)} ч`;
-	if (d < 30) return `${Math.round(d)} дн`;
-	if (d < 365) return `${decimal(d / 30)} мес`;
-	return `${decimal(d / 365)} г`;
+	const hours = Math.round(ms / HOUR);
+	if (hours < 24) return `${hours} ч`;
+	const days = Math.round(ms / DAY);
+	if (days < 30) return `${days} дн`;
+	const months = Math.round((ms / DAY / 30) * 10) / 10;
+	if (months < 12) return `${decimal(months)} мес`;
+	const years = Math.round((ms / DAY / 365) * 10) / 10;
+	return `${decimal(years)} г`;
 }
 
 export function formatFactor(k: number): string {

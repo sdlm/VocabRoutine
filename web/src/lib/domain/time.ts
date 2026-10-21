@@ -14,8 +14,3 @@ export function shiftDay(key: string, n: number): string {
 	const [y, m, d] = key.split('-').map(Number);
 	return dayKey(new Date(y, m - 1, d + n).getTime());
 }
-
-export function startOfDay(ts: number): number {
-	const d = new Date(ts);
-	return new Date(d.getFullYear(), d.getMonth(), d.getDate()).getTime();
-}

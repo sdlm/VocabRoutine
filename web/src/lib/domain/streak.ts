@@ -10,9 +10,10 @@ export interface StreakInfo {
 }
 
 export function streakInfo(activity: Activity, goal: number, today: string): StreakInfo {
-	const reached = (key: string) => (activity[key]?.counted ?? 0) >= goal;
+	const g = Math.max(1, goal); // a goal of 0 would make every day reached and the loops endless
+	const reached = (key: string) => (activity[key]?.counted ?? 0) >= g;
 	const todayCounted = activity[today]?.counted ?? 0;
-	const goalReachedToday = todayCounted >= goal;
+	const goalReachedToday = todayCounted >= g;
 
 	// Today not reached yet does not break the streak: count back from yesterday.
 	let current = 0;
@@ -34,7 +35,7 @@ export function streakInfo(activity: Activity, goal: number, today: string): Str
 		record = Math.max(record, run);
 	}
 
-	return { current, record, todayCounted, remainingToday: Math.max(0, goal - todayCounted), goalReachedToday };
+	return { current, record, todayCounted, remainingToday: Math.max(0, g - todayCounted), goalReachedToday };
 }
 
 /** Returns a new Activity with `delta` added to the given day. */

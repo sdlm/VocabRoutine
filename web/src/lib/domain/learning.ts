@@ -11,6 +11,7 @@ export function newEntry(wordId: string, now: number): LearningEntry {
 
 /** «Новое слово» screen: first forward review comes after the minimum interval. */
 export function introduceForward(e: LearningEntry, now: number, s: SrsSettings): LearningEntry {
+	if (e.forward !== null) throw new Error(`introduceForward: ${e.wordId} was already introduced`);
 	return {
 		...e,
 		forwardIntroducedAt: now,

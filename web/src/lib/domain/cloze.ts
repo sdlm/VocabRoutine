@@ -13,9 +13,14 @@ export function parseCloze(en: string): ParsedCloze {
 	return { before: en.slice(0, m.index), answer: m[1], after: en.slice(m.index! + m[0].length) };
 }
 
-/** Exact form match; only case and surrounding spaces are ignored. */
+/** Case, surrounding/repeated spaces and typographic apostrophes (iOS Smart Punctuation) are ignored. */
+function normalize(s: string): string {
+	return s.trim().toLowerCase().replace(/[’‘]/g, "'").replace(/\s+/g, ' ');
+}
+
+/** Exact form match after normalization. */
 export function isCorrect(input: string, answer: string): boolean {
-	return input.trim().toLowerCase() === answer.trim().toLowerCase();
+	return normalize(input) === normalize(answer);
 }
 
 export function shuffle<T>(items: T[], rng: () => number = Math.random): T[] {

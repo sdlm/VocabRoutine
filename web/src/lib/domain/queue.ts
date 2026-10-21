@@ -6,16 +6,19 @@ export interface ForwardItem {
 	kind: 'new' | 'review';
 }
 
-/** Spread `inserts` evenly between `base` items, keeping both orders. */
+/**
+ * Proportional merge: base item i sits at (i+1)/(base.length+1), insert j at (j+1)/(inserts.length+1).
+ * Items are merged by position; on a tie the base item goes first. Both orders are kept.
+ */
 function interleave<T>(base: T[], inserts: T[]): T[] {
 	const out: T[] = [];
 	let b = 0;
-	inserts.forEach((item, i) => {
-		const until = Math.floor(((i + 1) * base.length) / (inserts.length + 1));
-		while (b < until) out.push(base[b++]);
-		out.push(item);
-	});
-	while (b < base.length) out.push(base[b++]);
+	let j = 0;
+	while (b < base.length || j < inserts.length) {
+		// Compare (b+1)/(B+1) <= (j+1)/(I+1) via cross-multiplication to stay exact.
+		const baseFirst = j >= inserts.length || (b < base.length && (b + 1) * (inserts.length + 1) <= (j + 1) * (base.length + 1));
+		out.push(baseFirst ? base[b++] : inserts[j++]);
+	}
 	return out;
 }
 

@@ -43,6 +43,11 @@ describe('formatInterval', () => {
 		expect(formatInterval(30 * DAY)).toBe('1 мес');
 		expect(formatInterval(400 * DAY)).toBe('1,1 г');
 	});
+	test('rounds first, then picks the unit', () => {
+		expect(formatInterval(23.6 * HOUR)).toBe('1 дн');
+		expect(formatInterval(29.7 * DAY)).toBe('1 мес');
+		expect(formatInterval(364 * DAY)).toBe('1 г');
+	});
 });
 
 describe('formatFactor', () => {
