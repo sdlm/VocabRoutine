@@ -1,9 +1,10 @@
 <script lang="ts">
+	import ClozeSettingsForm from '$lib/ui/cloze/ClozeSettingsForm.svelte';
 	import NavBar from '$lib/ui/shell/NavBar.svelte';
-	import Stub from '$lib/ui/shell/Stub.svelte';
 </script>
 
-<main class="page">
+<main class="page grouped">
 	<NavBar backLabel="Настройки" fallback="/settings" />
-	<Stub what="Настройки Cloze (§6)" />
+	<h1 class="screen-title">Cloze</h1>
+	<ClozeSettingsForm />
 </main>
