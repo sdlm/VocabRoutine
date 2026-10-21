@@ -43,6 +43,11 @@ export function forwardQueue(entries: LearningEntry[], s: QueueSettings, now: nu
 	return interleave(due, fresh);
 }
 
+/** New words that tomorrow's forward queue will take: the daily limit, if enough words wait. */
+export function newTomorrow(entries: LearningEntry[], s: QueueSettings): number {
+	return Math.min(s.newPerDay, entries.filter((e) => e.forward === null).length);
+}
+
 export function clozeQueue(entries: LearningEntry[], now: number): string[] {
 	return entries
 		.filter((e) => e.cloze !== null && e.cloze.dueAt <= now)

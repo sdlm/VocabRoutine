@@ -1,6 +1,6 @@
 import { describe, expect, test } from 'vitest';
 import { newEntry } from './learning';
-import { clozeQueue, forwardQueue, newLeftToday, upcoming } from './queue';
+import { clozeQueue, forwardQueue, newLeftToday, newTomorrow, upcoming } from './queue';
 import { DAY, HOUR } from './time';
 import type { LearningEntry, QueueSettings } from './types';
 
@@ -53,6 +53,17 @@ describe('forwardQueue', () => {
 
 	test('mixed with no reviews returns only new words', () => {
 		expect(ids(forwardQueue([fresh('n1', 1), fresh('n2', 2)], { ...s, newOrder: 'mixed' }, NOW))).toEqual(['n1', 'n2']);
+	});
+});
+
+describe('newTomorrow', () => {
+	test('the daily limit when enough new words wait', () => {
+		const entries = [fresh('n1', 1), fresh('n2', 2), fresh('n3', 3), review('r', NOW + DAY)];
+		expect(newTomorrow(entries, { ...s, newPerDay: 2 })).toBe(2);
+	});
+
+	test('all waiting new words when fewer than the limit', () => {
+		expect(newTomorrow([fresh('n1', 1), review('r', NOW + DAY)], s)).toBe(1);
 	});
 });
 
