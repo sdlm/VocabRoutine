@@ -1,9 +1,10 @@
 <script lang="ts">
 	import NavBar from '$lib/ui/shell/NavBar.svelte';
-	import Stub from '$lib/ui/shell/Stub.svelte';
+	import TemplateEditor from '$lib/ui/template/TemplateEditor.svelte';
 </script>
 
-<main class="page">
+<main class="page grouped">
 	<NavBar backLabel="Настройки" fallback="/settings" />
-	<Stub what="Шаблон карточки (§4)" />
+	<h1 class="screen-title">Шаблон карточки</h1>
+	<TemplateEditor />
 </main>
