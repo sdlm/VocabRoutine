@@ -38,15 +38,20 @@
 		else drag = null;
 	}
 
+	function onCancel(e: PointerEvent) {
+		if (!drag || e.pointerId !== drag.pointerId) return;
+		drag = null;
+	}
+
 	$effect(() => {
 		if (!dragging) return;
 		window.addEventListener('pointermove', onMove);
 		window.addEventListener('pointerup', onUp);
-		window.addEventListener('pointercancel', onUp);
+		window.addEventListener('pointercancel', onCancel);
 		return () => {
 			window.removeEventListener('pointermove', onMove);
 			window.removeEventListener('pointerup', onUp);
-			window.removeEventListener('pointercancel', onUp);
+			window.removeEventListener('pointercancel', onCancel);
 		};
 	});
 
@@ -93,6 +98,7 @@
 		inset: 0;
 		z-index: 30;
 		background: rgba(0, 0, 0, 0.35);
+		touch-action: none;
 	}
 	.sheet {
 		position: fixed;
@@ -138,6 +144,7 @@
 	}
 	.body {
 		overflow-y: auto;
+		overscroll-behavior: contain;
 		padding: 4px 16px calc(var(--safe-bottom) + 16px);
 	}
 </style>
