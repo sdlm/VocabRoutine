@@ -111,3 +111,34 @@ a {
 .page {
 	padding: 0 16px calc(var(--tabbar-h) + var(--safe-bottom) + 24px);
 }
+
+/* Grouped settings screens (iOS style): grey background, white groups. */
+.page.grouped {
+	min-height: 100dvh;
+	background: var(--bg-grouped);
+}
+
+.screen-title {
+	margin: 4px 0 2px;
+	font-size: 28px;
+	font-weight: 700;
+}
+
+.screen-sub {
+	font-size: 14px;
+	color: var(--text-3);
+}
+
+/* Main action pinned to the bottom of the screen. */
+.cta {
+	position: fixed;
+	left: 16px;
+	right: 16px;
+	bottom: calc(var(--safe-bottom) + 16px);
+	padding: 15px;
+	border-radius: 14px;
+	background: var(--accent);
+	color: #fff;
+	font-weight: 600;
+	text-align: center;
+}
