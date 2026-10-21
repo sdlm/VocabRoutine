@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { tick } from 'svelte';
 	import { BLOCK_LABEL } from '$lib/content/labels';
 	import type { BlockMode } from '$lib/state/schema';
 	import { app } from '$lib/state/store.svelte';
@@ -20,16 +21,17 @@
 
 	// Drag by ≡: the row follows the finger and swaps with a neighbour once it passes half a row.
 	// Listeners sit on window, because reordering moves the row in the DOM and may drop pointer capture.
-	let drag: { index: number; startY: number; dy: number; rowH: number } | null = $state(null);
+	let drag: { index: number; startY: number; dy: number; rowH: number; pointerId: number } | null = $state(null);
 	const dragging = $derived(drag !== null);
 
 	function onDown(e: PointerEvent, index: number) {
+		if (!e.isPrimary || e.button !== 0) return;
 		const row = (e.currentTarget as HTMLElement).closest('.row') as HTMLElement;
-		drag = { index, startY: e.clientY, dy: 0, rowH: row.offsetHeight };
+		drag = { index, startY: e.clientY, dy: 0, rowH: row.offsetHeight, pointerId: e.pointerId };
 	}
 
 	function onMove(e: PointerEvent) {
-		if (!drag) return;
+		if (!drag || e.pointerId !== drag.pointerId) return;
 		const max = app.settings.template.length - 1;
 		const target = Math.min(max, Math.max(0, drag.index + Math.round((e.clientY - drag.startY) / drag.rowH)));
 		if (target !== drag.index) {
@@ -40,7 +42,8 @@
 		drag.dy = e.clientY - drag.startY;
 	}
 
-	function onUp() {
+	function onUp(e: PointerEvent) {
+		if (drag && e.pointerId !== drag.pointerId) return;
 		drag = null;
 	}
 
@@ -56,10 +59,14 @@
 		};
 	});
 
-	function onKey(e: KeyboardEvent, i: number) {
+	async function onKey(e: KeyboardEvent, i: number) {
 		if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
 			e.preventDefault();
+			const handle = e.currentTarget as HTMLButtonElement;
 			move(i, e.key === 'ArrowUp' ? i - 1 : i + 1);
+			// Keyed reorder moves the row's DOM nodes and drops focus to body, so refocus the same handle.
+			await tick();
+			handle.focus();
 		}
 	}
 </script>
