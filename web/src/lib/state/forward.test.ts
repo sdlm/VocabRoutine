@@ -1,4 +1,5 @@
 import { beforeEach, describe, expect, test } from 'vitest';
+import { newEntry } from '$lib/domain/learning';
 import { DAY, dayKey } from '$lib/domain/time';
 import {
 	dueForward,
@@ -65,6 +66,19 @@ describe('ensureForwardSession', () => {
 		const first = start().queue[0].wordId;
 		delete app.learning[first];
 		expect(start().queue.some((q) => q.wordId === first)).toBe(false);
+	});
+
+	test('a session that lost every screen before an answer is dropped', () => {
+		for (const q of start().queue) delete app.learning[q.wordId];
+		ensureForwardSession();
+		expect(app.sessions.forward).toBeNull();
+	});
+
+	test('…and replaced by a new session when other words are waiting', () => {
+		for (const q of start().queue) delete app.learning[q.wordId];
+		app.learning.dope = newEntry('dope', Date.now());
+		start();
+		expect(ids()).toEqual(['new:dope']);
 	});
 
 	test('no session when nothing is waiting', () => {

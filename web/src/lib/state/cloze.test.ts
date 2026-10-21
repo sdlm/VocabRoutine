@@ -41,6 +41,13 @@ describe('ensureClozeSession', () => {
 		delete app.learning.house;
 		expect(start().queue).toEqual(['eat', 'borrow']);
 	});
+
+	test('a session that lost every word before an answer is dropped', () => {
+		start();
+		for (const id of ['eat', 'house', 'borrow']) delete app.learning[id];
+		ensureClozeSession();
+		expect(app.sessions.cloze).toBeNull();
+	});
 });
 
 describe('answerCloze', () => {

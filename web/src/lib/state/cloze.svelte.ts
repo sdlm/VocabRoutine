@@ -48,13 +48,16 @@ export function dueClozeWords(now: number = Date.now()): string[] {
 /**
  * Called when the Cloze tab opens and after onboarding: drops a session from
  * another day, prunes removed words, starts a session when words are due.
+ * A session that lost every word before its first answer is dropped too.
  */
 export function ensureClozeSession(now: number = Date.now()): void {
 	const s = app.sessions.cloze;
 	if (s && s.day === dayKey(now)) {
 		const pruned = pruneSession(s, inCloze);
-		if (pruned !== s) app.sessions.cloze = pruned;
-		return;
+		if (pruned.queue.length > 0 || pruned.done.length > 0) {
+			if (pruned !== s) app.sessions.cloze = pruned;
+			return;
+		}
 	}
 	const queue = app.settings.cloze.onboarded ? dueClozeWords(now) : [];
 	app.sessions.cloze = queue.length ? startClozeSession(queue, now) : null;

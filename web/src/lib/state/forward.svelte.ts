@@ -28,13 +28,16 @@ export function dueForward(now: number = Date.now()): ForwardItem[] {
 /**
  * The single entry point: the tab calls it on open, «Готово» after the summary.
  * Drops a session from another day, prunes stale screens, starts a session when words are waiting.
+ * A session that lost every screen before its first answer is dropped too.
  */
 export function ensureForwardSession(now: number = Date.now()): void {
 	const s = app.sessions.forward;
 	if (s && s.day === dayKey(now)) {
 		const pruned = pruneForwardSession(s, stillValid);
-		if (pruned !== s) app.sessions.forward = pruned;
-		return;
+		if (pruned.queue.length > 0 || pruned.done.length > 0) {
+			if (pruned !== s) app.sessions.forward = pruned;
+			return;
+		}
 	}
 	const items = dueForward(now);
 	app.sessions.forward = items.length ? startForwardSession(items, now) : null;

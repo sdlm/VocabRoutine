@@ -1,7 +1,7 @@
 import { wordById } from '$lib/content';
 import { defaultSettings, type AppState } from './schema';
 import type { ClozeSession } from '$lib/domain/cloze-session';
-import type { ForwardSession } from '$lib/domain/forward-session';
+import type { ForwardSession, ForwardStepKind } from '$lib/domain/forward-session';
 import type { SessionClock } from '$lib/domain/session';
 import type { LearningEntry } from '$lib/domain/types';
 import { makeSeed } from './seed';
@@ -28,8 +28,12 @@ function isClozeSession(v: unknown): v is ClozeSession {
 	return isSession(v) && (v.queue as unknown[]).every((q) => typeof q === 'string');
 }
 
+const STEP_KINDS: unknown[] = ['new', 'review', 'repeat'] satisfies ForwardStepKind[];
+
+const isStep = (q: unknown): boolean => isObj(q) && typeof q.wordId === 'string' && STEP_KINDS.includes(q.kind);
+
 function isForwardSession(v: unknown): v is ForwardSession {
-	return isSession(v) && Array.isArray(v.revealed) && (v.queue as unknown[]).every(isObj);
+	return isSession(v) && Array.isArray(v.revealed) && (v.queue as unknown[]).every(isStep);
 }
 
 /**
