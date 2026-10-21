@@ -71,5 +71,11 @@ export function makeSeed(now: number): AppState {
 			cloze: null
 		};
 	});
-	return { version: 1, learning, settings, activity: seedActivity(dayKey(now), settings.dailyGoal) };
+	return {
+		version: 1,
+		learning,
+		settings,
+		activity: seedActivity(dayKey(now), settings.dailyGoal),
+		sessions: { cloze: null }
+	};
 }

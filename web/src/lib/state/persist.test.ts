@@ -1,4 +1,5 @@
 import { describe, expect, test } from 'vitest';
+import { startClozeSession } from '$lib/domain/cloze-session';
 import { parseState } from './persist';
 import { defaultSettings } from './schema';
 import { makeSeed } from './seed';
@@ -55,6 +56,19 @@ describe('parseState', () => {
 		const saved = { ...makeSeed(NOW), junk: 1 };
 		const state = parseState(JSON.stringify(saved), NOW);
 		expect('junk' in state).toBe(false);
-		expect(Object.keys(state).sort()).toEqual(['activity', 'learning', 'settings', 'version']);
+		expect(Object.keys(state).sort()).toEqual(['activity', 'learning', 'sessions', 'settings', 'version']);
+	});
+
+	test('state saved before sessions existed gets empty sessions', () => {
+		const { sessions: _, ...old } = makeSeed(NOW);
+		expect(parseState(JSON.stringify(old), NOW).sessions).toEqual({ cloze: null });
+	});
+
+	test('a valid Cloze session is restored, a malformed one is dropped', () => {
+		const session = startClozeSession(['house', 'eat'], NOW);
+		const valid = { ...makeSeed(NOW), sessions: { cloze: session } };
+		const broken = { ...makeSeed(NOW), sessions: { cloze: { queue: 'oops' } } };
+		expect(parseState(JSON.stringify(valid), NOW).sessions.cloze).toEqual(session);
+		expect(parseState(JSON.stringify(broken), NOW).sessions.cloze).toBeNull();
 	});
 });

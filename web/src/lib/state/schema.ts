@@ -1,3 +1,4 @@
+import type { ClozeSession } from '$lib/domain/cloze-session';
 import { DAY } from '$lib/domain/time';
 import type { Activity, LearningEntry, QueueSettings } from '$lib/domain/types';
 
@@ -29,11 +30,17 @@ export interface Settings {
 	theme: Theme;
 }
 
+/** Active review sessions; null when there is none. */
+export interface Sessions {
+	cloze: ClozeSession | null;
+}
+
 export interface AppState {
 	version: 1;
 	learning: Record<string, LearningEntry>;
 	settings: Settings;
 	activity: Activity;
+	sessions: Sessions;
 }
 
 export function defaultSettings(): Settings {
