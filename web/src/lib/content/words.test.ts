@@ -51,7 +51,11 @@ describe.each(words.map((w) => [w.id, w] as const))('words.json: %s', (_id, w) =
 		expect(w.examples.length).toBeLessThanOrEqual(4);
 		expect(w.collocations.length).toBeGreaterThanOrEqual(3);
 		expect(w.similar.length).toBeGreaterThanOrEqual(2);
-		for (const s of w.similar) expect(s.note.length).toBeGreaterThan(10);
+		for (const s of w.similar) {
+			expect(s.note.length).toBeGreaterThan(10);
+			// The card prints «word — note», so the note must not start with the word again.
+			expect(lc(s.note).startsWith(lc(s.word)), `${w.id}: ${s.note}`).toBe(false);
+		}
 	});
 
 	test('cloze sentences: one gap in a known form, three distinct wrong options', () => {
