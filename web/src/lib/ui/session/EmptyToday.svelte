@@ -6,7 +6,17 @@
 	import { href } from '$lib/nav';
 	import LargeTitle from '$lib/ui/shell/LargeTitle.svelte';
 
-	let { title, dueAts }: { title: string; dueAts: number[] } = $props();
+	let {
+		title,
+		dueAts,
+		extraTomorrow = 0
+	}: {
+		title: string;
+		/** Due dates of the mode's words. */
+		dueAts: number[];
+		/** Added to «Завтра в очереди»: new words tomorrow's forward queue takes. */
+		extraTomorrow?: number;
+	} = $props();
 
 	const next = $derived(upcoming(dueAts, Date.now()));
 </script>
@@ -23,7 +33,7 @@
 			{next.laterToday.inMs < HOUR ? 'меньше чем через час' : `через ${formatInterval(next.laterToday.inMs)}`}
 		</p>
 	{/if}
-	<p>Завтра в очереди: {next.tomorrow}</p>
+	<p>Завтра в очереди: {next.tomorrow + extraTomorrow}</p>
 	<a class="link" href={href('/add')}>Добавить новые слова →</a>
 </div>
 
