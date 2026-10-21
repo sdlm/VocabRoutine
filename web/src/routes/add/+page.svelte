@@ -11,18 +11,23 @@
 	import FilterSheet from '$lib/ui/add/FilterSheet.svelte';
 	import SearchBar from '$lib/ui/add/SearchBar.svelte';
 	import WordRow from '$lib/ui/add/WordRow.svelte';
-	import { keyboardInset } from '$lib/ui/keyboard.svelte';
+	import { keyboardInset, keyboardOpen } from '$lib/ui/keyboard.svelte';
 	import LargeTitle from '$lib/ui/shell/LargeTitle.svelte';
 
-	// The keyboard covers the fixed tab bar on iOS, so the bar steps aside while typing.
+	// The keyboard covers the fixed tab bar on iOS and squeezes the page on Android, so the bar steps aside while typing.
 	const kb = keyboardInset();
-	hideTabBarWhile(() => kb.px > 0);
+	const keyboard = keyboardOpen();
+	hideTabBarWhile(() => keyboard.open);
 
 	let input: HTMLInputElement | undefined = $state();
 
 	// The open sheet lives in history (shallow routing): the system «Назад» closes it instead of leaving the tab.
 	const sheet = $derived(page.state.sheet ?? null);
-	const openSheet = (part: SheetPart) => pushState(href('/add'), { sheet: part });
+	const openSheet = (part: SheetPart) => {
+		// The sheet sits at the bottom of the screen; on iOS it would open behind the keyboard.
+		input?.blur();
+		pushState(href('/add'), { sheet: part });
+	};
 	const closeSheet = () => history.back();
 
 	const results = $derived(searchResults());
@@ -52,7 +57,7 @@
 	{:else}
 		<p class="empty">Ничего не найдено</p>
 	{/each}
-	<div style:height="{kb.px}px" aria-hidden="true"></div>
+	<div style:height="max(0px, calc({kb.px}px - var(--tabbar-h) - var(--safe-bottom)))" aria-hidden="true"></div>
 </main>
 
 {#if sheet}
