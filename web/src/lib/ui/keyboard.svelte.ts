@@ -35,9 +35,9 @@ export function keyboardInset(): { readonly px: number } {
 export function keyboardOpen(): { readonly open: boolean } {
 	const kb = keyboardInset();
 	let shrunk = $state(false);
+	// Tallest window height seen per width: rotation changes the width, the keyboard does not.
+	const tallest = new Map<number, number>();
 	$effect(() => {
-		// Tallest window height seen per width: rotation changes the width, the keyboard does not.
-		const tallest = new Map<number, number>();
 		const update = () => {
 			const w = window.innerWidth;
 			const h = window.innerHeight;
