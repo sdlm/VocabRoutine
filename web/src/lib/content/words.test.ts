@@ -59,4 +59,16 @@ describe.each(words.map((w) => [w.id, w] as const))('words.json: %s', (_id, w) =
 			expect(c.options.map(lc)).not.toContain(lc(answer));
 		}
 	});
+
+	test('forms are plain words that the sentence tokenizer can link', () => {
+		for (const f of [w.word, ...w.forms]) expect(f, f).toMatch(/^[A-Za-z]+(?:'[A-Za-z]+)?$/);
+	});
+
+	test('cloze sentences do not repeat the card examples', () => {
+		const examples = w.examples.map((e) => lc(e.en));
+		for (const c of w.cloze) {
+			const { before, answer, after } = parseCloze(c.en);
+			expect(examples, c.en).not.toContain(lc(before + answer + after));
+		}
+	});
 });
