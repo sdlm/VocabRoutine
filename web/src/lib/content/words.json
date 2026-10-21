@@ -1,0 +1,998 @@
+[
+  {
+    "id": "house",
+    "word": "house",
+    "forms": ["houses"],
+    "pos": "noun",
+    "level": "A1",
+    "register": "neutral",
+    "freqRank": 280,
+    "translations": [
+      { "text": "дом", "share": 85 },
+      { "text": "жильё", "share": 15 }
+    ],
+    "definition": "A building where people live, usually one family or a small group.",
+    "examples": [
+      { "en": "They bought a small house near the sea.", "ru": "Они купили маленький дом у моря." },
+      { "en": "Our house has three bedrooms.", "ru": "В нашем доме три спальни." },
+      { "en": "Come to my house for dinner.", "ru": "Приходи ко мне домой на ужин." },
+      { "en": "The houses on this street are old.", "ru": "Дома на этой улице старые." }
+    ],
+    "collocations": ["buy a house", "move house", "house party", "haunted house"],
+    "similar": [
+      { "word": "home", "note": "home — место, где ты живёшь и чувствуешь себя своим; house — просто здание, не обязательно родное." },
+      { "word": "apartment", "note": "apartment — квартира в многоквартирном доме; house — отдельный дом, обычно с садом или двором." }
+    ],
+    "cloze": [
+      { "en": "We live in a small {{house}} by the lake.", "ru": "Мы живём в маленьком доме у озера.", "options": ["kitchen", "garden", "office"] },
+      { "en": "The {{houses}} on our street are very old.", "ru": "Дома на нашей улице очень старые.", "options": ["rooms", "gardens", "doors"] },
+      { "en": "Please come to my {{house}} on Saturday.", "ru": "Приходи ко мне домой в субботу.", "options": ["room", "garden", "garage"] },
+      { "en": "Our {{house}} has a big garden.", "ru": "У нашего дома большой сад.", "options": ["hotel", "school", "village"] },
+      { "en": "There are six {{houses}} on this small street.", "ru": "На этой маленькой улице шесть домов.", "options": ["shops", "trees", "schools"] }
+    ]
+  },
+  {
+    "id": "eat",
+    "word": "eat",
+    "forms": ["eats", "ate", "eaten", "eating"],
+    "pos": "verb",
+    "level": "A1",
+    "register": "neutral",
+    "freqRank": 520,
+    "translations": [
+      { "text": "есть", "share": 62 },
+      { "text": "съесть", "share": 23 },
+      { "text": "питаться", "share": 15 }
+    ],
+    "definition": "To put food in your mouth, chew it and swallow it.",
+    "examples": [
+      { "en": "I usually eat breakfast at seven.", "ru": "Обычно я завтракаю в семь." },
+      { "en": "She ate all the cookies yesterday.", "ru": "Вчера она съела всё печенье." },
+      { "en": "We are eating dinner now.", "ru": "Мы сейчас ужинаем." },
+      { "en": "Have you eaten yet?", "ru": "Ты уже поел?" }
+    ],
+    "collocations": ["eat breakfast", "eat out", "eat healthy", "eat too much"],
+    "similar": [
+      { "word": "devour", "note": "devour — жадно проглотить, съесть с огромным аппетитом; eat — обычное нейтральное слово на каждый день." },
+      { "word": "consume", "note": "consume — формальное «употребить», о еде и напитках в отчётах и статьях; eat — разговорное слово." }
+    ],
+    "cloze": [
+      { "en": "She {{eats}} an apple every morning.", "ru": "Она каждое утро ест яблоко.", "options": ["drinks", "cooks", "washes"] },
+      { "en": "We {{ate}} pizza on the beach yesterday.", "ru": "Вчера мы ели пиццу на пляже.", "options": ["drank", "cooked", "sold"] },
+      { "en": "Have you {{eaten}} anything today?", "ru": "Ты сегодня что-нибудь ел?", "options": ["drunk", "cooked", "bitten"] },
+      { "en": "The kids are {{eating}} lunch at school.", "ru": "Дети обедают в школе.", "options": ["cooking", "drinking", "watching"] },
+      { "en": "He never {{eats}} meat or fish.", "ru": "Он никогда не ест мясо и рыбу.", "options": ["cooks", "sells", "grows"] }
+    ]
+  },
+  {
+    "id": "happy",
+    "word": "happy",
+    "forms": ["happier", "happiest"],
+    "pos": "adjective",
+    "level": "A1",
+    "register": "neutral",
+    "freqRank": 640,
+    "translations": [
+      { "text": "счастливый", "share": 48 },
+      { "text": "довольный", "share": 27 },
+      { "text": "радостный", "share": 25 }
+    ],
+    "definition": "Feeling pleasure and joy, or showing that you feel it.",
+    "examples": [
+      { "en": "She looks very happy today.", "ru": "Сегодня она выглядит очень счастливой." },
+      { "en": "Everyone was happy with the result.", "ru": "Все остались довольны результатом." },
+      { "en": "He was happier after the move.", "ru": "После переезда он стал счастливее." },
+      { "en": "That was the happiest day of my life.", "ru": "Это был самый счастливый день в моей жизни." }
+    ],
+    "collocations": ["happy birthday", "happy ending", "happy to help", "happy with"],
+    "similar": [
+      { "word": "glad", "note": "glad — рад конкретной новости или событию; happy — счастлив вообще, это более широкое и глубокое состояние." },
+      { "word": "cheerful", "note": "cheerful — жизнерадостный, весёлый по характеру; happy — человек просто чувствует радость в данный момент." }
+    ],
+    "cloze": [
+      { "en": "She was very {{happy}} with her new job.", "ru": "Она была очень довольна новой работой.", "options": ["upset", "bored", "tired"] },
+      { "en": "My brother is {{happier}} in the city.", "ru": "Мой брат счастливее в городе.", "options": ["angrier", "sadder", "lazier"] },
+      { "en": "This was the {{happiest}} day of my life.", "ru": "Это был самый счастливый день в моей жизни.", "options": ["saddest", "worst", "longest"] },
+      { "en": "The children look {{happy}} in the photo.", "ru": "На фото дети выглядят счастливыми.", "options": ["sleepy", "scared", "angry"] },
+      { "en": "They live a {{happy}} life in the village.", "ru": "Они живут счастливой жизнью в деревне.", "options": ["sad", "hard", "poor"] }
+    ]
+  },
+  {
+    "id": "often",
+    "word": "often",
+    "forms": [],
+    "pos": "adverb",
+    "level": "A1",
+    "register": "neutral",
+    "freqRank": 330,
+    "translations": [
+      { "text": "часто", "share": 90 },
+      { "text": "зачастую", "share": 10 }
+    ],
+    "definition": "Many times, or on many occasions; frequently.",
+    "examples": [
+      { "en": "I often walk to work.", "ru": "Я часто хожу на работу пешком." },
+      { "en": "How often do you call your mother?", "ru": "Как часто ты звонишь маме?" },
+      { "en": "It often rains here in autumn.", "ru": "Осенью здесь часто идёт дождь." },
+      { "en": "We don't often eat out.", "ru": "Мы нечасто едим в ресторанах." }
+    ],
+    "collocations": ["very often", "how often", "quite often", "more often than not"],
+    "similar": [
+      { "word": "usually", "note": "usually — обычно, как правило, почти всегда; often — просто много раз, но это не обязательно правило." },
+      { "word": "frequently", "note": "frequently — «часто» в более формальной и письменной речи; often — обычное слово в разговоре." }
+    ],
+    "cloze": [
+      { "en": "I {{often}} forget my keys at home.", "ru": "Я часто забываю ключи дома.", "options": ["rarely", "never", "seldom"] },
+      { "en": "How {{often}} do you visit your parents?", "ru": "Как часто ты навещаешь родителей?", "options": ["long", "much", "many"] },
+      { "en": "It {{often}} snows here in January.", "ru": "Здесь часто идёт снег в январе.", "options": ["hardly", "barely", "never"] },
+      { "en": "We do not go to the cinema {{often}}.", "ru": "Мы нечасто ходим в кино.", "options": ["early", "fast", "well"] },
+      { "en": "She {{often}} helps her neighbours with shopping.", "ru": "Она часто помогает соседям с покупками.", "options": ["soon", "hardly", "never"] }
+    ]
+  },
+  {
+    "id": "kid",
+    "word": "kid",
+    "forms": ["kids"],
+    "pos": "noun",
+    "level": "A1",
+    "register": "informal",
+    "freqRank": 900,
+    "translations": [
+      { "text": "ребёнок", "share": 55 },
+      { "text": "малыш", "share": 25 },
+      { "text": "пацан", "share": 20 }
+    ],
+    "definition": "A child or young person; a more casual word than child.",
+    "examples": [
+      { "en": "How many kids do you have?", "ru": "Сколько у тебя детей?" },
+      { "en": "The kids are playing outside.", "ru": "Дети играют на улице." },
+      { "en": "When I was a kid, I loved cartoons.", "ru": "В детстве я обожал мультики." },
+      { "en": "Her little kid goes to school now.", "ru": "Её малыш теперь ходит в школу." }
+    ],
+    "collocations": ["little kid", "kids' menu", "when I was a kid", "kid brother"],
+    "similar": [
+      { "word": "child", "note": "child — нейтральное и официальное слово, подходит для документов; kid — разговорное, так говорят в обычной речи." },
+      { "word": "toddler", "note": "toddler — малыш примерно от года до трёх лет; kid — ребёнок любого возраста, чаще от трёх и старше." }
+    ],
+    "cloze": [
+      { "en": "When I was a {{kid}}, we lived by the sea.", "ru": "Когда я был ребёнком, мы жили у моря.", "options": ["teacher", "soldier", "tourist"] },
+      { "en": "Their {{kids}} go to the same school.", "ru": "Их дети ходят в одну школу.", "options": ["pets", "cars", "shops"] },
+      { "en": "That {{kid}} can run very fast.", "ru": "Этот пацан очень быстро бегает.", "options": ["dog", "horse", "teacher"] },
+      { "en": "Don't be so loud, the {{kids}} are asleep.", "ru": "Не шуми так, дети спят.", "options": ["cats", "guests", "dogs"] },
+      { "en": "He is just a {{kid}}, so be kind to him.", "ru": "Он ещё ребёнок, так что будь с ним добр.", "options": ["soldier", "manager", "driver"] }
+    ]
+  }
+,
+  {
+    "id": "borrow",
+    "word": "borrow",
+    "forms": ["borrows", "borrowed", "borrowing"],
+    "pos": "verb",
+    "level": "A2",
+    "register": "neutral",
+    "freqRank": 3200,
+    "translations": [
+      { "text": "взять взаймы", "share": 45 },
+      { "text": "одолжить", "share": 30 },
+      { "text": "занять", "share": 25 }
+    ],
+    "definition": "To take something from someone and give it back after a time.",
+    "examples": [
+      { "en": "Can I borrow your pen?", "ru": "Можно одолжить твою ручку?" },
+      { "en": "She borrowed money from her sister.", "ru": "Она заняла деньги у сестры." },
+      { "en": "I borrowed this book from the library.", "ru": "Я взял эту книгу в библиотеке." },
+      { "en": "They are borrowing a car for the weekend.", "ru": "Они берут машину на выходные." }
+    ],
+    "collocations": ["borrow money", "borrow a book", "borrow from the bank", "borrow something from someone"],
+    "similar": [
+      { "word": "lend", "note": "lend — дать что-то взаймы; borrow — взять у кого-то. Это одно действие с двух сторон: ты borrow, тебе lend." },
+      { "word": "rent", "note": "rent — взять напрокат или в аренду за деньги; borrow — взять бесплатно и потом вернуть." }
+    ],
+    "cloze": [
+      { "en": "Can I {{borrow}} your phone for a minute?", "ru": "Можно на минуту одолжить твой телефон?", "options": ["lend", "buy", "break"] },
+      { "en": "She {{borrowed}} some money from her brother.", "ru": "Она заняла немного денег у брата.", "options": ["stole", "earned", "won"] },
+      { "en": "He is {{borrowing}} a ladder from the neighbours.", "ru": "Он берёт у соседей лестницу.", "options": ["buying", "stealing", "renting"] },
+      { "en": "I have {{borrowed}} three books from the library.", "ru": "Я взял три книги в библиотеке.", "options": ["bought", "stolen", "sold"] },
+      { "en": "My brother always {{borrows}} my pens.", "ru": "Мой брат вечно берёт мои ручки.", "options": ["loses", "breaks", "hides"] }
+    ]
+  },
+  {
+    "id": "cheap",
+    "word": "cheap",
+    "forms": ["cheaper", "cheapest"],
+    "pos": "adjective",
+    "level": "A2",
+    "register": "neutral",
+    "freqRank": 2300,
+    "translations": [
+      { "text": "дешёвый", "share": 70 },
+      { "text": "недорогой", "share": 30 }
+    ],
+    "definition": "Low in price, or costing less than usual.",
+    "examples": [
+      { "en": "This hotel is cheap and clean.", "ru": "Этот отель дешёвый и чистый." },
+      { "en": "Fruit is cheaper at the market.", "ru": "На рынке фрукты дешевле." },
+      { "en": "We found the cheapest flight.", "ru": "Мы нашли самый дешёвый рейс." },
+      { "en": "It was a cheap plastic toy.", "ru": "Это была дешёвая пластмассовая игрушка." }
+    ],
+    "collocations": ["cheap flight", "dirt cheap", "cheap labour", "cheap and cheerful"],
+    "similar": [
+      { "word": "inexpensive", "note": "inexpensive — вежливое «недорогой», без намёка на плохое качество; cheap — просто дешёвый, иногда ещё и некачественный." },
+      { "word": "affordable", "note": "affordable — доступный по цене, такой, что можно себе позволить; cheap — просто низкая цена, без оценки доступности." }
+    ],
+    "cloze": [
+      { "en": "We stayed in a {{cheap}} hotel near the station.", "ru": "Мы жили в дешёвом отеле у вокзала.", "options": ["luxury", "fancy", "grand"] },
+      { "en": "Vegetables are {{cheaper}} at the local market.", "ru": "На местном рынке овощи дешевле.", "options": ["dearer", "fresher", "bigger"] },
+      { "en": "That was the {{cheapest}} ticket we could find.", "ru": "Это был самый дешёвый билет, какой мы нашли.", "options": ["earliest", "latest", "longest"] },
+      { "en": "Everything in this shop is really {{cheap}}.", "ru": "В этом магазине всё очень дёшево.", "options": ["dark", "quiet", "crowded"] },
+      { "en": "I want something {{cheaper}} than this phone.", "ru": "Я хочу что-нибудь дешевле этого телефона.", "options": ["bigger", "newer", "heavier"] }
+    ]
+  },
+  {
+    "id": "journey",
+    "word": "journey",
+    "forms": ["journeys"],
+    "pos": "noun",
+    "level": "A2",
+    "register": "neutral",
+    "freqRank": 2100,
+    "translations": [
+      { "text": "путешествие", "share": 40 },
+      { "text": "поездка", "share": 40 },
+      { "text": "путь", "share": 20 }
+    ],
+    "definition": "The act of travelling from one place to another, especially over a long distance.",
+    "examples": [
+      { "en": "The journey to Moscow takes ten hours.", "ru": "Поездка в Москву занимает десять часов." },
+      { "en": "Have a safe journey!", "ru": "Счастливого пути!" },
+      { "en": "Their journeys across Asia lasted years.", "ru": "Их путешествия по Азии длились годами." },
+      { "en": "Life is a journey, not a destination.", "ru": "Жизнь — это путь, а не конечная цель." }
+    ],
+    "collocations": ["a long journey", "safe journey", "journey time", "a train journey"],
+    "similar": [
+      { "word": "trip", "note": "trip — короткая поездка туда и обратно, по делам или ради отдыха; journey — сам путь, часто долгий и в один конец." },
+      { "word": "voyage", "note": "voyage — долгое путешествие по морю или в космосе; journey — любая поездка, на любом транспорте." }
+    ],
+    "cloze": [
+      { "en": "The {{journey}} from London to Paris takes two hours.", "ru": "Поездка из Лондона в Париж занимает два часа.", "options": ["ticket", "weather", "hotel"] },
+      { "en": "Have a safe {{journey}} and call us later.", "ru": "Счастливого пути, позвони нам потом.", "options": ["weekend", "holiday", "night"] },
+      { "en": "Her {{journeys}} around Asia made her famous.", "ru": "Её путешествия по Азии сделали её знаменитой.", "options": ["lessons", "dinners", "houses"] },
+      { "en": "It was a long and tiring {{journey}}.", "ru": "Это была долгая и утомительная поездка.", "options": ["lesson", "meeting", "speech"] },
+      { "en": "We started our {{journey}} at dawn.", "ru": "Мы отправились в путь на рассвете.", "options": ["homework", "dinner", "party"] }
+    ]
+  },
+  {
+    "id": "awesome",
+    "word": "awesome",
+    "forms": [],
+    "pos": "adjective",
+    "level": "A2",
+    "register": "informal",
+    "freqRank": 2800,
+    "translations": [
+      { "text": "потрясающий", "share": 40 },
+      { "text": "классный", "share": 35 },
+      { "text": "отличный", "share": 25 }
+    ],
+    "definition": "Extremely good or impressive; in casual speech it often just means great.",
+    "examples": [
+      { "en": "The concert was awesome!", "ru": "Концерт был потрясающий!" },
+      { "en": "You did an awesome job.", "ru": "Ты проделал потрясающую работу." },
+      { "en": "That sounds awesome, count me in.", "ru": "Звучит классно, я с вами." },
+      { "en": "Your new bike looks awesome.", "ru": "Твой новый велосипед выглядит классно." }
+    ],
+    "collocations": ["awesome job", "totally awesome", "sounds awesome", "awesome view"],
+    "similar": [
+      { "word": "great", "note": "great — универсальное «отлично», подходит в любой ситуации; awesome — эмоциональнее и звучит только в разговоре." },
+      { "word": "amazing", "note": "amazing — удивительный, вызывает изумление; awesome — просто очень круто, без оттенка удивления." }
+    ],
+    "cloze": [
+      { "en": "The new game looks {{awesome}}!", "ru": "Новая игра выглядит потрясающе!", "options": ["boring", "ugly", "weak"] },
+      { "en": "Your party was totally {{awesome}}, thank you!", "ru": "Твоя вечеринка была просто потрясающей, спасибо!", "options": ["terrible", "awful", "dull"] },
+      { "en": "That sounds {{awesome}}, I will come.", "ru": "Звучит классно, я приду.", "options": ["boring", "strange", "difficult"] },
+      { "en": "We had {{awesome}} weather in Spain.", "ru": "В Испании у нас была потрясающая погода.", "options": ["terrible", "rainy", "cold"] },
+      { "en": "Wow, her voice is {{awesome}}!", "ru": "Вау, у неё потрясающий голос!", "options": ["weak", "thin", "tired"] }
+    ]
+  },
+  {
+    "id": "quickly",
+    "word": "quickly",
+    "forms": [],
+    "pos": "adverb",
+    "level": "A2",
+    "register": "neutral",
+    "freqRank": 1500,
+    "translations": [
+      { "text": "быстро", "share": 82 },
+      { "text": "оперативно", "share": 10 },
+      { "text": "стремительно", "share": 8 }
+    ],
+    "definition": "At a fast speed, or in a short amount of time.",
+    "examples": [
+      { "en": "Please come quickly!", "ru": "Пожалуйста, приходи скорее!" },
+      { "en": "She quickly finished her homework.", "ru": "Она быстро закончила домашнюю работу." },
+      { "en": "News travels quickly in a small town.", "ru": "В маленьком городе новости разлетаются быстро." },
+      { "en": "Quickly, hide behind that tree!", "ru": "Быстро, прячься за то дерево!" }
+    ],
+    "collocations": ["as quickly as possible", "think quickly", "move quickly", "learn quickly"],
+    "similar": [
+      { "word": "fast", "note": "fast — быстро по скорости движения, ещё и прилагательное (a fast car); quickly — быстро по времени, за которое сделали действие." },
+      { "word": "rapidly", "note": "rapidly — стремительно, о быстрых изменениях и росте; quickly — обычное слово на каждый день." }
+    ],
+    "cloze": [
+      { "en": "Please answer {{quickly}}, we are late.", "ru": "Отвечай быстро, мы опаздываем.", "options": ["slowly", "rarely", "loudly"] },
+      { "en": "She {{quickly}} finished her homework and went out.", "ru": "Она быстро закончила уроки и пошла гулять.", "options": ["slowly", "rarely", "hardly"] },
+      { "en": "Children learn languages very {{quickly}}.", "ru": "Дети учат языки очень быстро.", "options": ["slowly", "badly", "rarely"] },
+      { "en": "Rumours spread {{quickly}} in our office.", "ru": "Слухи быстро разлетаются в нашем офисе.", "options": ["slowly", "badly", "politely"] },
+      { "en": "He ran {{quickly}} to the station.", "ru": "Он быстро побежал к станции.", "options": ["calmly", "lazily", "politely"] }
+    ]
+  }
+,
+  {
+    "id": "improve",
+    "word": "improve",
+    "forms": ["improves", "improved", "improving"],
+    "pos": "verb",
+    "level": "B1",
+    "register": "neutral",
+    "freqRank": 1500,
+    "translations": [
+      { "text": "улучшить", "share": 45 },
+      { "text": "улучшаться", "share": 30 },
+      { "text": "совершенствовать", "share": 25 }
+    ],
+    "definition": "To become better, or to make something better than it was.",
+    "examples": [
+      { "en": "Your English is improving fast.", "ru": "Твой английский быстро улучшается." },
+      { "en": "We need to improve our service.", "ru": "Нам нужно улучшить наш сервис." },
+      { "en": "The weather improved in the afternoon.", "ru": "Днём погода улучшилась." },
+      { "en": "She improves a little every day.", "ru": "Она понемногу прогрессирует каждый день." }
+    ],
+    "collocations": ["improve your skills", "improve the quality", "improve your chances", "greatly improve"],
+    "similar": [
+      { "word": "enhance", "note": "enhance — усилить то, что уже хорошо (качество, вкус, вид); improve — просто сделать лучше, в том числе исправить плохое." },
+      { "word": "boost", "note": "boost — резко поднять показатель, например продажи или настроение; improve — улучшить в целом и обычно постепенно." }
+    ],
+    "cloze": [
+      { "en": "Regular practice will {{improve}} your pronunciation.", "ru": "Регулярная практика улучшит ваше произношение.", "options": ["ruin", "hide", "copy"] },
+      { "en": "Her health has {{improved}} a lot since spring.", "ru": "Её здоровье сильно улучшилось с весны.", "options": ["worsened", "suffered", "stopped"] },
+      { "en": "We are {{improving}} the app to make it faster.", "ru": "Мы улучшаем приложение, чтобы оно работало быстрее.", "options": ["breaking", "deleting", "selling"] },
+      { "en": "He {{improves}} a little with every lesson.", "ru": "С каждым уроком он становится чуть лучше.", "options": ["worsens", "stops", "waits"] },
+      { "en": "The new bridge {{improved}} traffic in the city.", "ru": "Новый мост улучшил движение в городе.", "options": ["blocked", "painted", "stopped"] }
+    ]
+  },
+  {
+    "id": "reliable",
+    "word": "reliable",
+    "forms": [],
+    "pos": "adjective",
+    "level": "B1",
+    "register": "neutral",
+    "freqRank": 3400,
+    "translations": [
+      { "text": "надёжный", "share": 70 },
+      { "text": "достоверный", "share": 20 },
+      { "text": "добросовестный", "share": 10 }
+    ],
+    "definition": "Able to be trusted to work well, tell the truth or do what is expected.",
+    "examples": [
+      { "en": "This car is cheap and reliable.", "ru": "Эта машина дешёвая и надёжная." },
+      { "en": "Is the information reliable?", "ru": "Эта информация достоверна?" },
+      { "en": "He is a reliable colleague.", "ru": "Он добросовестный коллега." },
+      { "en": "We need a reliable internet connection.", "ru": "Нам нужен надёжный интернет." }
+    ],
+    "collocations": ["reliable source", "reliable service", "reliable information", "reliable partner"],
+    "similar": [
+      { "word": "dependable", "note": "dependable — человек, на которого можно положиться в трудную минуту; reliable — шире, подходит и для вещей, и для информации." },
+      { "word": "trustworthy", "note": "trustworthy — заслуживающий доверия как честный человек; reliable — ещё и стабильно делающий то, что от него ждут." }
+    ],
+    "cloze": [
+      { "en": "Our old car is slow but very {{reliable}}.", "ru": "Наша старая машина медленная, но очень надёжная.", "options": ["comfortable", "beautiful", "clean"] },
+      { "en": "Wikipedia is not always a {{reliable}} source.", "ru": "Википедия не всегда надёжный источник.", "options": ["famous", "free", "quick"] },
+      { "en": "I need a {{reliable}} person to look after my cat.", "ru": "Мне нужен надёжный человек, чтобы присмотреть за кошкой.", "options": ["tall", "rich", "young"] },
+      { "en": "The bus service here is cheap and {{reliable}}.", "ru": "Автобусы здесь дешёвые и надёжные.", "options": ["crowded", "noisy", "old"] },
+      { "en": "Is this website {{reliable}}, or is it fake?", "ru": "Этот сайт надёжный или он фальшивый?", "options": ["popular", "colourful", "empty"] }
+    ]
+  },
+  {
+    "id": "purchase",
+    "word": "purchase",
+    "forms": ["purchases", "purchased", "purchasing"],
+    "pos": "verb",
+    "level": "B1",
+    "register": "formal",
+    "freqRank": 3000,
+    "translations": [
+      { "text": "приобрести", "share": 65 },
+      { "text": "купить", "share": 35 }
+    ],
+    "definition": "To buy something, especially in a formal or official situation.",
+    "examples": [
+      { "en": "She purchased a house in 2020.", "ru": "Она приобрела дом в 2020 году." },
+      { "en": "You can purchase tickets online.", "ru": "Билеты можно приобрести онлайн." },
+      { "en": "The company purchased new equipment.", "ru": "Компания закупила новое оборудование." },
+      { "en": "He is purchasing a gift for his wife.", "ru": "Он приобретает подарок для жены." }
+    ],
+    "collocations": ["purchase a property", "purchase tickets online", "purchase goods", "purchase insurance"],
+    "similar": [
+      { "word": "buy", "note": "buy — обычное слово в разговоре; purchase — то же самое, но официально: в документах, договорах и деловой речи." },
+      { "word": "acquire", "note": "acquire — получить, часто не просто купить, а заполучить ценное (компанию, навык); purchase — именно купить за деньги." }
+    ],
+    "cloze": [
+      { "en": "Customers can {{purchase}} tickets at the front desk.", "ru": "Клиенты могут приобрести билеты на стойке регистрации.", "options": ["borrow", "repair", "cancel"] },
+      { "en": "The museum {{purchased}} the painting last year.", "ru": "Музей приобрёл картину в прошлом году.", "options": ["sold", "stole", "repaired"] },
+      { "en": "We are {{purchasing}} new computers for the office.", "ru": "Мы закупаем новые компьютеры для офиса.", "options": ["repairing", "cleaning", "selling"] },
+      { "en": "She {{purchases}} organic food from a local farm.", "ru": "Она покупает органические продукты на местной ферме.", "options": ["cooks", "sells", "steals"] },
+      { "en": "He has {{purchased}} a small flat in the centre.", "ru": "Он приобрёл небольшую квартиру в центре.", "options": ["painted", "visited", "rented"] }
+    ]
+  },
+  {
+    "id": "guy",
+    "word": "guy",
+    "forms": ["guys"],
+    "pos": "noun",
+    "level": "B1",
+    "register": "informal",
+    "freqRank": 1100,
+    "translations": [
+      { "text": "парень", "share": 55 },
+      { "text": "чувак", "share": 20 },
+      { "text": "мужик", "share": 15 },
+      { "text": "ребята", "share": 10 }
+    ],
+    "definition": "A man in casual speech; in the plural, a group of people of any gender.",
+    "examples": [
+      { "en": "He is a really nice guy.", "ru": "Он очень хороший парень." },
+      { "en": "Who is that guy over there?", "ru": "Кто этот парень вон там?" },
+      { "en": "Hey guys, dinner is ready!", "ru": "Эй, ребята, ужин готов!" },
+      { "en": "Some guys from work came over.", "ru": "Заходили ребята с работы." }
+    ],
+    "collocations": ["nice guy", "bad guy", "tough guy", "you guys"],
+    "similar": [
+      { "word": "man", "note": "man — нейтральное слово для взрослого мужчины, подходит везде; guy — разговорное, звучит проще и дружелюбнее." },
+      { "word": "dude", "note": "dude — ещё более разговорное и молодёжное, «чувак»; guy — подходит почти в любой неформальной ситуации." }
+    ],
+    "cloze": [
+      { "en": "My brother is a really nice {{guy}}.", "ru": "Мой брат — очень хороший парень.", "options": ["plan", "idea", "place"] },
+      { "en": "Hey {{guys}}, lunch is ready!", "ru": "Эй, ребята, обед готов!", "options": ["pets", "bags", "doors"] },
+      { "en": "Who is that {{guy}} next to Tom?", "ru": "Кто этот парень рядом с Томом?", "options": ["book", "tree", "chair"] },
+      { "en": "Some {{guys}} from work are coming tonight.", "ru": "Сегодня вечером придут ребята с работы.", "options": ["tools", "books", "desks"] },
+      { "en": "He looks like a tough {{guy}}, but he is shy.", "ru": "Он выглядит крутым парнем, но на самом деле стеснителен.", "options": ["tree", "bag", "idea"] }
+    ]
+  },
+  {
+    "id": "eventually",
+    "word": "eventually",
+    "forms": [],
+    "pos": "adverb",
+    "level": "B1",
+    "register": "neutral",
+    "freqRank": 2200,
+    "translations": [
+      { "text": "в конце концов", "share": 50 },
+      { "text": "в итоге", "share": 30 },
+      { "text": "со временем", "share": 20 }
+    ],
+    "definition": "After a long time or a series of events; in the end.",
+    "examples": [
+      { "en": "We eventually found a parking space.", "ru": "В конце концов мы нашли место для парковки." },
+      { "en": "He eventually learned to swim.", "ru": "В итоге он научился плавать." },
+      { "en": "You will eventually get used to it.", "ru": "Со временем ты к этому привыкнешь." },
+      { "en": "Eventually, the rain stopped.", "ru": "В конце концов дождь прекратился." }
+    ],
+    "collocations": ["eventually lead to", "eventually realise", "eventually get used to", "eventually give up"],
+    "similar": [
+      { "word": "finally", "note": "finally — наконец, после ожидания и с облегчением; eventually — в итоге, подчёркивает долгий путь и результат." },
+      { "word": "ultimately", "note": "ultimately — в конечном счёте, когда подводишь итог и называешь главное; eventually — просто спустя время." }
+    ],
+    "cloze": [
+      { "en": "After three hours, we {{eventually}} found the hotel.", "ru": "Через три часа мы в итоге нашли отель.", "options": ["recently", "hardly", "probably"] },
+      { "en": "She {{eventually}} became a famous writer.", "ru": "В конце концов она стала известной писательницей.", "options": ["recently", "rarely", "hardly"] },
+      { "en": "You will {{eventually}} get used to the cold.", "ru": "Со временем ты привыкнешь к холоду.", "options": ["hardly", "rarely", "never"] },
+      { "en": "{{Eventually}}, the rain stopped and we went out.", "ru": "В конце концов дождь прекратился, и мы вышли.", "options": ["Recently", "Sometimes", "Probably"] },
+      { "en": "He {{eventually}} gave up and went home.", "ru": "В итоге он сдался и пошёл домой.", "options": ["nearly", "never", "rarely"] }
+    ]
+  }
+,
+  {
+    "id": "deploy",
+    "word": "deploy",
+    "forms": ["deploys", "deployed", "deploying"],
+    "pos": "verb",
+    "level": "B2",
+    "register": "neutral",
+    "freqRank": 4200,
+    "translations": [
+      { "text": "развернуть", "share": 62 },
+      { "text": "внедрить", "share": 25 },
+      { "text": "разместить", "share": 13 }
+    ],
+    "definition": "To put something into use or action, especially software, troops or resources, so that it starts working where it is needed.",
+    "examples": [
+      { "en": "We deploy the new version every Friday.", "ru": "Мы разворачиваем новую версию каждую пятницу." },
+      { "en": "The army deployed troops along the border.", "ru": "Армия разместила войска вдоль границы." },
+      { "en": "The company deployed the system in all its offices.", "ru": "Компания внедрила систему во всех своих офисах." }
+    ],
+    "collocations": ["deploy software", "deploy troops", "deploy resources", "deploy to production"],
+    "similar": [
+      { "word": "implement", "note": "implement — внедрить решение или план целиком; deploy — именно запустить в работу, выкатить, разместить." },
+      { "word": "install", "note": "install — установить на конкретное устройство; deploy — раскатить на серверы или в среду, где этим будут пользоваться." }
+    ],
+    "cloze": [
+      { "en": "They {{deployed}} the fix overnight.", "ru": "Они выкатили исправление за ночь.", "options": ["installed", "implemented", "released"] },
+      { "en": "We {{deploy}} to production twice a week.", "ru": "Мы выкатываем в продакшен два раза в неделю.", "options": ["install", "implement", "release"] },
+      { "en": "The team is {{deploying}} the update right now.", "ru": "Команда прямо сейчас выкатывает обновление.", "options": ["installing", "implementing", "releasing"] },
+      { "en": "She {{deploys}} every change through a pipeline.", "ru": "Она выкатывает каждое изменение через пайплайн.", "options": ["installs", "implements", "releases"] },
+      { "en": "The UN {{deployed}} peacekeepers to the region.", "ru": "ООН направила миротворцев в регион.", "options": ["installed", "implemented", "released"] }
+    ]
+  }
+,
+  {
+    "id": "outcome",
+    "word": "outcome",
+    "forms": ["outcomes"],
+    "pos": "noun",
+    "level": "B2",
+    "register": "neutral",
+    "freqRank": 2800,
+    "translations": [
+      { "text": "результат", "share": 55 },
+      { "text": "исход", "share": 30 },
+      { "text": "итог", "share": 15 }
+    ],
+    "definition": "The final result of an action or event, especially when it was not certain at the start.",
+    "examples": [
+      { "en": "We are happy with the outcome.", "ru": "Мы довольны результатом." },
+      { "en": "The outcome of the match surprised everyone.", "ru": "Исход матча удивил всех." },
+      { "en": "Different methods give different outcomes.", "ru": "Разные методы дают разные результаты." },
+      { "en": "Nobody knows the outcome of the vote yet.", "ru": "Пока никто не знает итогов голосования." }
+    ],
+    "collocations": ["positive outcome", "likely outcome", "final outcome", "outcome of the election"],
+    "similar": [
+      { "word": "result", "note": "result — конкретный измеримый результат (оценка, счёт, анализ); outcome — общий итог всей ситуации или процесса." },
+      { "word": "consequence", "note": "consequence — следствие, чаще неприятное, то, к чему привёл поступок; outcome — нейтральный итог, хороший или плохой." }
+    ],
+    "cloze": [
+      { "en": "Nobody knew the {{outcome}} of the meeting.", "ru": "Никто не знал исхода встречи.", "options": ["start", "topic", "length"] },
+      { "en": "Both treatments gave similar {{outcomes}}.", "ru": "Оба метода лечения дали схожие результаты.", "options": ["prices", "names", "colours"] },
+      { "en": "We are pleased with the final {{outcome}}.", "ru": "Мы довольны окончательным итогом.", "options": ["building", "price", "colour"] },
+      { "en": "The {{outcome}} of the election is still unclear.", "ru": "Исход выборов пока неясен.", "options": ["date", "place", "poster"] },
+      { "en": "Good planning leads to better {{outcomes}}.", "ru": "Хорошее планирование приводит к лучшим результатам.", "options": ["houses", "jokes", "colours"] }
+    ]
+  },
+  {
+    "id": "thorough",
+    "word": "thorough",
+    "forms": [],
+    "pos": "adjective",
+    "level": "B2",
+    "register": "neutral",
+    "freqRank": 3900,
+    "translations": [
+      { "text": "тщательный", "share": 50 },
+      { "text": "основательный", "share": 25 },
+      { "text": "глубокий", "share": 15 },
+      { "text": "дотошный", "share": 10 }
+    ],
+    "definition": "Done with great care and attention to every detail, so that nothing is missed.",
+    "examples": [
+      { "en": "The police made a thorough search.", "ru": "Полиция провела тщательный обыск." },
+      { "en": "She is very thorough in her work.", "ru": "Она очень дотошна в работе." },
+      { "en": "We need a thorough review of the plan.", "ru": "Нам нужен основательный пересмотр плана." },
+      { "en": "A thorough check takes about an hour.", "ru": "Тщательная проверка занимает около часа." }
+    ],
+    "collocations": ["thorough investigation", "thorough knowledge", "thorough check", "thorough cleaning"],
+    "similar": [
+      { "word": "careful", "note": "careful — осторожный и внимательный, чтобы не ошибиться; thorough — доводящий дело до конца, ничего не упускающий." },
+      { "word": "detailed", "note": "detailed — подробный, с множеством деталей; thorough — полный и тщательный, проверенный со всех сторон." }
+    ],
+    "cloze": [
+      { "en": "The police carried out a {{thorough}} search of the house.", "ru": "Полиция провела тщательный обыск дома.", "options": ["quick", "short", "sudden"] },
+      { "en": "She is very {{thorough}} and never misses a detail.", "ru": "Она очень основательна и не упускает ни одной детали.", "options": ["lucky", "polite", "shy"] },
+      { "en": "We need a {{thorough}} check of the engine.", "ru": "Нам нужна тщательная проверка двигателя.", "options": ["cheap", "quick", "rare"] },
+      { "en": "Please give me a {{thorough}} explanation, not a short one.", "ru": "Дай мне подробное объяснение, а не короткое.", "options": ["funny", "rude", "loud"] },
+      { "en": "After a {{thorough}} cleaning, the kitchen looked new.", "ru": "После генеральной уборки кухня выглядела как новая.", "options": ["poor", "rare", "brief"] }
+    ]
+  },
+  {
+    "id": "chill",
+    "word": "chill",
+    "forms": ["chills", "chilled", "chilling"],
+    "pos": "verb",
+    "level": "B2",
+    "register": "slang",
+    "freqRank": 4500,
+    "translations": [
+      { "text": "расслабляться", "share": 45 },
+      { "text": "отдыхать", "share": 30 },
+      { "text": "тусоваться", "share": 15 },
+      { "text": "остыть", "share": 10 }
+    ],
+    "definition": "To relax and spend time without doing anything stressful or important.",
+    "examples": [
+      { "en": "We just chilled at home all weekend.", "ru": "Мы все выходные просто отдыхали дома." },
+      { "en": "Chill, it's only a small mistake.", "ru": "Остынь, это всего лишь небольшая ошибка." },
+      { "en": "He is chilling on the sofa with a game.", "ru": "Он расслабляется на диване с игрой." },
+      { "en": "Do you want to chill after class?", "ru": "Хочешь потусить после занятий?" }
+    ],
+    "collocations": ["chill out", "just chilling", "chill with friends", "chill at home"],
+    "similar": [
+      { "word": "relax", "note": "relax — нейтральное «расслабиться», подходит везде; chill — разговорное слово про ленивый отдых и про «успокойся»." },
+      { "word": "hang out", "note": "hang out — проводить время с кем-то, тусоваться; chill — ещё и ничего не делать, можно в одиночестве." }
+    ],
+    "cloze": [
+      { "en": "Let's {{chill}} at my place after work.", "ru": "Давай потусим у меня после работы.", "options": ["study", "clean", "argue"] },
+      { "en": "We {{chilled}} on the beach all afternoon.", "ru": "Мы весь день валялись на пляже.", "options": ["worked", "studied", "cleaned"] },
+      { "en": "He is {{chilling}} on the sofa right now.", "ru": "Он сейчас расслабляется на диване.", "options": ["working", "shouting", "running"] },
+      { "en": "She {{chills}} with a book every evening.", "ru": "Каждый вечер она отдыхает с книгой.", "options": ["works", "argues", "shouts"] },
+      { "en": "Just {{chill}}, we have plenty of time.", "ru": "Остынь, у нас полно времени.", "options": ["hurry", "run", "work"] }
+    ]
+  },
+  {
+    "id": "nevertheless",
+    "word": "nevertheless",
+    "forms": [],
+    "pos": "adverb",
+    "level": "B2",
+    "register": "formal",
+    "freqRank": 3300,
+    "translations": [
+      { "text": "тем не менее", "share": 60 },
+      { "text": "всё же", "share": 25 },
+      { "text": "несмотря на это", "share": 15 }
+    ],
+    "definition": "In spite of what has just been said; however.",
+    "examples": [
+      { "en": "It was raining. Nevertheless, we went out.", "ru": "Шёл дождь. Тем не менее мы вышли." },
+      { "en": "The plan is risky; nevertheless, it may work.", "ru": "План рискованный, но всё же может сработать." },
+      { "en": "She was tired but nevertheless kept working.", "ru": "Она устала, но всё же продолжала работать." },
+      { "en": "The test was hard. Nevertheless, most students passed.", "ru": "Тест был трудным. Несмотря на это, большинство сдало." }
+    ],
+    "collocations": ["but nevertheless", "nevertheless true", "nevertheless important", "nevertheless remains"],
+    "similar": [
+      { "word": "however", "note": "however — «однако», самое частое слово для контраста, подходит почти для любого текста; nevertheless — сильнее: «несмотря на всё это»." },
+      { "word": "still", "note": "still — разговорное «всё равно»; nevertheless — официальное, для письма и серьёзной речи." }
+    ],
+    "cloze": [
+      { "en": "The road was icy. {{Nevertheless}}, we drove on.", "ru": "Дорога была скользкой. Тем не менее мы поехали дальше.", "options": ["Therefore", "Meanwhile", "Besides"] },
+      { "en": "It was a small win, but {{nevertheless}} an important one.", "ru": "Это была небольшая победа, но тем не менее важная.", "options": ["therefore", "moreover", "meanwhile"] },
+      { "en": "He was ill; {{nevertheless}}, he went to work.", "ru": "Он был болен, но тем не менее пошёл на работу.", "options": ["therefore", "meanwhile", "otherwise"] },
+      { "en": "The results were poor. {{Nevertheless}}, the team stayed positive.", "ru": "Результаты были плохие. Всё же команда не падала духом.", "options": ["Furthermore", "Therefore", "Instead"] },
+      { "en": "The plan is risky but {{nevertheless}} worth trying.", "ru": "План рискованный, но всё же его стоит попробовать.", "options": ["therefore", "otherwise", "meanwhile"] }
+    ]
+  }
+,
+  {
+    "id": "mitigate",
+    "word": "mitigate",
+    "forms": ["mitigates", "mitigated", "mitigating"],
+    "pos": "verb",
+    "level": "C1",
+    "register": "formal",
+    "freqRank": 9500,
+    "translations": [
+      { "text": "смягчить", "share": 50 },
+      { "text": "уменьшить", "share": 30 },
+      { "text": "снизить", "share": 20 }
+    ],
+    "definition": "To make something harmful, such as a risk, damage or pain, less serious.",
+    "examples": [
+      { "en": "Trees mitigate the effects of heat.", "ru": "Деревья смягчают последствия жары." },
+      { "en": "We must mitigate the risk of data loss.", "ru": "Мы должны снизить риск потери данных." },
+      { "en": "Insurance mitigated the cost of repairs.", "ru": "Страховка уменьшила расходы на ремонт." },
+      { "en": "Better planning could mitigate the damage.", "ru": "Лучшее планирование могло бы смягчить ущерб." }
+    ],
+    "collocations": ["mitigate risk", "mitigate the effects", "mitigate damage", "mitigating circumstances"],
+    "similar": [
+      { "word": "reduce", "note": "reduce — уменьшить что угодно (цену, шум, вес); mitigate — смягчить именно вред, риск или тяжесть последствий." },
+      { "word": "alleviate", "note": "alleviate — облегчить боль, бедность, страдания живых людей; mitigate — снизить вред или риск, часто в деловых текстах." }
+    ],
+    "cloze": [
+      { "en": "Regular backups can {{mitigate}} the risk of data loss.", "ru": "Регулярные резервные копии могут снизить риск потери данных.", "options": ["increase", "ignore", "measure"] },
+      { "en": "The new law {{mitigated}} the effects of the crisis.", "ru": "Новый закон смягчил последствия кризиса.", "options": ["worsened", "ignored", "explained"] },
+      { "en": "Farmers are {{mitigating}} the drought with new irrigation.", "ru": "Фермеры смягчают последствия засухи новым орошением.", "options": ["celebrating", "ignoring", "predicting"] },
+      { "en": "Good insurance {{mitigates}} the financial damage.", "ru": "Хорошая страховка смягчает финансовый ущерб.", "options": ["increases", "causes", "hides"] },
+      { "en": "Planting trees has {{mitigated}} the heat in this district.", "ru": "Посадка деревьев смягчила жару в этом районе.", "options": ["increased", "caused", "measured"] }
+    ]
+  },
+  {
+    "id": "ubiquitous",
+    "word": "ubiquitous",
+    "forms": [],
+    "pos": "adjective",
+    "level": "C1",
+    "register": "formal",
+    "freqRank": 14000,
+    "translations": [
+      { "text": "вездесущий", "share": 50 },
+      { "text": "повсеместный", "share": 35 },
+      { "text": "широко распространённый", "share": 15 }
+    ],
+    "definition": "Seeming to be present everywhere at the same time.",
+    "examples": [
+      { "en": "Smartphones are now ubiquitous in big cities.", "ru": "Смартфоны теперь повсеместны в больших городах." },
+      { "en": "Coffee shops are ubiquitous in this area.", "ru": "Кофейни в этом районе буквально на каждом шагу." },
+      { "en": "Advertising is ubiquitous in modern life.", "ru": "Реклама вездесуща в современной жизни." },
+      { "en": "The ubiquitous logo appears on every bottle.", "ru": "Вездесущий логотип есть на каждой бутылке." }
+    ],
+    "collocations": ["ubiquitous presence", "become ubiquitous", "ubiquitous technology", "virtually ubiquitous"],
+    "similar": [
+      { "word": "widespread", "note": "widespread — широко распространённый, но не обязательно везде; ubiquitous — буквально встречается повсюду." },
+      { "word": "omnipresent", "note": "omnipresent — присутствующий везде, часто о силе или чувстве; ubiquitous — о предмете или явлении, которое видишь на каждом шагу." }
+    ],
+    "cloze": [
+      { "en": "Smartphones are now {{ubiquitous}} in big cities.", "ru": "Смартфоны теперь повсеместны в больших городах.", "options": ["rare", "forbidden", "expensive"] },
+      { "en": "Advertising has become {{ubiquitous}} in modern life.", "ru": "Реклама стала вездесущей в современной жизни.", "options": ["unnecessary", "illegal", "silent"] },
+      { "en": "The {{ubiquitous}} logo appears on every bottle.", "ru": "Вездесущий логотип есть на каждой бутылке.", "options": ["secret", "faded", "tiny"] },
+      { "en": "Coffee shops are {{ubiquitous}} in this district.", "ru": "Кофейни в этом районе встречаются повсюду.", "options": ["unpopular", "closed", "empty"] },
+      { "en": "Free Wi-Fi is almost {{ubiquitous}} in hotels now.", "ru": "Бесплатный Wi-Fi сейчас почти повсеместен в отелях.", "options": ["unknown", "forbidden", "dangerous"] }
+    ]
+  },
+  {
+    "id": "hassle",
+    "word": "hassle",
+    "forms": ["hassles"],
+    "pos": "noun",
+    "level": "C1",
+    "register": "informal",
+    "freqRank": 11000,
+    "translations": [
+      { "text": "хлопоты", "share": 40 },
+      { "text": "морока", "share": 30 },
+      { "text": "неудобство", "share": 20 },
+      { "text": "головная боль", "share": 10 }
+    ],
+    "definition": "A situation that is annoying because it causes trouble or takes extra effort.",
+    "examples": [
+      { "en": "Moving house is such a hassle.", "ru": "Переезд — такая морока." },
+      { "en": "I don't want any more hassle.", "ru": "Мне больше не нужны хлопоты." },
+      { "en": "Flying with kids is a big hassle.", "ru": "Лететь с детьми — большая головная боль." },
+      { "en": "Small hassles build up during the day.", "ru": "За день накапливаются мелкие неудобства." }
+    ],
+    "collocations": ["a big hassle", "no hassle", "avoid the hassle", "hassle-free"],
+    "similar": [
+      { "word": "trouble", "note": "trouble — серьёзные проблемы и неприятности; hassle — мелкая досадная возня, которая просто раздражает." },
+      { "word": "inconvenience", "note": "inconvenience — неудобство в вежливой, формальной речи; hassle — разговорная морока, о которой жалуются друзьям." }
+    ],
+    "cloze": [
+      { "en": "Moving to a new flat is such a {{hassle}}.", "ru": "Переезд в новую квартиру — такая морока.", "options": ["pleasure", "bargain", "holiday"] },
+      { "en": "I don't want any more {{hassle}} with the bank.", "ru": "Мне больше не нужна морока с банком.", "options": ["money", "luck", "fun"] },
+      { "en": "Small {{hassles}} can ruin your whole day.", "ru": "Мелкие неприятности могут испортить весь день.", "options": ["gifts", "jokes", "prizes"] },
+      { "en": "Online booking saves us a lot of {{hassle}}.", "ru": "Онлайн-бронирование избавляет нас от многих хлопот.", "options": ["petrol", "paper", "weight"] },
+      { "en": "Getting a visa is a real {{hassle}} for tourists.", "ru": "Получение визы — настоящая морока для туристов.", "options": ["gift", "joy", "prize"] }
+    ]
+  },
+  {
+    "id": "leverage",
+    "word": "leverage",
+    "forms": ["leverages"],
+    "pos": "noun",
+    "level": "C1",
+    "register": "neutral",
+    "freqRank": 7500,
+    "translations": [
+      { "text": "рычаг влияния", "share": 40 },
+      { "text": "преимущество", "share": 30 },
+      { "text": "кредитное плечо", "share": 15 },
+      { "text": "рычаг", "share": 15 }
+    ],
+    "definition": "The power to influence a situation or to gain an advantage over someone.",
+    "examples": [
+      { "en": "Our size gives us leverage in negotiations.", "ru": "Наш размер даёт нам рычаг влияния на переговорах." },
+      { "en": "He used the photos as leverage.", "ru": "Он использовал фото как рычаг давления." },
+      { "en": "A long pole gives you more leverage.", "ru": "Длинный шест даёт больший рычаг." },
+      { "en": "Many firms use leverage to buy assets.", "ru": "Многие компании используют кредитное плечо для покупки активов." }
+    ],
+    "collocations": ["financial leverage", "gain leverage", "use as leverage", "political leverage"],
+    "similar": [
+      { "word": "influence", "note": "influence — общее влияние на людей и решения; leverage — конкретный козырь, с помощью которого можно добиться своего." },
+      { "word": "advantage", "note": "advantage — любое преимущество; leverage — преимущество, которым можно надавить на другую сторону." }
+    ],
+    "cloze": [
+      { "en": "The union has little {{leverage}} in these talks.", "ru": "У профсоюза мало рычагов влияния на этих переговорах.", "options": ["luck", "space", "humour"] },
+      { "en": "A longer handle gives you more {{leverage}}.", "ru": "Более длинная рукоятка даёт больший рычаг.", "options": ["weight", "colour", "noise"] },
+      { "en": "She used the contract as {{leverage}} to get a raise.", "ru": "Она использовала контракт как рычаг, чтобы добиться повышения.", "options": ["insurance", "evidence", "decoration"] },
+      { "en": "Different brokers offer different {{leverages}}.", "ru": "Разные брокеры предлагают разное кредитное плечо.", "options": ["colours", "offices", "holidays"] },
+      { "en": "Having a second offer gave him real {{leverage}}.", "ru": "Второе предложение дало ему реальное преимущество.", "options": ["pleasure", "patience", "silence"] }
+    ]
+  },
+  {
+    "id": "allegedly",
+    "word": "allegedly",
+    "forms": [],
+    "pos": "adverb",
+    "level": "C1",
+    "register": "formal",
+    "freqRank": 9000,
+    "translations": [
+      { "text": "якобы", "share": 55 },
+      { "text": "предположительно", "share": 30 },
+      { "text": "по некоторым данным", "share": 15 }
+    ],
+    "definition": "Used to say that something is claimed to be true, although it has not been proved.",
+    "examples": [
+      { "en": "He allegedly stole the money.", "ru": "Он якобы украл деньги." },
+      { "en": "The driver was allegedly drunk.", "ru": "Водитель, предположительно, был пьян." },
+      { "en": "The company allegedly ignored safety rules.", "ru": "Компания, по некоторым данным, игнорировала правила безопасности." },
+      { "en": "She allegedly lived in Paris for years.", "ru": "Она якобы много лет жила в Париже." }
+    ],
+    "collocations": ["allegedly stole", "allegedly involved", "was allegedly", "allegedly took place"],
+    "similar": [
+      { "word": "reportedly", "note": "reportedly — по сообщениям СМИ или источников, нейтрально; allegedly — кто-то обвиняет, но это не доказано." },
+      { "word": "supposedly", "note": "supposedly — якобы, с сомнением говорящего («так считается, но я не верю»); allegedly — в новостях и судах, о возможной вине." }
+    ],
+    "cloze": [
+      { "en": "The man {{allegedly}} stole a car last night.", "ru": "Мужчина якобы угнал машину прошлой ночью.", "options": ["clearly", "proudly", "carefully"] },
+      { "en": "The driver was {{allegedly}} drunk at the time.", "ru": "Водитель, предположительно, был в то время пьян.", "options": ["clearly", "fully", "suddenly"] },
+      { "en": "The firm {{allegedly}} ignored several safety warnings.", "ru": "Фирма, по некоторым данным, проигнорировала несколько предупреждений о безопасности.", "options": ["proudly", "openly", "calmly"] },
+      { "en": "She was {{allegedly}} born in a small village.", "ru": "Она якобы родилась в маленькой деревне.", "options": ["luckily", "happily", "exactly"] },
+      { "en": "He {{allegedly}} lied to the police about the money.", "ru": "Он якобы солгал полиции о деньгах.", "options": ["clearly", "bravely", "calmly"] }
+    ]
+  }
+,
+  {
+    "id": "ephemeral",
+    "word": "ephemeral",
+    "forms": [],
+    "pos": "adjective",
+    "level": "C2",
+    "register": "formal",
+    "freqRank": 28000,
+    "translations": [
+      { "text": "недолговечный", "share": 40 },
+      { "text": "мимолётный", "share": 40 },
+      { "text": "эфемерный", "share": 20 }
+    ],
+    "definition": "Lasting for only a very short time.",
+    "examples": [
+      { "en": "Fame in pop music is often ephemeral.", "ru": "Слава в поп-музыке часто недолговечна." },
+      { "en": "Cherry blossoms are beautiful but ephemeral.", "ru": "Цветы сакуры прекрасны, но недолговечны." },
+      { "en": "He felt an ephemeral joy.", "ru": "Он почувствовал мимолётную радость." },
+      { "en": "Social media posts are ephemeral by design.", "ru": "Посты в соцсетях эфемерны по замыслу." }
+    ],
+    "collocations": ["ephemeral beauty", "ephemeral nature", "ephemeral pleasure", "ephemeral art"],
+    "similar": [
+      { "word": "temporary", "note": "temporary — временный, заранее рассчитанный на ограниченный срок; ephemeral — исчезающий очень быстро, часто с оттенком хрупкой красоты." },
+      { "word": "fleeting", "note": "fleeting — мимолётный, о моменте, взгляде или чувстве; ephemeral — книжнее, о явлениях, славе, жизни целиком." }
+    ],
+    "cloze": [
+      { "en": "Fame is often {{ephemeral}} in the music business.", "ru": "В музыкальном бизнесе слава часто недолговечна.", "options": ["eternal", "local", "legal"] },
+      { "en": "The beauty of cherry blossoms is {{ephemeral}}.", "ru": "Красота цветов сакуры мимолётна.", "options": ["permanent", "hidden", "common"] },
+      { "en": "She felt an {{ephemeral}} joy and then it was gone.", "ru": "Она почувствовала мимолётную радость, и та исчезла.", "options": ["endless", "empty", "ugly"] },
+      { "en": "Online trends are {{ephemeral}} and soon forgotten.", "ru": "Тренды в интернете недолговечны и скоро забываются.", "options": ["lasting", "valuable", "helpful"] },
+      { "en": "Snowflakes are {{ephemeral}}, melting within seconds.", "ru": "Снежинки недолговечны и тают за секунды.", "options": ["solid", "dangerous", "heavy"] }
+    ]
+  },
+  {
+    "id": "obfuscate",
+    "word": "obfuscate",
+    "forms": ["obfuscates", "obfuscated", "obfuscating"],
+    "pos": "verb",
+    "level": "C2",
+    "register": "formal",
+    "freqRank": 30000,
+    "translations": [
+      { "text": "запутывать", "share": 45 },
+      { "text": "затуманивать", "share": 30 },
+      { "text": "скрывать смысл", "share": 25 }
+    ],
+    "definition": "To make something unclear or hard to understand, often on purpose.",
+    "examples": [
+      { "en": "Politicians often obfuscate simple questions.", "ru": "Политики часто запутывают простые вопросы." },
+      { "en": "The report obfuscated the real costs.", "ru": "Отчёт скрыл смысл реальных расходов." },
+      { "en": "Don't obfuscate the issue with jargon.", "ru": "Не затуманивайте вопрос жаргоном." },
+      { "en": "Some developers obfuscate their code on purpose.", "ru": "Некоторые разработчики намеренно запутывают свой код." }
+    ],
+    "collocations": ["obfuscate the truth", "obfuscate the issue", "deliberately obfuscate", "obfuscate code"],
+    "similar": [
+      { "word": "confuse", "note": "confuse — запутать кого-то, чаще случайно; obfuscate — намеренно сделать что-то тёмным и непонятным." },
+      { "word": "conceal", "note": "conceal — спрятать, чтобы никто не увидел; obfuscate — оставить на виду, но сделать невнятным и запутанным." }
+    ],
+    "cloze": [
+      { "en": "Some writers {{obfuscate}} simple ideas with jargon.", "ru": "Некоторые авторы затуманивают простые идеи жаргоном.", "options": ["explain", "clarify", "illustrate"] },
+      { "en": "The report {{obfuscated}} the real costs of the project.", "ru": "Отчёт затуманил реальные затраты проекта.", "options": ["clarified", "revealed", "praised"] },
+      { "en": "She is {{obfuscating}} the truth to protect her friend.", "ru": "Она запутывает правду, чтобы защитить подругу.", "options": ["revealing", "explaining", "admitting"] },
+      { "en": "This tool {{obfuscates}} your code automatically.", "ru": "Этот инструмент автоматически запутывает ваш код.", "options": ["tests", "prints", "copies"] },
+      { "en": "Lawyers have {{obfuscated}} the facts for years.", "ru": "Юристы годами запутывали факты.", "options": ["checked", "stated", "proved"] }
+    ]
+  },
+  {
+    "id": "quagmire",
+    "word": "quagmire",
+    "forms": ["quagmires"],
+    "pos": "noun",
+    "level": "C2",
+    "register": "neutral",
+    "freqRank": 35000,
+    "translations": [
+      { "text": "трясина", "share": 40 },
+      { "text": "болото", "share": 35 },
+      { "text": "безвыходное положение", "share": 25 }
+    ],
+    "definition": "A difficult situation that is hard to escape from, or an area of soft, wet ground.",
+    "examples": [
+      { "en": "The talks turned into a political quagmire.", "ru": "Переговоры превратились в политическую трясину." },
+      { "en": "The path became a muddy quagmire.", "ru": "Тропа превратилась в грязное болото." },
+      { "en": "Our project is stuck in a legal quagmire.", "ru": "Наш проект увяз в юридическом тупике." },
+      { "en": "Wars can become quagmires for big powers.", "ru": "Войны могут стать трясиной для великих держав." }
+    ],
+    "collocations": ["legal quagmire", "political quagmire", "stuck in a quagmire", "bureaucratic quagmire"],
+    "similar": [
+      { "word": "swamp", "note": "swamp — настоящее заболоченное место; quagmire — чаще образно, о положении, из которого трудно выбраться." },
+      { "word": "mess", "note": "mess — просто беспорядок или неприятность; quagmire — когда проблема затягивает всё глубже и выбраться трудно." }
+    ],
+    "cloze": [
+      { "en": "The talks turned into a political {{quagmire}}.", "ru": "Переговоры превратились в политическую трясину.", "options": ["victory", "triumph", "festival"] },
+      { "en": "After the rain, the field was a muddy {{quagmire}}.", "ru": "После дождя поле превратилось в грязное болото.", "options": ["garden", "mountain", "carpet"] },
+      { "en": "Wars can become {{quagmires}} for powerful countries.", "ru": "Войны могут стать трясиной для могущественных стран.", "options": ["triumphs", "gifts", "bargains"] },
+      { "en": "The company is stuck in a legal {{quagmire}}.", "ru": "Компания увязла в юридическом тупике.", "options": ["adventure", "picnic", "festival"] },
+      { "en": "We must avoid a bureaucratic {{quagmire}} at all costs.", "ru": "Нужно любой ценой избежать бюрократической трясины.", "options": ["success", "benefit", "reform"] }
+    ]
+  },
+  {
+    "id": "gobsmacked",
+    "word": "gobsmacked",
+    "forms": [],
+    "pos": "adjective",
+    "level": "C2",
+    "register": "slang",
+    "freqRank": 38000,
+    "translations": [
+      { "text": "ошеломлённый", "share": 45 },
+      { "text": "потрясённый", "share": 35 },
+      { "text": "в шоке", "share": 20 }
+    ],
+    "definition": "So shocked and surprised that you can hardly speak.",
+    "examples": [
+      { "en": "I was gobsmacked when I saw the price.", "ru": "Я был в шоке, когда увидел цену." },
+      { "en": "She looked gobsmacked by the news.", "ru": "Она выглядела ошеломлённой этой новостью." },
+      { "en": "We were totally gobsmacked by his talent.", "ru": "Мы были потрясены его талантом." },
+      { "en": "He stood there, completely gobsmacked.", "ru": "Он стоял там, совершенно ошеломлённый." }
+    ],
+    "collocations": ["totally gobsmacked", "absolutely gobsmacked", "look gobsmacked", "left gobsmacked"],
+    "similar": [
+      { "word": "astonished", "note": "astonished — нейтральное и более формальное «поражён»; gobsmacked — разговорное, британское, с лёгким юмором." },
+      { "word": "speechless", "note": "speechless — потерял дар речи от шока или восторга; gobsmacked — то же, но именно от сильного удивления." }
+    ],
+    "cloze": [
+      { "en": "I was totally {{gobsmacked}} when I saw the price.", "ru": "Я был просто в шоке, когда увидел цену.", "options": ["relaxed", "grateful", "sleepy"] },
+      { "en": "She looked {{gobsmacked}} by the unexpected news.", "ru": "Она выглядела ошеломлённой неожиданной новостью.", "options": ["bored", "annoyed", "pleased"] },
+      { "en": "We were all {{gobsmacked}} by his huge talent.", "ru": "Мы все были потрясены его огромным талантом.", "options": ["amused", "bored", "irritated"] },
+      { "en": "He stood there, completely {{gobsmacked}}, saying nothing.", "ru": "Он стоял совершенно ошеломлённый и молчал.", "options": ["relaxed", "hungry", "angry"] },
+      { "en": "Everyone was {{gobsmacked}} when the team won.", "ru": "Все были в шоке, когда команда победила.", "options": ["tired", "bored", "worried"] }
+    ]
+  },
+  {
+    "id": "dope",
+    "word": "dope",
+    "forms": ["doper", "dopest"],
+    "pos": "adjective",
+    "level": "C2",
+    "register": "slang",
+    "freqRank": 22000,
+    "translations": [
+      { "text": "крутой", "share": 50 },
+      { "text": "классный", "share": 30 },
+      { "text": "огонь", "share": 20 }
+    ],
+    "definition": "Excellent or very cool; used in informal slang, especially by young people.",
+    "examples": [
+      { "en": "That new track is dope.", "ru": "Этот новый трек огонь." },
+      { "en": "Your jacket looks so dope.", "ru": "Твоя куртка выглядит очень круто." },
+      { "en": "She has the dopest sneakers.", "ru": "У неё самые крутые кроссовки." },
+      { "en": "We saw a dope show last night.", "ru": "Вчера вечером мы видели классное шоу." }
+    ],
+    "collocations": ["dope track", "dope beat", "look dope", "pretty dope"],
+    "similar": [
+      { "word": "cool", "note": "cool — универсальное «круто», безопасно в любой компании; dope — сленг, чаще о музыке и моде, звучит по-уличному." },
+      { "word": "sick", "note": "sick — тоже сленг, «офигенный» о трюках и навыках; dope — о стиле, музыке и вещах." }
+    ],
+    "cloze": [
+      { "en": "This new song is really {{dope}}.", "ru": "Эта новая песня просто огонь.", "options": ["slow", "sleepy", "dull"] },
+      { "en": "She has the {{dopest}} sneakers in the whole school.", "ru": "У неё самые крутые кроссовки во всей школе.", "options": ["oldest", "dirtiest", "cheapest"] },
+      { "en": "Your new jacket looks so {{dope}}!", "ru": "Твоя новая куртка выглядит очень круто!", "options": ["dull", "cheap", "strange"] },
+      { "en": "His second album is even {{doper}} than the first.", "ru": "Его второй альбом ещё круче первого.", "options": ["longer", "older", "louder"] },
+      { "en": "We saw a {{dope}} show at the club last night.", "ru": "Вчера вечером в клубе мы видели классное шоу.", "options": ["boring", "sad", "long"] }
+    ]
+  }
+]
