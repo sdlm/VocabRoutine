@@ -18,6 +18,13 @@ describe('words.json: set', () => {
 		for (const reg of REGISTERS) expect(words.filter((w) => w.register === reg).length, reg).toBeGreaterThanOrEqual(2);
 	});
 
+	test('translations go by share, largest first (search rows show the first)', () => {
+		for (const w of words) {
+			const shares = w.translations.map((t) => t.share);
+			expect(shares, w.id).toEqual([...shares].sort((a, b) => b - a));
+		}
+	});
+
 	test('no form belongs to two words', () => {
 		const owner = new Map<string, string>();
 		for (const w of words) {
