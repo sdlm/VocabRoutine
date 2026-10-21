@@ -1,5 +1,7 @@
-import { dayKey } from './time';
+import { startClock, touch, type SessionClock } from './session';
 import type { LearningEntry, Result } from './types';
+
+export { IDLE_CAP_MS } from './session';
 
 export type ClozeOutcome = 'correct' | 'wrong' | 'gaveUp';
 
@@ -11,13 +13,7 @@ export interface ClozeResult {
 }
 
 /** Saved after every answer, so a session resumes where it stopped. */
-export interface ClozeSession {
-	/** dayKey of the start; a session from another day is discarded. */
-	day: string;
-	startedAt: number;
-	lastActiveAt: number;
-	/** Active time; gaps longer than IDLE_CAP_MS count as IDLE_CAP_MS. */
-	elapsedMs: number;
+export interface ClozeSession extends SessionClock {
 	/** M in «N / M»: queue length at the start. */
 	total: number;
 	/** Words still to answer; the current word is queue[0]. */
@@ -25,14 +21,8 @@ export interface ClozeSession {
 	done: ClozeResult[];
 }
 
-export const IDLE_CAP_MS = 2 * 60_000;
-
 export function startClozeSession(queue: string[], now: number): ClozeSession {
-	return { day: dayKey(now), startedAt: now, lastActiveAt: now, elapsedMs: 0, total: queue.length, queue: [...queue], done: [] };
-}
-
-function touch(s: ClozeSession, now: number): Pick<ClozeSession, 'lastActiveAt' | 'elapsedMs'> {
-	return { lastActiveAt: now, elapsedMs: s.elapsedMs + Math.min(Math.max(0, now - s.lastActiveAt), IDLE_CAP_MS) };
+	return { ...startClock(now), total: queue.length, queue: [...queue], done: [] };
 }
 
 export function outcomeResult(outcome: ClozeOutcome): Result {
