@@ -6,7 +6,7 @@
 	import { badges, startBadges } from '$lib/badges.svelte';
 	import { startActivityTracking } from '$lib/state/activity.svelte';
 	import { app, startPersistence } from '$lib/state/store.svelte';
-	import { ui, type TabId } from '$lib/state/ui.svelte';
+	import { tabBarVisible, ui, type TabId } from '$lib/state/ui.svelte';
 
 	let { children } = $props();
 
@@ -42,6 +42,6 @@
 
 {@render children()}
 
-{#if ui.tabBar}
+{#if tabBarVisible()}
 	<TabBar active={ui.lastTab} {badges} />
 {/if}

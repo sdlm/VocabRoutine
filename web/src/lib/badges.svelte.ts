@@ -7,8 +7,16 @@ export const badges = $state({ forward: 0, cloze: 0 });
 export function startBadges(): void {
 	let tick = $state(Date.now());
 	$effect(() => {
-		const t = setInterval(() => (tick = Date.now()), 60_000);
-		return () => clearInterval(t);
+		const refresh = () => (tick = Date.now());
+		const onVisibility = () => {
+			if (document.visibilityState === 'visible') refresh();
+		};
+		const t = setInterval(refresh, 60_000);
+		document.addEventListener('visibilitychange', onVisibility);
+		return () => {
+			clearInterval(t);
+			document.removeEventListener('visibilitychange', onVisibility);
+		};
 	});
 	$effect(() => {
 		const entries = Object.values(app.learning);

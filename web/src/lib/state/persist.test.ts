@@ -29,4 +29,32 @@ describe('parseState', () => {
 		expect(state.settings.queue).toEqual(defaultSettings().queue);
 		expect(state.settings.template).toEqual(defaultSettings().template);
 	});
+
+	test('learning: null → demo data', () => {
+		expect(parseState(JSON.stringify({ version: 1, learning: null, activity: {} }), NOW)).toEqual(makeSeed(NOW));
+	});
+
+	test('learning: [] or activity: null → demo data', () => {
+		expect(parseState(JSON.stringify({ version: 1, learning: [], activity: {} }), NOW)).toEqual(makeSeed(NOW));
+		expect(parseState(JSON.stringify({ version: 1, learning: {}, activity: null }), NOW)).toEqual(makeSeed(NOW));
+	});
+
+	test('drops learning entries for unknown words or mismatched ids', () => {
+		const house = makeSeed(NOW).learning.house;
+		const saved = {
+			version: 1,
+			learning: { house, 'no-such-word': { ...house, wordId: 'no-such-word' }, eat: { ...house, wordId: 'house' }, borrow: null },
+			activity: {}
+		};
+		const state = parseState(JSON.stringify(saved), NOW);
+		expect(Object.keys(state.learning)).toEqual(['house']);
+		expect(state.learning.house).toEqual(house);
+	});
+
+	test('unknown top-level keys are not kept', () => {
+		const saved = { ...makeSeed(NOW), junk: 1 };
+		const state = parseState(JSON.stringify(saved), NOW);
+		expect('junk' in state).toBe(false);
+		expect(Object.keys(state).sort()).toEqual(['activity', 'learning', 'settings', 'version']);
+	});
 });
