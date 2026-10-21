@@ -57,12 +57,15 @@
 	});
 
 	// The next word's controls appear under the finger right after «Дальше»,
-	// so taps that arrive right after the view changes are ignored.
+	// so taps that arrive right after the view changes are ignored. Not on mount:
+	// coming back from a card or the settings leaves nothing under the finger.
 	let stamp = 0;
+	let mounted = false;
 	$effect(() => {
 		void view.wordId;
 		void view.closed;
-		stamp = Date.now();
+		if (mounted) stamp = Date.now();
+		mounted = true;
 	});
 	const tooSoon = () => Date.now() - stamp < 400;
 
