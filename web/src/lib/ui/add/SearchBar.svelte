@@ -49,14 +49,17 @@
 		align-items: center;
 		gap: 8px;
 		height: calc(var(--navbar-h) + var(--safe-top) + 8px);
-		padding: var(--safe-top) 16px 0 8px;
+		padding: var(--safe-top) 16px 0 0;
 		margin: 0 -16px 4px;
 		background: var(--bar-bg);
 		backdrop-filter: blur(12px);
 	}
 	.back {
 		display: flex;
-		padding: 4px;
+		align-items: center;
+		justify-content: center;
+		min-width: 44px;
+		min-height: 44px;
 		color: var(--accent);
 	}
 	.field {
@@ -86,6 +89,8 @@
 	}
 	.clear {
 		display: flex;
+		padding: 8px;
+		margin: -8px -4px -8px 0;
 		color: var(--text-3);
 	}
 </style>

@@ -17,6 +17,9 @@
 		children: Snippet;
 	} = $props();
 
+	// The second tap of a double tap on a chip lands on the fading-in backdrop; ignore backdrop taps right after mount.
+	const openedAt = Date.now();
+
 	// Swipe down on the header closes the sheet. Listeners sit on window, like the template editor's drag.
 	let drag: { pointerId: number; startY: number; dy: number } | null = $state(null);
 	const dragging = $derived(drag !== null);
@@ -71,7 +74,9 @@
 	});
 </script>
 
-<div class="dim" role="presentation" onclick={onClose} transition:fade={{ duration: 180 }}></div>
+<div class="dim" role="presentation" onclick={() => {
+		if (Date.now() - openedAt > 400) onClose();
+	}} transition:fade={{ duration: 180 }}></div>
 <div
 	class="sheet"
 	class:dragging

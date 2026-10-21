@@ -79,5 +79,6 @@
 		color: #fff;
 		font-size: 11px;
 		line-height: 17px;
+		text-align: center;
 	}
 </style>
