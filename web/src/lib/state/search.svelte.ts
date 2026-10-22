@@ -23,11 +23,11 @@ export function searchResults(): Word[] {
 }
 
 /** Row tap and the card's «Учить»: toggle learning; the row stays put until the query or filters change. */
-export function toggleWord(id: string): void {
+export function toggleWord(id: string, now: number = Date.now()): void {
+	if (!toggleLearning(id, now)) return;
 	const key = searchKey(search.query, search.filters);
 	if (search.kept.key !== key) search.kept = { key, ids: [] };
 	if (!search.kept.ids.includes(id)) search.kept.ids.push(id);
-	toggleLearning(id);
 }
 
 /**

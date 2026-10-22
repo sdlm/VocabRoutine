@@ -31,10 +31,21 @@ export function isLearning(wordId: string): boolean {
 	return wordId in app.learning;
 }
 
-/** Tap on a search row: add the word, or remove it with all its progress. */
-export function toggleLearning(wordId: string): void {
+/** A second toggle of the same word sooner than this is the second tap of a double tap. */
+const TOGGLE_GUARD_MS = 400;
+let lastToggle = { wordId: '', at: 0 };
+
+/**
+ * Tap on a search row or «Учить»: add the word, or remove it with all its progress.
+ * A double tap would remove the word and add it back as new, silently wiping the progress,
+ * so a repeat toggle of the same word within 400 ms is ignored. Returns whether it toggled.
+ */
+export function toggleLearning(wordId: string, now: number = Date.now()): boolean {
+	if (wordId === lastToggle.wordId && now - lastToggle.at < TOGGLE_GUARD_MS) return false;
+	lastToggle = { wordId, at: now };
 	if (isLearning(wordId)) delete app.learning[wordId];
-	else app.learning[wordId] = newEntry(wordId, Date.now());
+	else app.learning[wordId] = newEntry(wordId, now);
+	return true;
 }
 
 export function addSeconds(seconds: number): void {
@@ -58,4 +69,5 @@ export function newShownToday(now: number = Date.now()): number {
 /** «Прототип: сбросить данные». */
 export function resetDemo(): void {
 	Object.assign(app, makeSeed(Date.now()));
+	lastToggle = { wordId: '', at: 0 };
 }

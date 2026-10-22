@@ -4,6 +4,8 @@ import { closeSearch, leaveAddTab, resetFilters, search, searchResults, setSort,
 import { app, isLearning, resetDemo } from './store.svelte';
 
 const ids = () => searchResults().map((w) => w.id);
+/** Taps far enough apart for the double-tap guard. */
+const T = Date.now();
 
 beforeEach(() => {
 	resetDemo();
@@ -52,17 +54,28 @@ describe('toggleWord', () => {
 	});
 
 	test('a second tap removes the word again', () => {
-		toggleWord('ephemeral');
-		toggleWord('ephemeral');
+		toggleWord('ephemeral', T);
+		toggleWord('ephemeral', T + 1000);
 		expect(isLearning('ephemeral')).toBe(false);
 		expect(ids()).toContain('ephemeral');
 	});
 
+	test('the second tap of a double tap is ignored, so the progress is not wiped', () => {
+		search.filters.onlyNew = false;
+		toggleWord('house', T);
+		toggleWord('house', T + 300);
+		expect(isLearning('house')).toBe(false);
+		toggleWord('ephemeral', T + 350); // another word is not blocked
+		expect(isLearning('ephemeral')).toBe(true);
+		toggleWord('house', T + 800);
+		expect(isLearning('house')).toBe(true);
+	});
+
 	test('removing a word drops its progress: added again, it is new', () => {
 		search.filters.onlyNew = false;
-		toggleWord('house');
+		toggleWord('house', T);
 		expect(isLearning('house')).toBe(false);
-		toggleWord('house');
+		toggleWord('house', T + 1000);
 		expect(app.learning.house.forward).toBeNull();
 	});
 });
