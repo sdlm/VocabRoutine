@@ -1,5 +1,5 @@
 import { describe, expect, test } from 'vitest';
-import { formatFactor, formatInterval, nextInterval } from './srs';
+import { demoPipeline, formatFactor, formatInterval, nextInterval } from './srs';
 import { DAY, HOUR } from './time';
 import type { Result, SrsSettings } from './types';
 
@@ -34,6 +34,27 @@ describe('demo scenarios from 07-settings.html', () => {
 	});
 	test('min 1 d, ✓✓✗✓✓', () => {
 		expect(run(DAY, '11011')).toEqual(['1 дн', '3 дн', '6 дн', '3 дн', '8 дн', '20 дн']);
+	});
+});
+
+describe('demoPipeline', () => {
+	test('starts at the minimum interval; each step shows previous › factor › next', () => {
+		const { startMs, steps } = demoPipeline([true, true, false], base);
+		expect(startMs).toBe(DAY);
+		expect(steps.map((st) => [st.ok, formatInterval(st.prevMs), formatFactor(st.factor), formatInterval(st.nextMs)])).toEqual([
+			[true, '1 дн', '×2,5', '3 дн'],
+			[true, '3 дн', '×2,5', '6 дн'],
+			[false, '6 дн', '×0,5', '3 дн']
+		]);
+	});
+
+	test('min 1 h, ✓✓✓✓✗✓: the same chain as in 07-settings.html', () => {
+		const { steps } = demoPipeline([true, true, true, true, false, true], { ...base, minIntervalMs: HOUR });
+		expect(steps.map((st) => formatInterval(st.nextMs))).toEqual(['3 ч', '6 ч', '16 ч', '2 дн', '20 ч', '2 дн']);
+	});
+
+	test('no answers: only the start', () => {
+		expect(demoPipeline([], base)).toEqual({ startMs: DAY, steps: [] });
 	});
 });
 

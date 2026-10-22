@@ -6,6 +6,27 @@ export function nextInterval(prevMs: number, result: Result, s: SrsSettings): nu
 	return Math.max(s.minIntervalMs, prevMs * k);
 }
 
+export interface DemoStep {
+	ok: boolean;
+	prevMs: number;
+	factor: number;
+	nextMs: number;
+}
+
+/**
+ * «Как это работает» in «Очередь»: the word is added with the minimum interval,
+ * then every answer multiplies it. `answers`: true for «Вспомнил».
+ */
+export function demoPipeline(answers: readonly boolean[], s: SrsSettings): { startMs: number; steps: DemoStep[] } {
+	let iv = s.minIntervalMs;
+	const steps = answers.map((ok) => {
+		const prevMs = iv;
+		iv = nextInterval(iv, ok ? 'success' : 'fail', s);
+		return { ok, prevMs, factor: ok ? s.successFactor : s.failFactor, nextMs: iv };
+	});
+	return { startMs: s.minIntervalMs, steps };
+}
+
 function decimal(v: number): string {
 	return v.toString().replace('.', ',');
 }
