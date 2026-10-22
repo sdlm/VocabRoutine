@@ -27,6 +27,33 @@ export function keyboardInset(): { readonly px: number } {
 	};
 }
 
+/** Input types that bring up the on-screen keyboard. Switches and checkboxes are inputs too, but do not. */
+const TEXT_TYPES = new Set(['text', 'search', 'email', 'url', 'tel', 'password', 'number']);
+
+export function isTextField(el: Element | null): boolean {
+	if (!el) return false;
+	if (el.tagName === 'TEXTAREA') return true;
+	return el.tagName === 'INPUT' && TEXT_TYPES.has((el as HTMLInputElement).type);
+}
+
+/**
+ * Android: is the window squeezed by the keyboard? Remembers the tallest height per width:
+ * rotation changes the width, the keyboard does not. Rotating with the keyboard up lands on a width
+ * whose first height is already squeezed, so then the keyboard counts as open until the window
+ * grows or typing stops. Returns `(width, height, typing) => squeezed`.
+ */
+export function windowSqueeze(threshold = 150): (width: number, height: number, typing: boolean) => boolean {
+	const tallest = new Map<number, number>();
+	let rotatedWhileTyping = false;
+	return (w, h, typing) => {
+		const prev = tallest.get(w);
+		rotatedWhileTyping = prev === undefined ? typing : rotatedWhileTyping && typing && h <= prev;
+		const max = Math.max(prev ?? 0, h);
+		tallest.set(w, max);
+		return typing && (rotatedWhileTyping || max - h > threshold);
+	};
+}
+
 /**
  * Whether the on-screen keyboard is up. iOS overlays it, so the visual viewport shrinks (keyboardInset).
  * Android with `interactive-widget=resizes-content` shrinks the window itself, so there it means
@@ -35,25 +62,23 @@ export function keyboardInset(): { readonly px: number } {
 export function keyboardOpen(): { readonly open: boolean } {
 	const kb = keyboardInset();
 	let shrunk = $state(false);
-	// Tallest window height seen per width: rotation changes the width, the keyboard does not.
-	const tallest = new Map<number, number>();
+	const squeezed = windowSqueeze();
 	$effect(() => {
 		const update = () => {
-			const w = window.innerWidth;
-			const h = window.innerHeight;
-			const max = Math.max(tallest.get(w) ?? 0, h);
-			tallest.set(w, max);
-			const el = document.activeElement;
-			const typing = el instanceof HTMLInputElement || el instanceof HTMLTextAreaElement;
-			shrunk = typing && max - h > 150;
+			shrunk = squeezed(window.innerWidth, window.innerHeight, isTextField(document.activeElement));
 		};
 		// Focus moves after focusin/focusout fire, so read activeElement on the next tick.
-		const later = () => setTimeout(update);
+		let timer: ReturnType<typeof setTimeout> | undefined;
+		const later = () => {
+			clearTimeout(timer);
+			timer = setTimeout(update);
+		};
 		update();
 		window.addEventListener('resize', update);
 		document.addEventListener('focusin', later);
 		document.addEventListener('focusout', later);
 		return () => {
+			clearTimeout(timer);
 			window.removeEventListener('resize', update);
 			document.removeEventListener('focusin', later);
 			document.removeEventListener('focusout', later);
