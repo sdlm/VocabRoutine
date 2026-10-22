@@ -1,15 +1,14 @@
 <script lang="ts">
-	import { toggleWord } from '$lib/state/search.svelte';
 	import { isLearning } from '$lib/state/store.svelte';
 
-	let { wordId }: { wordId: string } = $props();
+	/** `onToggle` adds or removes the word; the page picks how, depending on where the card was opened. */
+	let { wordId, onToggle }: { wordId: string; onToggle: () => void } = $props();
 
 	const learning = $derived(isLearning(wordId));
 </script>
 
-<!-- Goes through the search state, so a word added here stays in the «Добавить» list on return. -->
 <div class="fade" aria-hidden="true"></div>
-<button type="button" class="learn" class:on={learning} onclick={() => toggleWord(wordId)}>
+<button type="button" class="learn" class:on={learning} onclick={onToggle}>
 	{learning ? '✓ В изучении · убрать' : 'Учить'}
 </button>
 <div class="spacer" aria-hidden="true"></div>
