@@ -34,6 +34,8 @@ export interface DayActivity {
 	counted: number;
 	/** Seconds the app was visible. */
 	seconds: number;
+	/** New words shown in forward mode («Новое слово»). Missing in days saved before plan 5. */
+	introduced?: number;
 }
 
 /** Keyed by dayKey(). */

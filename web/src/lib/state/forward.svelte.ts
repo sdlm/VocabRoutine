@@ -11,7 +11,7 @@ import {
 import { gradeForward, introduceForward } from '$lib/domain/learning';
 import { forwardQueue, type ForwardItem } from '$lib/domain/queue';
 import { dayKey } from '$lib/domain/time';
-import { app, countForStreak } from './store.svelte';
+import { app, countForStreak, countIntroduction, newShownToday } from './store.svelte';
 import { forwardBlocks } from './template';
 
 /** A queued screen still makes sense: the word is learned and in the state the screen expects. */
@@ -22,7 +22,7 @@ function stillValid(step: ForwardStep): boolean {
 }
 
 export function dueForward(now: number = Date.now()): ForwardItem[] {
-	return forwardQueue(Object.values(app.learning), app.settings.queue, now).filter((i) => wordById.has(i.wordId));
+	return forwardQueue(Object.values(app.learning), app.settings.queue, now, newShownToday(now)).filter((i) => wordById.has(i.wordId));
 }
 
 /**
@@ -69,7 +69,7 @@ export function passForwardWord(now: number = Date.now()): void {
 	if (!step || step.kind === 'review') return;
 	if (step.kind === 'new') {
 		app.learning[step.wordId] = introduceForward(app.learning[step.wordId], now, app.settings.queue);
-		countForStreak();
+		countIntroduction();
 	}
 	app.sessions.forward = passStep(app.sessions.forward!, now);
 }

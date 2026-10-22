@@ -41,8 +41,8 @@ export function streakInfo(activity: Activity, goal: number, today: string): Str
 /** Returns a new Activity with `delta` added to the given day. */
 export function bumpActivity(activity: Activity, key: string, delta: Partial<DayActivity>): Activity {
 	const prev = activity[key] ?? { counted: 0, seconds: 0 };
-	return {
-		...activity,
-		[key]: { counted: prev.counted + (delta.counted ?? 0), seconds: prev.seconds + (delta.seconds ?? 0) }
-	};
+	const day: DayActivity = { counted: prev.counted + (delta.counted ?? 0), seconds: prev.seconds + (delta.seconds ?? 0) };
+	const introduced = (prev.introduced ?? 0) + (delta.introduced ?? 0);
+	if (introduced > 0) day.introduced = introduced;
+	return { ...activity, [key]: day };
 }

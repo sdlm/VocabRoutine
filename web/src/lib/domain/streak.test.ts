@@ -58,4 +58,11 @@ describe('bumpActivity', () => {
 		expect(a0).toEqual({});
 		expect(a2[TODAY]).toEqual({ counted: 1, seconds: 30 });
 	});
+
+	test('counts introduced words; days without them have no such field', () => {
+		const a1 = bumpActivity({}, TODAY, { counted: 1, introduced: 1 });
+		const a2 = bumpActivity(a1, TODAY, { counted: 1, introduced: 1 });
+		expect(a2[TODAY]).toEqual({ counted: 2, seconds: 0, introduced: 2 });
+		expect(bumpActivity(a2, TODAY, { seconds: 5 })[TODAY].introduced).toBe(2);
+	});
 });

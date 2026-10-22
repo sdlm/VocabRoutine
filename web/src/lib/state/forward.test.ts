@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, test } from 'vitest';
 import { newEntry } from '$lib/domain/learning';
-import { DAY, dayKey } from '$lib/domain/time';
+import { DAY, dayKey, shiftDay } from '$lib/domain/time';
 import {
 	dueForward,
 	ensureForwardSession,
@@ -158,6 +158,22 @@ describe('passForwardWord', () => {
 		expect(app.learning[id].forward!.intervalMs).toBe(DAY);
 		expect(today()).toBe(counted + 1);
 		expect(app.sessions.forward!.done.at(-1)).toEqual({ wordId: id, grade: 'intro' });
+	});
+
+	test('a word removed after «Новое слово» keeps its slot in today\'s limit', () => {
+		app.settings.queue.newPerDay = 1;
+		start();
+		skipTo('new');
+		const id = app.sessions.forward!.queue[0].wordId;
+		passForwardWord();
+		delete app.learning[id];
+		expect(dueForward().filter((i) => i.kind === 'new')).toEqual([]);
+	});
+
+	test('words introduced on another day do not take today\'s slots', () => {
+		app.activity[shiftDay(dayKey(Date.now()), -1)] = { counted: 3, seconds: 60, introduced: 3 };
+		app.settings.queue.newPerDay = 3;
+		expect(dueForward().filter((i) => i.kind === 'new')).toHaveLength(3);
 	});
 
 	test('does nothing on a card', () => {

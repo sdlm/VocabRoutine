@@ -16,7 +16,7 @@ describe('makeSeed', () => {
 	});
 
 	test('forward queue has reviews and new words', () => {
-		const q = forwardQueue(entries, seed.settings.queue, NOW);
+		const q = forwardQueue(entries, seed.settings.queue, NOW, 0);
 		expect(q.filter((i) => i.kind === 'review').length).toBeGreaterThanOrEqual(5);
 		expect(q.filter((i) => i.kind === 'new').length).toBe(4);
 	});

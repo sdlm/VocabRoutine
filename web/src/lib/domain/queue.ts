@@ -1,4 +1,4 @@
-import { dayKey, nextMidnight } from './time';
+import { nextMidnight } from './time';
 import type { LearningEntry, QueueSettings } from './types';
 
 export interface ForwardItem {
@@ -22,13 +22,16 @@ function interleave<T>(base: T[], inserts: T[]): T[] {
 	return out;
 }
 
-export function newLeftToday(entries: LearningEntry[], s: QueueSettings, now: number): number {
-	const today = dayKey(now);
-	const shown = entries.filter((e) => e.forwardIntroducedAt !== null && dayKey(e.forwardIntroducedAt) === today).length;
-	return Math.max(0, s.newPerDay - shown);
+/**
+ * New words the forward queue may still take today. `shownToday` comes from the day's activity,
+ * not from the entries: a word removed after «Новое слово» keeps its slot.
+ */
+export function newLeftToday(shownToday: number, s: QueueSettings): number {
+	return Math.max(0, s.newPerDay - shownToday);
 }
 
-export function forwardQueue(entries: LearningEntry[], s: QueueSettings, now: number): ForwardItem[] {
+/** `newShownToday`: «Новое слово» screens passed today (DayActivity.introduced). */
+export function forwardQueue(entries: LearningEntry[], s: QueueSettings, now: number, newShownToday: number): ForwardItem[] {
 	const due: ForwardItem[] = entries
 		.filter((e) => e.forward !== null && e.forward.dueAt <= now)
 		.sort((a, b) => a.forward!.dueAt - b.forward!.dueAt)
@@ -36,7 +39,7 @@ export function forwardQueue(entries: LearningEntry[], s: QueueSettings, now: nu
 	const fresh: ForwardItem[] = entries
 		.filter((e) => e.forward === null)
 		.sort((a, b) => a.addedAt - b.addedAt)
-		.slice(0, newLeftToday(entries, s, now))
+		.slice(0, newLeftToday(newShownToday, s))
 		.map((e) => ({ wordId: e.wordId, kind: 'new' }));
 	if (s.newOrder === 'first') return [...fresh, ...due];
 	if (s.newOrder === 'last') return [...due, ...fresh];
