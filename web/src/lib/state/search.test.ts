@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, test } from 'vitest';
 import { defaultFilters } from '$lib/domain/search';
-import { closeSearch, resetFilters, search, searchResults, setSort, toggleWord } from './search.svelte';
+import { closeSearch, leaveAddTab, resetFilters, search, searchResults, setSort, toggleWord } from './search.svelte';
 import { app, isLearning, resetDemo } from './store.svelte';
 
 const ids = () => searchResults().map((w) => w.id);
@@ -40,6 +40,15 @@ describe('toggleWord', () => {
 		expect(ids()).toContain('ephemeral');
 		search.filters.levels = ['C2'];
 		expect(ids()).not.toContain('ephemeral');
+	});
+
+	test('leaving for another tab ends the hold; query and filters stay', () => {
+		search.query = 'eph';
+		toggleWord('ephemeral');
+		leaveAddTab();
+		expect(isLearning('ephemeral')).toBe(true);
+		expect(ids()).toEqual([]);
+		expect(search.query).toBe('eph');
 	});
 
 	test('a second tap removes the word again', () => {

@@ -30,6 +30,14 @@ export function toggleWord(id: string): void {
 	toggleLearning(id);
 }
 
+/**
+ * Another tab opened: words added on «Добавить» stop being kept, so «Только новые» hides them on return.
+ * A trip to the card and back is not leaving: the card belongs to no tab.
+ */
+export function leaveAddTab(): void {
+	search.kept = { key: '', ids: [] };
+}
+
 /** ← in the search bar: clear the query and fold the bar back into the loupe. */
 export function closeSearch(): void {
 	search.open = false;

@@ -5,6 +5,7 @@
 	import TabBar from '$lib/ui/shell/TabBar.svelte';
 	import { badges, startBadges } from '$lib/badges.svelte';
 	import { startActivityTracking } from '$lib/state/activity.svelte';
+	import { leaveAddTab } from '$lib/state/search.svelte';
 	import { app, startPersistence } from '$lib/state/store.svelte';
 	import { tabBarVisible, ui, type TabId } from '$lib/state/ui.svelte';
 
@@ -24,7 +25,9 @@
 	$effect(() => {
 		const id = page.route.id ?? '';
 		const match = TAB_PREFIXES.find(([prefix]) => id.startsWith(prefix));
-		if (match) ui.lastTab = match[1];
+		if (!match) return;
+		ui.lastTab = match[1];
+		if (match[1] !== 'add') leaveAddTab();
 	});
 
 	$effect(() => {
