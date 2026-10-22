@@ -8,6 +8,16 @@
 		/>
 		<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
 		<meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)" />
+		<script>
+			// A fixed theme applied before the app boots, so a cold start does not flash the system one. Mirrors applyTheme in lib/theme.ts.
+			try {
+				const theme = JSON.parse(localStorage.getItem('vocabroutine:v1') || 'null')?.settings?.theme;
+				if (theme === 'light' || theme === 'dark') {
+					document.documentElement.dataset.theme = theme;
+					for (const meta of document.querySelectorAll('meta[name="theme-color"]')) meta.content = theme === 'dark' ? '#000000' : '#ffffff';
+				}
+			} catch {}
+		</script>
 		<meta name="mobile-web-app-capable" content="yes" />
 		<meta name="apple-mobile-web-app-capable" content="yes" />
 		<meta name="apple-mobile-web-app-title" content="VocabRoutine" />

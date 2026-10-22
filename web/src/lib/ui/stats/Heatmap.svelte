@@ -4,9 +4,11 @@
 
 	/** 56 days, oldest first: 4 rows of 14, as in 08-stats.html. */
 	let { cells }: { cells: HeatCell[] } = $props();
+
+	const active = $derived(cells.filter((c) => c.level > 0).length);
 </script>
 
-<div class="heat" role="img" aria-label="Календарь занятий за 8 недель">
+<div class="heat" role="img" aria-label="Календарь занятий за 8 недель: занятия в {active} из {cells.length} дней">
 	{#each cells as c (c.key)}
 		<i class="l{c.level}" title="{c.key}: {formatMinutes(c.seconds)}"></i>
 	{/each}
@@ -25,12 +27,12 @@
 		background: var(--border);
 	}
 	.l1 {
-		background: color-mix(in srgb, var(--success) 30%, transparent);
+		background: var(--heat-1);
 	}
 	.l2 {
-		background: color-mix(in srgb, var(--success) 60%, transparent);
+		background: var(--heat-2);
 	}
 	.l3 {
-		background: var(--success);
+		background: var(--heat-3);
 	}
 </style>

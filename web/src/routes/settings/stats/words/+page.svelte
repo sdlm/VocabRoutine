@@ -1,6 +1,7 @@
 <script lang="ts">
 	import CircleX from '@lucide/svelte/icons/circle-x';
 	import Search from '@lucide/svelte/icons/search';
+	import { wordById } from '$lib/content';
 	import type { WordsFilter } from '$lib/domain/stats';
 	import { myWords, myWordsResults } from '$lib/state/my-words.svelte';
 	import { app } from '$lib/state/store.svelte';
@@ -23,8 +24,15 @@
 		{ value: 'cloze', label: 'Вспоминаю ≥7' }
 	];
 
-	const total = $derived(Object.keys(app.learning).length);
+	const total = $derived(Object.keys(app.learning).filter((id) => wordById.has(id)).length);
 	const list = $derived(myWordsResults());
+	const empty = $derived(
+		total === 0
+			? 'Слов пока нет. Их можно добавить в разделе «Добавить».'
+			: myWords.query.trim() || myWords.filter === 'all'
+				? 'Ничего не найдено'
+				: 'Пока нет слов с интервалом от 7 дней'
+	);
 </script>
 
 <main class="page">
@@ -62,7 +70,7 @@
 	{#each list as w (w.id)}
 		<MyWordRow word={w} entry={app.learning[w.id]} />
 	{:else}
-		<p class="empty">{total ? 'Ничего не найдено' : 'Слов пока нет. Их можно добавить в разделе «Добавить».'}</p>
+		<p class="empty">{empty}</p>
 	{/each}
 	<div style:height="max(0px, calc({kb.px}px - var(--tabbar-h) - var(--safe-bottom)))" aria-hidden="true"></div>
 </main>

@@ -32,6 +32,7 @@
 	{#if Icon}<span class="icon {tone}"><Icon size={16} /></span>{/if}
 	<span class="text">
 		{label}
+		{#if external}<span class="sr-only">(откроется в новой вкладке)</span>{/if}
 		{#if note}<small>{note}</small>{/if}
 	</span>
 	{#if value}<span class="value">{value}</span>{/if}
@@ -44,7 +45,7 @@
 {/snippet}
 
 {#if href}
-	<a class="row" class:external {href} target={external ? '_blank' : undefined} rel={external ? 'noopener' : undefined}>
+	<a class="row" class:external {href} target={external ? '_blank' : undefined} rel={external ? 'noopener noreferrer' : undefined}>
 		{@render body()}
 	</a>
 {:else}

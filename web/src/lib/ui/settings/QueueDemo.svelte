@@ -13,6 +13,7 @@
 	let pipe: HTMLElement;
 
 	const demo = $derived(demoPipeline(answers, settings));
+	const full = $derived(answers.length >= MAX_STEPS);
 
 	async function answer(ok: boolean) {
 		if (answers.length >= MAX_STEPS) return;
@@ -25,8 +26,8 @@
 
 <div class="demo">
 	<div class="buttons">
-		<button type="button" class="no" onclick={() => answer(false)}>Не вспомнил</button>
-		<button type="button" class="yes" onclick={() => answer(true)}>Вспомнил</button>
+		<button type="button" class="no" aria-disabled={full} onclick={() => answer(false)}>Не вспомнил</button>
+		<button type="button" class="yes" aria-disabled={full} onclick={() => answer(true)}>Вспомнил</button>
 		<button type="button" class="reset" aria-label="Сбросить демо" onclick={() => (answers = [])}>↺</button>
 	</div>
 	<ol class="pipe" bind:this={pipe}>
@@ -64,6 +65,10 @@
 		border-radius: 10px;
 		font-weight: 600;
 		touch-action: manipulation;
+	}
+	.buttons button[aria-disabled='true'] {
+		opacity: 0.5;
+		cursor: default;
 	}
 	.no {
 		background: var(--danger-soft);
@@ -123,11 +128,16 @@
 	}
 	.label {
 		flex: 1;
+		min-width: 0;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
 		color: var(--text-2);
 	}
 	.prev,
 	.arrow {
 		color: var(--text-3);
+		white-space: nowrap;
 	}
 	.factor {
 		padding: 1px 6px;
@@ -139,6 +149,7 @@
 		min-width: 48px;
 		text-align: right;
 		font-weight: 700;
+		white-space: nowrap;
 	}
 	.empty {
 		padding: 8px 0 2px;

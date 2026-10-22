@@ -27,7 +27,7 @@
 	];
 
 	function reset() {
-		if (confirm('Стереть прогресс и засеять демо-данные заново?')) resetDemo();
+		if (confirm('Стереть прогресс и настройки и засеять демо-данные заново?')) resetDemo();
 	}
 </script>
 
@@ -71,5 +71,8 @@
 		padding: 12px 16px;
 		text-align: left;
 		color: var(--danger);
+	}
+	.danger:active {
+		background: var(--surface-2);
 	}
 </style>

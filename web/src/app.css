@@ -12,6 +12,9 @@
 	--accent-soft: #e3effd;
 	--success: #2f8a47;
 	--success-soft: #e6f6ea;
+	--heat-1: #b9e4c4;
+	--heat-2: #6fcb86;
+	--heat-3: #2f9e4f;
 	--danger: #c9372c;
 	--danger-soft: #fdecea;
 	--warning: #a86400;
@@ -42,6 +45,9 @@
 		--accent-soft: rgba(10, 132, 255, 0.18);
 		--success: #30d158;
 		--success-soft: rgba(48, 209, 88, 0.16);
+		--heat-1: rgba(48, 209, 88, 0.3);
+		--heat-2: rgba(48, 209, 88, 0.6);
+		--heat-3: #30d158;
 		--danger: #ff453a;
 		--danger-soft: rgba(255, 69, 58, 0.16);
 		--warning: #ffb340;
@@ -65,6 +71,9 @@
 	--accent-soft: rgba(10, 132, 255, 0.18);
 	--success: #30d158;
 	--success-soft: rgba(48, 209, 88, 0.16);
+	--heat-1: rgba(48, 209, 88, 0.3);
+	--heat-2: rgba(48, 209, 88, 0.6);
+	--heat-3: #30d158;
 	--danger: #ff453a;
 	--danger-soft: rgba(255, 69, 58, 0.16);
 	--warning: #ffb340;
@@ -141,4 +150,17 @@ a {
 	color: #fff;
 	font-weight: 600;
 	text-align: center;
+}
+
+/* Text for screen readers only. */
+.sr-only {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	margin: -1px;
+	padding: 0;
+	overflow: hidden;
+	clip: rect(0 0 0 0);
+	white-space: nowrap;
+	border: 0;
 }

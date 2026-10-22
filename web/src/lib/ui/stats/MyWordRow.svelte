@@ -12,7 +12,7 @@
 	// Mode marks are the tab icons for now, until §9.1 of the UI spec picks the icons.
 	const modes = [
 		{ mode: 'forward' as Mode, icon: Layers, label: 'Слово → перевод' },
-		{ mode: 'cloze' as Mode, icon: TextCursorInput, label: 'Cloze' }
+		{ mode: 'cloze' as Mode, icon: TextCursorInput, label: 'Cloze → слово' }
 	];
 </script>
 
@@ -23,8 +23,10 @@
 	</span>
 	{#each modes as m (m.mode)}
 		{@const p = entry[m.mode]}
-		<span class="pill" class:ok={isSolid(entry, m.mode)} aria-label="{m.label}: {p ? formatInterval(p.intervalMs) : 'ещё не было'}">
-			<m.icon size={12} strokeWidth={2.2} />{p ? formatInterval(p.intervalMs) : '—'}
+		<span class="pill" class:ok={isSolid(entry, m.mode)}>
+			<m.icon size={12} strokeWidth={2.2} />
+			<span aria-hidden="true">{p ? formatInterval(p.intervalMs) : '—'}</span>
+			<span class="sr-only">{m.label}: {p ? formatInterval(p.intervalMs) : 'ещё не повторялось'}</span>
 		</span>
 	{/each}
 </a>
