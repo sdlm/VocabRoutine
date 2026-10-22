@@ -8,6 +8,7 @@
 	import { leaveAddTab } from '$lib/state/search.svelte';
 	import { app, startPersistence } from '$lib/state/store.svelte';
 	import { tabBarVisible, ui, type TabId } from '$lib/state/ui.svelte';
+	import { applyTheme } from '$lib/theme';
 
 	let { children } = $props();
 
@@ -30,11 +31,7 @@
 		if (match[1] !== 'add') leaveAddTab();
 	});
 
-	$effect(() => {
-		const root = document.documentElement;
-		if (app.settings.theme === 'auto') delete root.dataset.theme;
-		else root.dataset.theme = app.settings.theme;
-	});
+	$effect(() => applyTheme(app.settings.theme));
 
 	onMount(async () => {
 		if (import.meta.env.DEV) return;
