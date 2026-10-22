@@ -47,6 +47,7 @@ export function windowSqueeze(threshold = 150): (width: number, height: number, 
 	/** Width where the keyboard is assumed open after rotating while typing. */
 	let assumedAt: number | undefined;
 	return (w, h, typing) => {
+		if (assumedAt !== undefined && w !== assumedAt) tallest.delete(assumedAt); // its height was never confirmed
 		const prev = tallest.get(w);
 		if (!typing) assumedAt = undefined;
 		else if (prev === undefined) assumedAt = w;

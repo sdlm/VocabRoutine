@@ -46,6 +46,15 @@ describe('windowSqueeze', () => {
 		expect(squeezed(400, 800, true)).toBe(false); // Back hid the keyboard, focus kept
 	});
 
+	test('rotating there, back and there again while typing', () => {
+		const squeezed = windowSqueeze();
+		squeezed(400, 800, false);
+		squeezed(400, 500, true);
+		squeezed(800, 150, true);
+		squeezed(400, 500, true);
+		expect(squeezed(800, 150, true)).toBe(true);
+	});
+
 	test('the first height after rotating turns out unsqueezed: the keyboard shows up later', () => {
 		const squeezed = windowSqueeze();
 		squeezed(400, 800, false);
