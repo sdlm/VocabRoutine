@@ -5,7 +5,8 @@ export function href(path: string): string {
 	return `#${path}`;
 }
 
-export function go(path: string, opts: { replaceState?: boolean } = {}): Promise<void> {
+/** `state` rides on the history entry: Back and Forward bring it back with the page. */
+export function go(path: string, opts: { replaceState?: boolean; state?: App.PageState } = {}): Promise<void> {
 	return goto(href(path), opts);
 }
 

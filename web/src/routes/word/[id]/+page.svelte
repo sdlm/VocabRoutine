@@ -5,7 +5,6 @@
 	import { href } from '$lib/nav';
 	import { toggleWord } from '$lib/state/search.svelte';
 	import { toggleLearning } from '$lib/state/store.svelte';
-	import { ui } from '$lib/state/ui.svelte';
 	import LearnButton from '$lib/ui/card/LearnButton.svelte';
 	import WordCard from '$lib/ui/card/WordCard.svelte';
 	import NavBar from '$lib/ui/shell/NavBar.svelte';
@@ -13,8 +12,8 @@
 	const word = $derived(wordById.get(page.params.id ?? ''));
 	let headerHidden = $state(false);
 
-	// The card belongs to no tab, so the highlighted tab tells where it was opened: «Мои слова» is under Settings.
-	const fromMyWords = ui.lastTab === 'settings';
+	// «Мои слова» marks its history entry; a deep link, a reload or «Добавить» leave it unmarked.
+	const fromMyWords = $derived(page.state.from === 'my-words');
 </script>
 
 <main class="page">

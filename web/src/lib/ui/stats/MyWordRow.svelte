@@ -5,7 +5,7 @@
 	import { formatInterval } from '$lib/domain/srs';
 	import { isSolid, type Mode } from '$lib/domain/stats';
 	import type { LearningEntry } from '$lib/domain/types';
-	import { href } from '$lib/nav';
+	import { go, href } from '$lib/nav';
 
 	let { word, entry }: { word: Word; entry: LearningEntry } = $props();
 
@@ -14,9 +14,16 @@
 		{ mode: 'forward' as Mode, icon: Layers, label: 'Слово → перевод' },
 		{ mode: 'cloze' as Mode, icon: TextCursorInput, label: 'Cloze → слово' }
 	];
+
+	/** The card learns where it was opened from the history entry, so Back from another tab still labels «‹» right. */
+	function open(e: MouseEvent) {
+		if (e.metaKey || e.ctrlKey || e.shiftKey || e.button !== 0) return; // new tab or window: a plain link
+		e.preventDefault();
+		void go(`/word/${word.id}`, { state: { from: 'my-words' } });
+	}
 </script>
 
-<a class="row" href={href(`/word/${word.id}`)}>
+<a class="row" href={href(`/word/${word.id}`)} onclick={open}>
 	<span class="main">
 		<span class="w">{word.word}</span>
 		<small>{word.translations[0].text} · {word.level}</small>
