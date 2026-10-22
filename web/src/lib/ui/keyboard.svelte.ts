@@ -39,18 +39,21 @@ export function isTextField(el: Element | null): boolean {
 /**
  * Android: is the window squeezed by the keyboard? Remembers the tallest height per width:
  * rotation changes the width, the keyboard does not. Rotating with the keyboard up lands on a width
- * whose first height is already squeezed, so then the keyboard counts as open until the window
- * grows or typing stops. Returns `(width, height, typing) => squeezed`.
+ * whose first height is already squeezed, so at that width the keyboard counts as open until the window
+ * grows, shrinks further by the threshold, or typing stops. Returns `(width, height, typing) => squeezed`.
  */
 export function windowSqueeze(threshold = 150): (width: number, height: number, typing: boolean) => boolean {
 	const tallest = new Map<number, number>();
-	let rotatedWhileTyping = false;
+	/** Width where the keyboard is assumed open after rotating while typing. */
+	let assumedAt: number | undefined;
 	return (w, h, typing) => {
 		const prev = tallest.get(w);
-		rotatedWhileTyping = prev === undefined ? typing : rotatedWhileTyping && typing && h <= prev;
+		if (!typing) assumedAt = undefined;
+		else if (prev === undefined) assumedAt = w;
+		else if (w !== assumedAt || h > prev || prev - h > threshold) assumedAt = undefined;
 		const max = Math.max(prev ?? 0, h);
 		tallest.set(w, max);
-		return typing && (rotatedWhileTyping || max - h > threshold);
+		return typing && (assumedAt === w || max - h > threshold);
 	};
 }
 

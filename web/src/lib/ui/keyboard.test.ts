@@ -37,6 +37,24 @@ describe('windowSqueeze', () => {
 		expect(squeezed(800, 150, true)).toBe(true); // and shown again
 	});
 
+	test('rotating there and back: the assumption stays with the width it was made for', () => {
+		const squeezed = windowSqueeze();
+		squeezed(400, 800, false);
+		squeezed(400, 500, true);
+		squeezed(800, 150, true);
+		expect(squeezed(400, 500, true)).toBe(true); // rotated back, keyboard still up
+		expect(squeezed(400, 800, true)).toBe(false); // Back hid the keyboard, focus kept
+	});
+
+	test('the first height after rotating turns out unsqueezed: the keyboard shows up later', () => {
+		const squeezed = windowSqueeze();
+		squeezed(400, 800, false);
+		squeezed(400, 500, true);
+		expect(squeezed(800, 380, true)).toBe(true); // assumed open
+		expect(squeezed(800, 150, true)).toBe(true); // the real keyboard
+		expect(squeezed(800, 380, true)).toBe(false); // hidden again
+	});
+
 	test('rotating without typing records the full height', () => {
 		const squeezed = windowSqueeze();
 		squeezed(400, 800, false);
