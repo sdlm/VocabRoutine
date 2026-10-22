@@ -25,6 +25,11 @@
 
 	$effect(() => {
 		const id = page.route.id ?? '';
+		// The card belongs to no tab: highlight the one it was opened from, the same mark its «‹» reads.
+		if (id === '/word/[id]') {
+			ui.lastTab = page.state.from === 'my-words' ? 'settings' : 'add';
+			return;
+		}
 		const match = TAB_PREFIXES.find(([prefix]) => id.startsWith(prefix));
 		if (!match) return;
 		ui.lastTab = match[1];

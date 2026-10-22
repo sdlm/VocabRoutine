@@ -106,7 +106,7 @@ export function answerCloze(outcome: ClozeOutcome, picked: string | null, now: n
 	const isNew = isNewInCloze(entry);
 	app.learning[v.wordId] = gradeCloze(entry, outcomeResult(outcome), now, app.settings.queue);
 	app.sessions.cloze = closeWord(s, outcome, isNew, now);
-	countForStreak();
+	countForStreak(now);
 	if (outcome === 'correct' && app.settings.cloze.autoAdvance) {
 		cloze.view = null;
 		syncClozeView();

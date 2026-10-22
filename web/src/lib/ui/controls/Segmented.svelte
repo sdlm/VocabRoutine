@@ -8,7 +8,7 @@
 		options: { value: T; label: string }[];
 		value: T;
 		label?: string;
-		/** Small inline variant for list rows (template editor). */
+		/** Small inline variant for list rows. */
 		compact?: boolean;
 	} = $props();
 </script>

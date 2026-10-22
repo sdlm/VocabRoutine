@@ -60,7 +60,7 @@ export function gradeForwardWord(grade: ForwardGrade, now: number = Date.now()):
 	const result = grade === 'remember' ? 'success' : 'fail';
 	app.learning[step.wordId] = gradeForward(app.learning[step.wordId], result, now, app.settings.queue);
 	app.sessions.forward = gradeStep(app.sessions.forward!, grade, now);
-	countForStreak();
+	countForStreak(now);
 }
 
 /** «Дальше» on «Новое слово» introduces the word and counts it; on «Повтор» it only moves on. */
@@ -69,7 +69,7 @@ export function passForwardWord(now: number = Date.now()): void {
 	if (!step || step.kind === 'review') return;
 	if (step.kind === 'new') {
 		app.learning[step.wordId] = introduceForward(app.learning[step.wordId], now, app.settings.queue);
-		countIntroduction();
+		countIntroduction(now);
 	}
 	app.sessions.forward = passStep(app.sessions.forward!, now);
 }

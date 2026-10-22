@@ -53,13 +53,13 @@ export function addSeconds(seconds: number): void {
 	app.activity = bumpActivity(app.activity, dayKey(Date.now()), { seconds });
 }
 
-export function countForStreak(): void {
-	app.activity = bumpActivity(app.activity, dayKey(Date.now()), { counted: 1 });
+export function countForStreak(now: number = Date.now()): void {
+	app.activity = bumpActivity(app.activity, dayKey(now), { counted: 1 });
 }
 
 /** «Новое слово»: counts for the streak and takes a slot of today's new-word limit. */
-export function countIntroduction(): void {
-	app.activity = bumpActivity(app.activity, dayKey(Date.now()), { counted: 1, introduced: 1 });
+export function countIntroduction(now: number = Date.now()): void {
+	app.activity = bumpActivity(app.activity, dayKey(now), { counted: 1, introduced: 1 });
 }
 
 /** «Новое слово» screens passed today; removing a word does not give its slot back. */

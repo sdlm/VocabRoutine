@@ -21,7 +21,7 @@ export interface ModeProgress {
 export interface LearningEntry {
 	wordId: string;
 	addedAt: number;
-	/** First «Новое слово» screen in forward mode; null until shown. */
+	/** First «Новое слово» screen in forward mode; null until shown. Kept for history: the daily limit counts DayActivity.introduced. */
 	forwardIntroducedAt: number | null;
 	forward: ModeProgress | null;
 	/** Moment the word became available for Cloze; null until then. */
