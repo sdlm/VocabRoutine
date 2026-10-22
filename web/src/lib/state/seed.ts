@@ -10,14 +10,16 @@ interface SeedWord {
 	dueIn: number;
 	/** Cloze due date relative to now, in hours; omitted = not in Cloze. */
 	clozeDueIn?: number;
+	/** Cloze interval in days; set together with clozeDueIn. */
+	clozeInterval?: number;
 }
 
 /** Words already in learning. Intervals > 5 days are in Cloze. */
 const SEEN: SeedWord[] = [
-	{ id: 'house', interval: 16, dueIn: -5, clozeDueIn: -2 },
-	{ id: 'eat', interval: 39, dueIn: 200, clozeDueIn: -20 },
-	{ id: 'borrow', interval: 6.3, dueIn: -1, clozeDueIn: -1 },
-	{ id: 'journey', interval: 8, dueIn: 30, clozeDueIn: 50 },
+	{ id: 'house', interval: 16, dueIn: -5, clozeDueIn: -2, clozeInterval: 9 },
+	{ id: 'eat', interval: 39, dueIn: 200, clozeDueIn: -20, clozeInterval: 2.5 },
+	{ id: 'borrow', interval: 6.3, dueIn: -1, clozeDueIn: -1, clozeInterval: 2.5 },
+	{ id: 'journey', interval: 8, dueIn: 30, clozeDueIn: 50, clozeInterval: 20 },
 	{ id: 'often', interval: 2.5, dueIn: -26 },
 	{ id: 'cheap', interval: 1, dueIn: -3 },
 	{ id: 'improve', interval: 1, dueIn: -10 },
@@ -58,7 +60,7 @@ export function makeSeed(now: number): AppState {
 			forwardIntroducedAt: now - (39 - i) * DAY,
 			forward: { intervalMs, dueAt },
 			clozeEnteredAt: inCloze ? now - 3 * DAY : null,
-			cloze: inCloze ? { intervalMs: 2.5 * DAY, dueAt: now + w.clozeDueIn! * HOUR } : null
+			cloze: inCloze ? { intervalMs: w.clozeInterval! * DAY, dueAt: now + w.clozeDueIn! * HOUR } : null
 		};
 	});
 	FRESH.forEach((id, i) => {

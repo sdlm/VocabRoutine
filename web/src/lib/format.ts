@@ -10,6 +10,16 @@ export function plural(n: number, forms: readonly [string, string, string]): str
 export const WORD_FORMS = ['слово', 'слова', 'слов'] as const;
 export const DAY_FORMS = ['день', 'дня', 'дней'] as const;
 
+/** Time in the app: «23 ч»; under an hour «45 мин». */
+export function formatTotalTime(seconds: number): string {
+	return seconds >= 3600 ? `${Math.round(seconds / 3600)} ч` : formatMinutes(seconds);
+}
+
+/** «16 мин». */
+export function formatMinutes(seconds: number): string {
+	return `${Math.round(seconds / 60)} мин`;
+}
+
 /** Session time as m:ss. */
 export function formatDuration(ms: number): string {
 	const total = Math.round(ms / 1000);

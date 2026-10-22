@@ -2,6 +2,7 @@ import { describe, expect, test } from 'vitest';
 import { clozeQueue, forwardQueue } from '$lib/domain/queue';
 import { streakInfo } from '$lib/domain/streak';
 import { CLOZE_THRESHOLD_MS } from '$lib/domain/learning';
+import { wordCounts } from '$lib/domain/stats';
 import { dayKey } from '$lib/domain/time';
 import { wordById } from '$lib/content';
 import { makeSeed, SEED_STREAK } from './seed';
@@ -30,6 +31,13 @@ describe('makeSeed', () => {
 			const over = (e.forward?.intervalMs ?? 0) > CLOZE_THRESHOLD_MS;
 			expect(e.clozeEnteredAt !== null, e.wordId).toBe(over);
 		}
+	});
+
+	test('«Слова» on the stats screen has a word in every row', () => {
+		const c = wordCounts(entries);
+		expect(c.added).toBe(16);
+		expect(c.forward).toBeGreaterThan(c.cloze);
+		expect(c.cloze).toBeGreaterThan(0);
 	});
 
 	test('streak continues from yesterday and today is still open', () => {
