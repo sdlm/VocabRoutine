@@ -22,4 +22,9 @@ describe('stepValue', () => {
 		expect(stepValue(0.1, -0.1, 0.1, 1, 1)).toBe(0.1);
 		expect(stepValue(1, 0.1, 0.1, 1, 1)).toBe(1);
 	});
+
+	test('a value outside the bounds snaps back into them', () => {
+		expect(stepValue(0, -1, 1, 100)).toBe(1);
+		expect(stepValue(150, 1, 1, 100)).toBe(100);
+	});
 });

@@ -71,6 +71,20 @@ describe('toggleWord', () => {
 		expect(isLearning('house')).toBe(true);
 	});
 
+	test('the guard expires after 400 ms for the same word', () => {
+		toggleWord('ephemeral', T);
+		toggleWord('ephemeral', T + 399);
+		expect(isLearning('ephemeral')).toBe(true);
+		toggleWord('ephemeral', T + 400);
+		expect(isLearning('ephemeral')).toBe(false);
+	});
+
+	test('a tap stamped earlier than the last one is not a double tap', () => {
+		toggleWord('ephemeral', T);
+		toggleWord('ephemeral', T - 1000);
+		expect(isLearning('ephemeral')).toBe(false);
+	});
+
 	test('removing a word drops its progress: added again, it is new', () => {
 		search.filters.onlyNew = false;
 		toggleWord('house', T);

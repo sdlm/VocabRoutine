@@ -29,6 +29,8 @@ describe('formatTotalTime / formatMinutes', () => {
 		expect(formatTotalTime(3600)).toBe('1 ч');
 		expect(formatTotalTime(2700)).toBe('45 мин');
 		expect(formatTotalTime(0)).toBe('0 мин');
+		expect(formatTotalTime(3599)).toBe('1 ч');
+		expect(formatTotalTime(3569)).toBe('59 мин');
 	});
 
 	test('minutes are rounded', () => {

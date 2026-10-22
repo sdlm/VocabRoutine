@@ -41,7 +41,8 @@ let lastToggle = { wordId: '', at: 0 };
  * so a repeat toggle of the same word within 400 ms is ignored. Returns whether it toggled.
  */
 export function toggleLearning(wordId: string, now: number = Date.now()): boolean {
-	if (wordId === lastToggle.wordId && now - lastToggle.at < TOGGLE_GUARD_MS) return false;
+	const sinceLast = now - lastToggle.at;
+	if (wordId === lastToggle.wordId && sinceLast >= 0 && sinceLast < TOGGLE_GUARD_MS) return false;
 	lastToggle = { wordId, at: now };
 	if (isLearning(wordId)) delete app.learning[wordId];
 	else app.learning[wordId] = newEntry(wordId, now);

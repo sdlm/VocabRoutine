@@ -8,10 +8,12 @@
 	import Heatmap from '$lib/ui/stats/Heatmap.svelte';
 	import WordsBars from '$lib/ui/stats/WordsBars.svelte';
 
-	const today = dayKey(Date.now());
+	// Re-read with every activity change (the time tracker writes every 15 s), so midnight moves the calendar.
+	const today = $derived.by(() => (app.activity, dayKey(Date.now())));
 	const streak = $derived(streakInfo(app.activity, app.settings.dailyGoal, today));
 	const totals = $derived(activityTotals(app.activity));
 	const counts = $derived(wordCounts(Object.values(app.learning)));
+	const cells = $derived(heatmap(app.activity, today));
 </script>
 
 <main class="page">
@@ -23,7 +25,7 @@
 			<span class="n">🔥 {streak.current}</span>
 			<span class="t">{plural(streak.current, DAY_FORMS)} подряд<br />рекорд: {streak.record}</span>
 		</div>
-		<Heatmap cells={heatmap(app.activity, today)} />
+		<Heatmap {cells} />
 	</section>
 
 	<div class="kpis">

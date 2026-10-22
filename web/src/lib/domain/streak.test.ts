@@ -64,5 +64,6 @@ describe('bumpActivity', () => {
 		const a2 = bumpActivity(a1, TODAY, { counted: 1, introduced: 1 });
 		expect(a2[TODAY]).toEqual({ counted: 2, seconds: 0, introduced: 2 });
 		expect(bumpActivity(a2, TODAY, { seconds: 5 })[TODAY].introduced).toBe(2);
+		expect(bumpActivity({}, TODAY, { counted: 1 })[TODAY]).not.toHaveProperty('introduced');
 	});
 });

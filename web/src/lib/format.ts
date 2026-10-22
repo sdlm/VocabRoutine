@@ -12,7 +12,8 @@ export const DAY_FORMS = ['день', 'дня', 'дней'] as const;
 
 /** Time in the app: «23 ч»; under an hour «45 мин». */
 export function formatTotalTime(seconds: number): string {
-	return seconds >= 3600 ? `${Math.round(seconds / 3600)} ч` : formatMinutes(seconds);
+	const minutes = Math.round(seconds / 60);
+	return minutes >= 60 ? `${Math.round(seconds / 3600)} ч` : `${minutes} мин`;
 }
 
 /** «16 мин». */

@@ -79,11 +79,13 @@ describe('parseState', () => {
 		const noRevealed = { ...makeSeed(NOW), sessions: { forward: { ...session, revealed: 2 }, cloze: null } };
 		const badStep = { ...makeSeed(NOW), sessions: { forward: { ...session, queue: [null] }, cloze: null } };
 		const badKind = { ...makeSeed(NOW), sessions: { forward: { ...session, queue: [{ wordId: 'house', kind: 'bogus' }] }, cloze: null } };
+		const protoKind = { ...makeSeed(NOW), sessions: { forward: { ...session, queue: [{ wordId: 'house', kind: 'toString' }] }, cloze: null } };
 		const noWord = { ...makeSeed(NOW), sessions: { forward: { ...session, queue: [{ kind: 'review' }] }, cloze: null } };
 		expect(parseState(JSON.stringify(valid), NOW).sessions.forward).toEqual(session);
 		expect(parseState(JSON.stringify(noRevealed), NOW).sessions.forward).toBeNull();
 		expect(parseState(JSON.stringify(badStep), NOW).sessions.forward).toBeNull();
 		expect(parseState(JSON.stringify(badKind), NOW).sessions.forward).toBeNull();
+		expect(parseState(JSON.stringify(protoKind), NOW).sessions.forward).toBeNull();
 		expect(parseState(JSON.stringify(noWord), NOW).sessions.forward).toBeNull();
 	});
 
