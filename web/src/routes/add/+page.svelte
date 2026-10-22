@@ -2,12 +2,13 @@
 	import { flushSync } from 'svelte';
 	import { pushState } from '$app/navigation';
 	import { page } from '$app/state';
+	import type { SheetPart } from '$lib/domain/search';
 	import { plural, WORD_FORMS } from '$lib/format';
 	import { href } from '$lib/nav';
 	import { search, searchResults, toggleWord } from '$lib/state/search.svelte';
 	import { isLearning } from '$lib/state/store.svelte';
 	import { hideTabBarWhile } from '$lib/state/ui.svelte';
-	import FilterChips, { type SheetPart } from '$lib/ui/add/FilterChips.svelte';
+	import FilterChips from '$lib/ui/add/FilterChips.svelte';
 	import FilterSheet from '$lib/ui/add/FilterSheet.svelte';
 	import SearchBar from '$lib/ui/add/SearchBar.svelte';
 	import WordRow from '$lib/ui/add/WordRow.svelte';

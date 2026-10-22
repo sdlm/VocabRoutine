@@ -122,6 +122,19 @@ describe('useLetterHint', () => {
 	});
 });
 
+describe('summary', () => {
+	test('a finished session stays on its summary until «Готово»', () => {
+		start();
+		for (let i = 0; i < 3; i++) {
+			answerCloze('correct', 'x');
+			nextCloze();
+		}
+		ensureClozeSession();
+		expect(app.sessions.cloze!.queue).toEqual([]);
+		expect(app.sessions.cloze!.done).toHaveLength(3);
+	});
+});
+
 describe('finishClozeSession', () => {
 	test('starts a new session right away when words are due', () => {
 		start();

@@ -1,12 +1,11 @@
 <script lang="ts">
 	import { POS_CHIP, REGISTER_CHIP, SORT_LABEL } from '$lib/content/labels';
 	import { LEVELS, POS_LIST, REGISTERS } from '$lib/content/types';
-	import { toggleValue, type SortOrder } from '$lib/domain/search';
+	import { toggleValue, type SheetPart, type SortOrder } from '$lib/domain/search';
 	import { plural, WORD_FORMS } from '$lib/format';
 	import { resetFilters, search, searchResults, setSort } from '$lib/state/search.svelte';
 	import Toggle from '$lib/ui/controls/Toggle.svelte';
 	import Sheet from '$lib/ui/shell/Sheet.svelte';
-	import type { SheetPart } from './FilterChips.svelte';
 
 	let { part, onClose }: { part: SheetPart; onClose: () => void } = $props();
 

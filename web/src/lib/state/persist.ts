@@ -28,9 +28,11 @@ function isClozeSession(v: unknown): v is ClozeSession {
 	return isSession(v) && (v.queue as unknown[]).every((q) => typeof q === 'string');
 }
 
-const STEP_KINDS: unknown[] = ['new', 'review', 'repeat'] satisfies ForwardStepKind[];
+/** A Record, so a new step kind does not compile until it is listed here. */
+const STEP_KINDS: Record<ForwardStepKind, true> = { new: true, review: true, repeat: true };
 
-const isStep = (q: unknown): boolean => isObj(q) && typeof q.wordId === 'string' && STEP_KINDS.includes(q.kind);
+const isStep = (q: unknown): boolean =>
+	isObj(q) && typeof q.wordId === 'string' && typeof q.kind === 'string' && Object.hasOwn(STEP_KINDS, q.kind);
 
 function isForwardSession(v: unknown): v is ForwardSession {
 	return isSession(v) && Array.isArray(v.revealed) && (v.queue as unknown[]).every(isStep);

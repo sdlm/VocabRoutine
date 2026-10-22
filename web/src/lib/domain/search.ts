@@ -2,6 +2,9 @@ import type { Level, Pos, Register, Word } from '$lib/content/types';
 
 export type SortOrder = 'freq' | 'alpha' | 'random';
 
+/** Filter sheet on «Добавить»: all filters (⚌) or one chip. */
+export type SheetPart = 'all' | 'levels' | 'pos';
+
 export interface SearchFilters {
 	/** Empty = any. */
 	levels: Level[];

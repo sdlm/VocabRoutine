@@ -208,6 +208,16 @@ describe('revealForwardBlock', () => {
 	});
 });
 
+describe('summary', () => {
+	test('a finished session stays on its summary until «Готово»', () => {
+		start();
+		answerUntil(0);
+		ensureForwardSession();
+		expect(app.sessions.forward!.queue).toEqual([]);
+		expect(app.sessions.forward!.done.length).toBeGreaterThan(0);
+	});
+});
+
 describe('finishForwardSession', () => {
 	test('clears the finished session and starts a new one if words became due', () => {
 		start();

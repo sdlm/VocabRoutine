@@ -1,6 +1,6 @@
 import { words } from '$lib/content';
 import type { Word } from '$lib/content/types';
-import { defaultFilters, searchKey, searchWords, type SortOrder } from '$lib/domain/search';
+import { defaultFilters, searchKey, searchWords, type SheetPart, type SortOrder } from '$lib/domain/search';
 import { isLearning, toggleLearning } from './store.svelte';
 
 const randomSeed = () => Math.floor(Math.random() * 2 ** 31);
@@ -45,7 +45,7 @@ export function closeSearch(): void {
 }
 
 /** «Сбросить» in a chip sheet (one filter) or in ⚌ (all of them). */
-export function resetFilters(part: 'levels' | 'pos' | 'all'): void {
+export function resetFilters(part: SheetPart): void {
 	if (part === 'all') search.filters = defaultFilters();
 	else search.filters[part] = [];
 }

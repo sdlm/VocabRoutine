@@ -1,13 +1,9 @@
-<script lang="ts" module>
-	export type SheetPart = 'all' | 'levels' | 'pos';
-</script>
-
 <script lang="ts">
 	import ChevronDown from '@lucide/svelte/icons/chevron-down';
 	import Search from '@lucide/svelte/icons/search';
 	import SlidersHorizontal from '@lucide/svelte/icons/sliders-horizontal';
 	import { levelsLabel, posLabel } from '$lib/content/labels';
-	import { sheetOnlyChanges } from '$lib/domain/search';
+	import { sheetOnlyChanges, type SheetPart } from '$lib/domain/search';
 	import { search } from '$lib/state/search.svelte';
 
 	let { onSearch, onSheet }: { onSearch: () => void; onSheet: (part: SheetPart) => void } = $props();
