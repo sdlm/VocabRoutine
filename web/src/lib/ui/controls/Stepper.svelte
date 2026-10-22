@@ -24,9 +24,9 @@
 </script>
 
 <div class="stepper" role="group" aria-label={label}>
-	<button type="button" aria-label="Меньше" disabled={value <= min} onclick={() => change(-step)}>−</button>
+	<button type="button" aria-label="Меньше" aria-disabled={value <= min} onclick={() => change(-step)}>−</button>
 	<span class="value" aria-live="polite">{format(value)}</span>
-	<button type="button" aria-label="Больше" disabled={value >= max} onclick={() => change(step)}>+</button>
+	<button type="button" aria-label="Больше" aria-disabled={value >= max} onclick={() => change(step)}>+</button>
 </div>
 
 <style>
@@ -45,12 +45,12 @@
 		color: var(--accent);
 		touch-action: manipulation;
 	}
-	button:disabled {
+	/* aria-disabled, not disabled: the button keeps keyboard focus at the bound. */
+	button[aria-disabled='true'] {
 		color: var(--text-3);
-		opacity: 0.5;
 		cursor: default;
 	}
-	button:active:not(:disabled) {
+	button:active:not([aria-disabled='true']) {
 		background: var(--accent-soft);
 	}
 	.value {
