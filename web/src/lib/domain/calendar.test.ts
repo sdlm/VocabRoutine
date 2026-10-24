@@ -1,6 +1,6 @@
 import { describe, expect, test } from 'vitest';
 import { calendar, CALENDAR_MAX_ROWS, CALENDAR_MIN_ROWS, firstActiveDay, heatLevel, streakRange, weekStart, type Calendar } from './calendar';
-import type { StreakInfo } from './streak';
+import { streakInfo, type StreakInfo } from './streak';
 import { shiftDay } from './time';
 import type { Activity } from './types';
 
@@ -122,5 +122,33 @@ describe('calendar: all days in the streak', () => {
 	test('no streak, no line', () => {
 		expect(calendar(days('2026-10-19', '2026-10-23'), TODAY, null).allInStreak).toBeNull();
 		expect(calendar({}, TODAY, null).allInStreak).toBeNull();
+	});
+});
+
+describe('calendar with the real streak', () => {
+	const GOAL = 10;
+	const gapped = (today: { counted: number; seconds: number }): Activity => ({
+		...days('2026-10-10', '2026-10-15'),
+		...days('2026-10-17', '2026-10-23'),
+		[TODAY]: today
+	});
+	const numbered = (c: Calendar) => c.rows.flatMap((r) => r.days).filter((d) => d.streakDay !== null);
+
+	test('goal not met today: the run after the gap, without today', () => {
+		const a = gapped({ counted: 3, seconds: 60 });
+		const i = streakInfo(a, GOAL, TODAY);
+		const run = numbered(calendar(a, TODAY, streakRange(i, TODAY)));
+		expect(run.map((d) => d.key)).toEqual(['2026-10-17', '2026-10-18', '2026-10-19', '2026-10-20', '2026-10-21', '2026-10-22', '2026-10-23']);
+		expect(run).toHaveLength(i.current);
+		expect(run.map((d) => d.streakDay)).toEqual([0, 1, 2, 3, 4, 5, 6]);
+	});
+
+	test('goal met today: the run includes today with the last number', () => {
+		const a = gapped({ counted: 10, seconds: 60 });
+		const i = streakInfo(a, GOAL, TODAY);
+		const run = numbered(calendar(a, TODAY, streakRange(i, TODAY)));
+		expect(run.map((d) => d.key)).toEqual(['2026-10-17', '2026-10-18', '2026-10-19', '2026-10-20', '2026-10-21', '2026-10-22', '2026-10-23', TODAY]);
+		expect(run).toHaveLength(i.current);
+		expect(run[run.length - 1]).toMatchObject({ key: TODAY, streakDay: i.current - 1 });
 	});
 });

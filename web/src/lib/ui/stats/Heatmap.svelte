@@ -48,7 +48,7 @@
 					style={pillStyle(d)}
 					aria-label="{dayName(d.key)}: {formatMinutes(d.seconds)}"
 					aria-pressed={d.key === shown.key}
-					onclick={() => (picked = d.key)}
+					onclick={() => (picked = d.state === 'today' ? null : d.key)}
 				></button>
 			{/if}
 		{/each}
