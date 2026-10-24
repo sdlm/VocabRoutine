@@ -12,9 +12,15 @@
 	--accent-soft: #e3effd;
 	--success: #2f8a47;
 	--success-soft: #e6f6ea;
+	/* Activity calendar: tiles by minutes, and the streak pill that fades from the first day of the run. */
+	--heat-0: #e2e2e6;
 	--heat-1: #b9e4c4;
 	--heat-2: #6fcb86;
 	--heat-3: #2f9e4f;
+	--streak-0: #ff9f0a;
+	--streak-1: #ffb543;
+	--streak-2: #ffcb7c;
+	--streak-3: #ffe1b5;
 	--danger: #c9372c;
 	--danger-soft: #fdecea;
 	--warning: #a86400;
@@ -45,9 +51,15 @@
 		--accent-soft: rgba(10, 132, 255, 0.18);
 		--success: #30d158;
 		--success-soft: rgba(48, 209, 88, 0.16);
-		--heat-1: rgba(48, 209, 88, 0.3);
-		--heat-2: rgba(48, 209, 88, 0.6);
+		/* Opaque, so a tile looks the same on the card and on the streak pill. */
+		--heat-0: #3a3a3c;
+		--heat-1: #2d5d3b;
+		--heat-2: #2e8f47;
 		--heat-3: #30d158;
+		--streak-0: #d27600;
+		--streak-1: #a56006;
+		--streak-2: #77490d;
+		--streak-3: #4a3313;
 		--danger: #ff453a;
 		--danger-soft: rgba(255, 69, 58, 0.16);
 		--warning: #ffb340;
@@ -71,9 +83,15 @@
 	--accent-soft: rgba(10, 132, 255, 0.18);
 	--success: #30d158;
 	--success-soft: rgba(48, 209, 88, 0.16);
-	--heat-1: rgba(48, 209, 88, 0.3);
-	--heat-2: rgba(48, 209, 88, 0.6);
+	/* Opaque, so a tile looks the same on the card and on the streak pill. */
+	--heat-0: #3a3a3c;
+	--heat-1: #2d5d3b;
+	--heat-2: #2e8f47;
 	--heat-3: #30d158;
+	--streak-0: #d27600;
+	--streak-1: #a56006;
+	--streak-2: #77490d;
+	--streak-3: #4a3313;
 	--danger: #ff453a;
 	--danger-soft: rgba(255, 69, 58, 0.16);
 	--warning: #ffb340;
