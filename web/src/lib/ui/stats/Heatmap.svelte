@@ -11,9 +11,9 @@
 	const fade = (n: number) => `var(--streak-${Math.min(n, FADE_DAYS)})`;
 
 	const days = $derived(cal.rows.flatMap((r) => r.days));
-	/** The tapped day; today until the user taps another. */
+	/** The tapped day; the line under the calendar shows only while one is picked. */
 	let picked: string | null = $state(null);
-	const shown = $derived(days.find((d) => d.key === picked) ?? days.find((d) => d.state === 'today')!);
+	const shown = $derived(days.find((d) => d.key === picked) ?? null);
 	/** No pill without a streak, and none when it would cover every day (a line says so instead). */
 	const pill = $derived(cal.allInStreak === null && days.some((d) => d.streakDay !== null));
 
@@ -41,14 +41,14 @@
 					type="button"
 					class="c l{d.level}"
 					class:today={d.state === 'today'}
-					class:sel={d.key === picked && d.state !== 'today'}
+					class:sel={d.key === picked}
 					class:s={inPill(d)}
 					class:join={joins(row.days, i)}
 					class:joined={joined(row.days, i)}
 					style={pillStyle(d)}
 					aria-label="{dayName(d.key)}: {formatMinutes(d.seconds)}"
-					aria-pressed={d.key === shown.key}
-					onclick={() => (picked = d.state === 'today' ? null : d.key)}
+					aria-pressed={d.key === picked}
+					onclick={() => (picked = picked === d.key ? null : d.key)}
 				></button>
 			{/if}
 		{/each}
@@ -57,11 +57,13 @@
 
 {#if cal.allInStreak}<p class="all">🔥 {ALL_IN_STREAK[cal.allInStreak]}</p>{/if}
 
-<p class="day" aria-live="polite">
-	<b>{dayName(shown.key)}{shown.state === 'today' ? ', сегодня' : ''}</b>{#each dayFacts(shown, goal) as f (f.text)}{' · '}<span
-			class={f.tone}>{f.text}</span
-		>{/each}
-</p>
+{#if shown}
+	<p class="day" aria-live="polite">
+		<b>{dayName(shown.key)}{shown.state === 'today' ? ', сегодня' : ''}</b>{#each dayFacts(shown, goal) as f (f.text)}{' · '}<span
+				class={f.tone}>{f.text}</span
+			>{/each}
+	</p>
+{/if}
 
 <div class="legend">
 	<span class="scale">
