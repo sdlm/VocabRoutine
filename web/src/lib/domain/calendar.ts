@@ -89,9 +89,15 @@ export function calendar(activity: Activity, today: string, streak: DayRange | n
 	const rowStart = (k: number) => shiftDay(bottom, -ROW_DAYS * k);
 	const rowDays = (start: string) => Array.from({ length: ROW_DAYS }, (_, i) => shiftDay(start, i));
 
-	// Up to the row with the first lesson, at most CALENDAR_MAX_ROWS; empty rows below it stay, so a break does not glue dates together.
+	// Up to the oldest of the six rows that holds activity; empty rows below it stay, so a break does not glue dates together.
+	// Activity older than the six rows adds nothing: after a long break the calendar is back to two rows.
 	let count = CALENDAR_MIN_ROWS;
-	while (count < CALENDAR_MAX_ROWS && first !== null && first < rowStart(count - 1)) count++;
+	for (let k = CALENDAR_MAX_ROWS - 1; k >= CALENDAR_MIN_ROWS; k--) {
+		if (rowDays(rowStart(k)).some((key) => isActive(activity, key))) {
+			count = k + 1;
+			break;
+		}
+	}
 
 	const day = (key: string): CalendarDay => {
 		const seconds = activity[key]?.seconds ?? 0;

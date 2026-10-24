@@ -1,5 +1,5 @@
 import { describe, expect, test } from 'vitest';
-import { calendar, CALENDAR_MAX_ROWS, firstActiveDay, heatLevel, streakRange, weekStart, type Calendar } from './calendar';
+import { calendar, CALENDAR_MAX_ROWS, CALENDAR_MIN_ROWS, firstActiveDay, heatLevel, streakRange, weekStart, type Calendar } from './calendar';
 import type { StreakInfo } from './streak';
 import { shiftDay } from './time';
 import type { Activity } from './types';
@@ -71,10 +71,10 @@ describe('calendar rows', () => {
 		expect(c.rows[0].start).toBe('2026-08-03');
 	});
 
-	test('activity older than the calendar still shows all six rows', () => {
+	test('activity older than six rows adds none: after a long break, two rows', () => {
 		const c = calendar({ ...days('2026-03-02', '2026-03-02'), ...days('2026-10-22', '2026-10-23') }, TODAY, null);
-		expect(c.rows).toHaveLength(CALENDAR_MAX_ROWS);
-		expect(c.rows[0].start).toBe('2026-08-03');
+		expect(c.rows).toHaveLength(CALENDAR_MIN_ROWS);
+		expect(c.rows[0].start).toBe('2026-09-28');
 	});
 });
 
