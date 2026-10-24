@@ -81,6 +81,7 @@
 		gap: 4px 3px;
 		align-items: center;
 		margin-top: 14px;
+		isolation: isolate;
 	}
 	.wd,
 	.rl {
@@ -128,6 +129,12 @@
 		outline: 2px solid var(--accent);
 		outline-offset: 1px;
 		z-index: 1;
+	}
+	/* Keyboard focus stays visible over the today and picked rings. */
+	.c:focus-visible {
+		outline: 2px solid var(--accent);
+		outline-offset: 3px;
+		z-index: 2;
 	}
 	.c.s {
 		border-radius: 5px;
