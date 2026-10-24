@@ -26,6 +26,7 @@ describe('weekStart / firstActiveDay', () => {
 		expect(weekStart('2026-10-24')).toBe('2026-10-19');
 		expect(weekStart('2026-10-19')).toBe('2026-10-19');
 		expect(weekStart('2026-10-25')).toBe('2026-10-19');
+		expect(weekStart('2027-01-01')).toBe('2026-12-28');
 	});
 
 	test('the first day with words or seconds', () => {
@@ -69,6 +70,12 @@ describe('calendar rows', () => {
 		expect(c.rows).toHaveLength(6);
 		expect(c.rows[0].start).toBe('2026-08-03');
 	});
+
+	test('activity older than the calendar still shows all six rows', () => {
+		const c = calendar({ ...days('2026-03-02', '2026-03-02'), ...days('2026-10-22', '2026-10-23') }, TODAY, null);
+		expect(c.rows).toHaveLength(CALENDAR_MAX_ROWS);
+		expect(c.rows[0].start).toBe('2026-08-03');
+	});
 });
 
 describe('calendar days', () => {
@@ -107,7 +114,9 @@ describe('calendar: all days in the streak', () => {
 	test('today counts only once its goal is met', () => {
 		const a = { ...days('2026-10-19', '2026-10-23'), [TODAY]: { counted: 2, seconds: 60 } };
 		expect(calendar(a, TODAY, { start: '2026-10-19', end: '2026-10-23' }).allInStreak).toBe('from-start');
-		expect(calendar(a, TODAY, { start: '2026-10-19', end: TODAY }).allInStreak).toBe('from-start');
+		const firstToday = { [TODAY]: { counted: 10, seconds: 60 } };
+		expect(calendar(firstToday, TODAY, { start: TODAY, end: TODAY }).allInStreak).toBe('from-start');
+		expect(calendar(firstToday, TODAY, null).allInStreak).toBeNull();
 	});
 
 	test('no streak, no line', () => {

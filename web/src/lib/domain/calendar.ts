@@ -44,6 +44,7 @@ export interface Calendar {
 	/**
 	 * Every past day on the calendar since the first lesson is in the streak, so the streak pill would cover
 	 * everything: it is dropped and a line says so. `from-start` when the first lesson is on the calendar.
+	 * Today counts only once its goal is met.
 	 */
 	allInStreak: 'from-start' | 'visible' | null;
 }
@@ -88,14 +89,9 @@ export function calendar(activity: Activity, today: string, streak: DayRange | n
 	const rowStart = (k: number) => shiftDay(bottom, -ROW_DAYS * k);
 	const rowDays = (start: string) => Array.from({ length: ROW_DAYS }, (_, i) => shiftDay(start, i));
 
-	// Up to the oldest row with activity; empty rows below it stay, so a break does not glue dates together.
+	// Up to the row with the first lesson, at most CALENDAR_MAX_ROWS; empty rows below it stay, so a break does not glue dates together.
 	let count = CALENDAR_MIN_ROWS;
-	for (let k = CALENDAR_MAX_ROWS - 1; k >= CALENDAR_MIN_ROWS; k--) {
-		if (rowDays(rowStart(k)).some((key) => isActive(activity, key))) {
-			count = k + 1;
-			break;
-		}
-	}
+	while (count < CALENDAR_MAX_ROWS && first !== null && first < rowStart(count - 1)) count++;
 
 	const day = (key: string): CalendarDay => {
 		const seconds = activity[key]?.seconds ?? 0;
