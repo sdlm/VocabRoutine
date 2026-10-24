@@ -1,5 +1,5 @@
 import type { Word } from '$lib/content/types';
-import { DAY, shiftDay } from './time';
+import { DAY } from './time';
 import type { Activity, LearningEntry } from './types';
 
 /** «Узнаю ≥ 7 дн», «Вспоминаю ≥ 7 дн»: the interval in that mode is at least this. */
@@ -47,29 +47,4 @@ export function activityTotals(activity: Activity): { days: number; seconds: num
 	const active = Object.values(activity).filter((d) => d.counted > 0 || d.seconds > 0);
 	const seconds = active.reduce((sum, d) => sum + d.seconds, 0);
 	return { days: active.length, seconds, avgSeconds: active.length ? seconds / active.length : 0 };
-}
-
-export type HeatLevel = 0 | 1 | 2 | 3;
-
-/** Calendar cell shade: none, under 10 min, under 20 min, longer. */
-export function heatLevel(seconds: number): HeatLevel {
-	if (seconds <= 0) return 0;
-	if (seconds < 600) return 1;
-	if (seconds < 1200) return 2;
-	return 3;
-}
-
-export interface HeatCell {
-	key: string;
-	seconds: number;
-	level: HeatLevel;
-}
-
-/** Activity calendar: `days` cells, oldest first, today last. */
-export function heatmap(activity: Activity, today: string, days = 56): HeatCell[] {
-	return Array.from({ length: days }, (_, i) => {
-		const key = shiftDay(today, i - days + 1);
-		const seconds = activity[key]?.seconds ?? 0;
-		return { key, seconds, level: heatLevel(seconds) };
-	});
 }

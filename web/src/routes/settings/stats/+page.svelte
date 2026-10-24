@@ -1,5 +1,6 @@
 <script lang="ts">
-	import { activityTotals, heatmap, wordCounts } from '$lib/domain/stats';
+	import { calendar, streakRange } from '$lib/domain/calendar';
+	import { activityTotals, wordCounts } from '$lib/domain/stats';
 	import { streakInfo } from '$lib/domain/streak';
 	import { dayKey } from '$lib/domain/time';
 	import { DAY_FORMS, formatMinutes, formatTotalTime, plural } from '$lib/format';
@@ -13,7 +14,7 @@
 	const streak = $derived(streakInfo(app.activity, app.settings.dailyGoal, today));
 	const totals = $derived(activityTotals(app.activity));
 	const counts = $derived(wordCounts(Object.values(app.learning)));
-	const cells = $derived(heatmap(app.activity, today));
+	const cal = $derived(calendar(app.activity, today, streakRange(streak, today)));
 </script>
 
 <main class="page">
@@ -25,7 +26,7 @@
 			<span class="n">🔥 {streak.current}</span>
 			<span class="t">{plural(streak.current, DAY_FORMS)} подряд<br />рекорд: {streak.record}</span>
 		</div>
-		<Heatmap {cells} />
+		<Heatmap {cal} goal={app.settings.dailyGoal} />
 	</section>
 
 	<div class="kpis">

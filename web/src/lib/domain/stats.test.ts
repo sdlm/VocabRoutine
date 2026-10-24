@@ -1,7 +1,7 @@
 import { describe, expect, test } from 'vitest';
 import { wordById } from '$lib/content';
 import { newEntry } from './learning';
-import { activityTotals, findMyWords, heatLevel, heatmap, isSolid, SOLID_MS, wordCounts } from './stats';
+import { activityTotals, findMyWords, isSolid, SOLID_MS, wordCounts } from './stats';
 import { DAY } from './time';
 import type { Activity, LearningEntry } from './types';
 
@@ -67,19 +67,5 @@ describe('activityTotals', () => {
 
 	test('empty history', () => {
 		expect(activityTotals({})).toEqual({ days: 0, seconds: 0, avgSeconds: 0 });
-	});
-});
-
-describe('heatmap', () => {
-	test('levels: none, under 10 min, under 20 min, longer', () => {
-		expect([0, 1, 599, 600, 1199, 1200].map(heatLevel)).toEqual([0, 1, 1, 2, 2, 3]);
-	});
-
-	test('56 cells, oldest first, today last', () => {
-		const cells = heatmap({ '2026-10-20': { counted: 1, seconds: 900 } }, '2026-10-20');
-		expect(cells).toHaveLength(56);
-		expect(cells[0].key).toBe('2026-08-26');
-		expect(cells[55]).toEqual({ key: '2026-10-20', seconds: 900, level: 2 });
-		expect(cells[54].level).toBe(0);
 	});
 });
