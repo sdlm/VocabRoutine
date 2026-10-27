@@ -102,7 +102,7 @@ def _examples(items: object, allowed: set[str], errors: list[str]) -> set[str]:
     for i, x in enumerate(items):
         if not _tokens(x["en"]) & allowed:
             errors.append(f"examples[{i}]: no form of the word {NOT_SEPARATE} {x['en']!r} {POSSESSIVE_HINT}")
-        if "{{" in x["en"] or "}}" in x["en"]:
+        if "{" in x["en"] or "}" in x["en"]:
             errors.append(f"examples[{i}]: braces are only for Cloze gaps")
     return {_plain(x["en"]) for x in items}
 
@@ -157,7 +157,7 @@ def _cloze(
             elif answer != word.id and answer in lemma_ids:
                 errors.append(f"{at}: gap {gaps[0]!r} is the lemma of another word")
             rest = GAP.sub("", c["en"])
-            if "{{" in rest or "}}" in rest:
+            if "{" in rest or "}" in rest:
                 errors.append(f"{at}: stray braces outside the gap")
             plain = _plain(c["en"])
             if plain in examples:
