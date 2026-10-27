@@ -5,6 +5,7 @@ def test_irregular_lemma_forms():
     assert lemma_forms("find", {"find", "found", "house"}) == ["found"]
     assert lemma_forms("person", {"person", "people"}) == ["people"]
     assert lemma_forms("little", {"little", "less", "least"}) == ["least", "less"]
+    assert lemma_forms("far", {"far", "further"}) == ["further"]
 
 
 def test_regular_lemma_forms():
@@ -18,3 +19,12 @@ def test_regular_lemma_forms():
 
 def test_word_is_not_its_own_lemma_form():
     assert lemma_forms("house", {"house"}) == []
+
+
+def test_bare_d_r_st_only_after_final_e():
+    ids = {"car", "card", "fun", "fund", "win", "wind", "use", "used", "user", "late", "latest"}
+    assert lemma_forms("car", ids) == []
+    assert lemma_forms("fun", ids) == []
+    assert lemma_forms("win", ids) == []
+    assert lemma_forms("use", ids) == ["used", "user"]
+    assert lemma_forms("late", ids) == ["latest"]

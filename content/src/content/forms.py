@@ -13,15 +13,16 @@ IRREGULAR = {
     "person": ["people"],
     "many": ["more", "most"],
     "little": ["less", "least"],
+    "far": ["further"],
 }
 
 
 def _regular(word: str) -> set[str]:
-    forms = {word + end for end in ("s", "es", "d", "ed", "ing", "r", "er", "st", "est")}
+    forms = {word + end for end in ("s", "es", "ed", "ing", "er", "est")}
     if word.endswith("y"):
         forms |= {word[:-1] + end for end in ("ies", "ied", "ier", "iest")}
     if word.endswith("e"):
-        forms.add(word[:-1] + "ing")
+        forms |= {word[:-1] + "ing", word + "d", word + "r", word + "st"}
     forms |= {word + word[-1] + end for end in ("ed", "ing", "er", "est")}
     return forms
 
