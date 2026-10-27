@@ -2,7 +2,7 @@ import pytest
 from helpers import make_card, make_data, names, write_batch
 
 from content.files import ContentError, read_json, write_json
-from content.store import pending, versions
+from content.store import pending, read_output, versions
 from content.validate import validate_all, validate_file
 
 NINE = "cloze: 9 sentences, need exactly 10"
@@ -64,3 +64,26 @@ def test_validate_all_checks_latest_versions_in_rank_order(tmp_path):
     assert checked == 3
     assert list(report) == [a, b]
     assert read_json(paths.report) == {a: [NINE], b: [NINE]}
+
+
+def test_validate_file_flags_upper_case_ids(tmp_path):
+    a = names(1)[0]
+    paths = make_data(tmp_path, [(a, "noun")])
+    write_batch(paths, 1, {a.upper(): make_card(a)}, words=[a])
+    assert validate_file(paths, paths.cards_dir / "001.json") == {
+        a: ["card: missing from the output"],
+        a.upper(): [f"card: ids are lower case; expected {a!r}"],
+    }
+
+
+def test_read_output_rejects_duplicate_ids(tmp_path):
+    path = tmp_path / "001.json"
+    path.write_text('{"wordaa": {}, "wordaa": {}}', encoding="utf-8")
+    with pytest.raises(ContentError, match=r"001.json: duplicate id 'wordaa'"):
+        read_output(path)
+
+
+def test_read_output_allows_repeated_keys_inside_cards(tmp_path):
+    path = tmp_path / "001.json"
+    path.write_text('{"wordaa": {"a": 1, "a": 2}}', encoding="utf-8")
+    assert read_output(path) == {"wordaa": {"a": 2}}

@@ -47,9 +47,20 @@ def input_ids(paths: Paths, num: int) -> list[str]:
 
 
 def read_output(path: Path) -> dict:
-    data = read_json(path)
+    top: list = []
+
+    def keep_pairs(pairs):
+        top[:] = pairs  # the outermost object is built last, so this ends up as the top level
+        return dict(pairs)
+
+    data = read_json(path, object_pairs_hook=keep_pairs)
     if not isinstance(data, dict):
         raise ContentError(f"{path.name}: must be an object keyed by id")
+    seen: set[str] = set()
+    for key, _ in top:
+        if key in seen:
+            raise ContentError(f"{path.name}: duplicate id {key!r}")
+        seen.add(key)
     return data
 
 

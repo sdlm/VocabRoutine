@@ -21,7 +21,11 @@ def validate_file(paths: Paths, file: Path) -> dict[str, list[str]]:
             if id_ not in cards:
                 report[id_] = ["card: missing from the output"]
         for id_ in cards:
-            if id_ not in expected:
+            if id_ in expected:
+                continue
+            if id_.lower() in expected:
+                report[id_] = [f"card: ids are lower case; expected {id_.lower()!r}"]
+            else:
                 report[id_] = ["card: not in the input batch"]
     for id_, card in cards.items():
         if id_ in report:

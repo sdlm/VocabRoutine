@@ -21,3 +21,16 @@ def test_invalid_json_is_a_content_error(tmp_path):
     path.write_text("{oops", encoding="utf-8")
     with pytest.raises(ContentError, match="x.json: invalid JSON"):
         read_json(path)
+
+
+def test_missing_file_names_the_full_path(tmp_path):
+    path = tmp_path / "x.json"
+    with pytest.raises(ContentError, match=f"{path}: not found"):
+        read_json(path)
+
+
+def test_non_utf8_file_is_a_content_error(tmp_path):
+    path = tmp_path / "x.json"
+    path.write_bytes(b'{"a": "\xff\xfe"}')
+    with pytest.raises(ContentError, match="x.json: not UTF-8 text"):
+        read_json(path)
