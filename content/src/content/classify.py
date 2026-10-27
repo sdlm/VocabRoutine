@@ -74,7 +74,7 @@ def _check(source: str, at: str, entry: object, known: set[str], seen: dict[str,
 
 def _cell(text: object) -> str:
     """Text safe inside a Markdown table cell."""
-    return str(text).replace("|", "\\|").replace("\n", " ")
+    return " ".join(str(text).split()).replace("|", "\\|")
 
 
 def _dropped_md(lemmas: list[Lemma], seen: dict[str, dict]) -> str:

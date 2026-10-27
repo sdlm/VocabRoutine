@@ -99,8 +99,8 @@ def test_merge_rejects_malformed_entries(tmp_path):
 
 def test_dropped_md_escapes_pipes_in_reason(tmp_path):
     paths = make_csv(tmp_path, ["the"])
-    answer(paths, [entry("the", None, True, "a | b")])
+    answer(paths, [entry("the", None, True, "a | b\r\nc")])
     merge_pos(paths)
     text = paths.dropped.read_text(encoding="utf-8")
-    assert text.count("a \\| b") == 1
-    assert text.index("a \\| b") < text.index("## Отброшенные")
+    assert text.count("a \\| b c") == 1
+    assert text.index("a \\| b c") < text.index("## Отброшенные")
