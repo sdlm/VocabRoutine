@@ -53,4 +53,14 @@ Thumbs.db
 *.log
 
 # Brainstorm companion sessions
+.claude/
 .superpowers/
+superpowers/
+docs/
+web/README.md
+web/build
+web/node_modules
+
+
+
+
