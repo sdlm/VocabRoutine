@@ -6,7 +6,7 @@
 	import { DAY_FORMS, formatMinutes, formatTotalTime, plural } from '$lib/format';
 	import { app } from '$lib/state/store.svelte';
 	import NavBar from '$lib/ui/shell/NavBar.svelte';
-	import Heatmap from '$lib/ui/stats/Heatmap.svelte';
+	import ActivityCalendar from '$lib/ui/stats/ActivityCalendar.svelte';
 	import WordsBars from '$lib/ui/stats/WordsBars.svelte';
 
 	// Re-read with every activity change (the time tracker writes every 15 s), so midnight moves the calendar.
@@ -26,7 +26,7 @@
 			<span class="n">🔥 {streak.current}</span>
 			<span class="t">{plural(streak.current, DAY_FORMS)} подряд<br />рекорд: {streak.record}</span>
 		</div>
-		<Heatmap {cal} goal={app.settings.dailyGoal} />
+		<ActivityCalendar {cal} goal={app.settings.dailyGoal} />
 	</section>
 
 	<div class="kpis">
