@@ -9,10 +9,13 @@
 </script>
 
 <script lang="ts">
-	let { hints }: { hints: Hint[] } = $props();
+	import type { Snippet } from 'svelte';
+
+	/** `end` is pinned to the right edge of the row. */
+	let { hints, end }: { hints: Hint[]; end?: Snippet } = $props();
 </script>
 
-{#if hints.length}
+{#if hints.length || end}
 	<div class="hints">
 		{#each hints as h (h.id)}
 			<!-- pointerdown is cancelled so the input keeps focus and the keyboard stays open -->
@@ -23,6 +26,7 @@
 				{h.label}
 			</button>
 		{/each}
+		{#if end}<div class="end">{@render end()}</div>{/if}
 	</div>
 {/if}
 
@@ -30,7 +34,14 @@
 	.hints {
 		display: flex;
 		gap: 6px;
+		flex-wrap: wrap;
 		margin-bottom: 8px;
+	}
+	.hints:last-child {
+		margin-bottom: 0;
+	}
+	.end {
+		margin-left: auto;
 	}
 	button {
 		padding: 6px 12px;

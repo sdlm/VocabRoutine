@@ -2,7 +2,7 @@
 	import { flushSync } from 'svelte';
 	import { formIndex, wordById } from '$lib/content';
 	import { metaTags } from '$lib/content/labels';
-	import { isCorrect, linkWords, maxHintLetters, parseCloze } from '$lib/domain/cloze';
+	import { isCorrect, linkWords, maxHintLetters, parseCloze, typingState } from '$lib/domain/cloze';
 	import { href } from '$lib/nav';
 	import { answerCloze, nextCloze, useHint, useLetterHint, type ClozeView } from '$lib/state/cloze.svelte';
 	import { app } from '$lib/state/store.svelte';
@@ -48,7 +48,8 @@
 	});
 
 	const kb = keyboardInset();
-	let input: HTMLInputElement | undefined = $state();
+	/** A one-row textarea, not an input: Android Chrome shows its autofill bar (key/card/pin) over any input. */
+	let input: HTMLTextAreaElement | undefined = $state();
 
 	// Focus the field for every new word. iOS opens the keyboard only inside a tap,
 	// so on first entry the user may have to tap the field once.
@@ -77,6 +78,10 @@
 		answerCloze('gaveUp', null);
 	}
 
+	const live = $derived(typingState(view.prefix + view.typed, gap.answer));
+	/** A correct answer turns «Сдаться» into «Подтвердить». */
+	const ready = $derived(isCorrect(view.prefix + view.typed, gap.answer));
+
 	// Only typing shows the typed word on red; «4 слова» always shows the answer on green.
 	const typedWrong = $derived(typing && view.closed?.outcome === 'wrong');
 	const closedText = $derived(typedWrong ? view.closed!.picked : gap.answer);
@@ -93,15 +98,17 @@
 <div class="sentence">
 	{@render words(before)}{#if view.closed}<span class="inl" class:ok={!typedWrong} class:bad={typedWrong}
 			>{closedText}</span
-		>{:else if typing}<span class="inl"
-			>{#if view.prefix}<b class="locked">{view.prefix}</b>{/if}<input
+		>{:else if typing}<span class="inl" data-state={live}
+			>{#if view.prefix}<b class="locked">{view.prefix}</b>{/if}<textarea
 				bind:this={input}
 				bind:value={view.typed}
 				style:width="{Math.max(6 - view.prefix.length, view.typed.length + 2)}ch"
+				rows="1"
+				wrap="off"
 				enterkeyhint="done"
 				autocomplete="off"
 				autocapitalize="none"
-				autocorrect="off"
+				{...{ autocorrect: 'off' } /* Safari-only; missing from Svelte's textarea types */}
 				spellcheck="false"
 				aria-label="Пропущенное слово"
 				onkeydown={(e) => {
@@ -111,7 +118,14 @@
 						check();
 					}
 				}}
-			/></span
+				onbeforeinput={(e) => {
+					// Android keyboards may send Enter as a line break instead of a key event
+					if (e.inputType === 'insertLineBreak' || e.inputType === 'insertParagraph') {
+						e.preventDefault();
+						check();
+					}
+				}}
+			></textarea></span
 		>{:else}<span class="blank"></span>{/if}{@render words(after)}
 </div>
 
@@ -143,11 +157,16 @@
 		onpointerdown={(e) => e.preventDefault()}
 		onmousedown={(e) => e.preventDefault()}
 	>
-		<HintsRow {hints} />
-		<div class="btns">
-			<button class="give" onpointerdown={(e) => e.preventDefault()} onmousedown={(e) => e.preventDefault()} onclick={gaveUp}>Сдаться</button>
-			<button class="skip" onpointerdown={(e) => e.preventDefault()} onmousedown={(e) => e.preventDefault()} onclick={next}>Дальше</button>
-		</div>
+		<HintsRow {hints}>
+			{#snippet end()}
+				<button
+					class="pill {ready ? 'confirm' : 'give'}"
+					onpointerdown={(e) => e.preventDefault()}
+					onmousedown={(e) => e.preventDefault()}
+					onclick={ready ? check : gaveUp}>{ready ? 'Подтвердить' : 'Сдаться'}</button
+				>
+			{/snippet}
+		</HintsRow>
 	</div>
 {:else}
 	<div class="bottom">
@@ -164,7 +183,6 @@
 		/>
 		<div class="btns">
 			<button class="give" onclick={gaveUp}>Сдаться</button>
-			<button class="skip" onclick={next}>Дальше</button>
 		</div>
 	</div>
 {/if}
@@ -190,7 +208,9 @@
 		background: var(--accent-soft);
 		line-height: 1.45;
 	}
-	.inl input {
+	.inl textarea {
+		display: inline-block;
+		vertical-align: bottom;
 		border: none;
 		outline: none;
 		background: transparent;
@@ -198,9 +218,28 @@
 		color: inherit;
 		padding: 0;
 		min-width: 1ch;
+		height: 1lh;
+		resize: none;
+		overflow: hidden;
+		white-space: pre;
+	}
+	.inl[data-state='empty'] {
+		border-color: var(--text-3);
+		background: var(--surface-2);
+	}
+	.inl[data-state='ok'] {
+		border-color: var(--success);
+		background: var(--success-soft);
+	}
+	.inl[data-state='bad'] {
+		border-color: var(--danger);
+		background: var(--danger-soft);
 	}
 	.locked {
-		color: var(--accent);
+		color: var(--success);
+	}
+	.inl[data-state='bad'] .locked {
+		color: var(--danger);
 	}
 	.inl.ok {
 		border-color: var(--success);
@@ -268,15 +307,22 @@
 		border-radius: var(--radius);
 		font-weight: 600;
 	}
+	.pill {
+		touch-action: manipulation;
+		padding: 6px 14px;
+		border-radius: 16px;
+		font-size: 14px;
+		font-weight: 600;
+	}
 	.give {
 		background: var(--surface);
 		color: var(--danger);
 		border: 1px solid var(--danger-soft);
 	}
-	.skip {
-		background: var(--surface);
-		color: var(--accent);
-		border: 1px solid var(--accent-soft);
+	.confirm {
+		background: var(--success);
+		color: #fff;
+		border: 1px solid var(--success);
 	}
 	.primary {
 		display: block;

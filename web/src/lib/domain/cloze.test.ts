@@ -1,5 +1,5 @@
 import { describe, expect, test } from 'vitest';
-import { applyLetterHint, choices, isCorrect, linkWords, maxHintLetters, parseCloze } from './cloze';
+import { applyLetterHint, choices, isCorrect, linkWords, maxHintLetters, parseCloze, typingState } from './cloze';
 
 describe('parseCloze', () => {
 	test('splits around the single gap', () => {
@@ -29,6 +29,37 @@ describe('isCorrect', () => {
 	});
 	test('any typo is an error', () => {
 		expect(isCorrect('deplyed', 'deployed')).toBe(false);
+	});
+});
+
+describe('typingState', () => {
+	test('empty field is neutral', () => {
+		expect(typingState('', 'deploy')).toBe('empty');
+		expect(typingState('  ', 'deploy')).toBe('empty');
+	});
+	test('a prefix of the answer is on track', () => {
+		expect(typingState('d', 'deploy')).toBe('ok');
+		expect(typingState('de', 'deploy')).toBe('ok');
+		expect(typingState('deploy', 'deploy')).toBe('ok');
+	});
+	test('a letter off the answer is wrong', () => {
+		expect(typingState('des', 'deploy')).toBe('bad');
+		expect(typingState('deploys', 'deploy')).toBe('bad');
+	});
+	test('trailing spaces after the full answer are fine', () => {
+		expect(typingState('deploy ', 'deploy')).toBe('ok');
+		expect(typingState('deploy  ', 'deploy')).toBe('ok');
+	});
+	test('a space inside a word is wrong', () => {
+		expect(typingState('dep ', 'deploy')).toBe('bad');
+	});
+	test('multi-word answers accept the space between words', () => {
+		expect(typingState('set ', 'set up')).toBe('ok');
+		expect(typingState('set  u', 'set up')).toBe('ok');
+		expect(typingState('set x', 'set up')).toBe('bad');
+	});
+	test('ignores case and typographic apostrophes', () => {
+		expect(typingState('Don’', "don't")).toBe('ok');
 	});
 });
 

@@ -23,6 +23,19 @@ export function isCorrect(input: string, answer: string): boolean {
 	return normalize(input) === normalize(answer);
 }
 
+export type TypingState = 'empty' | 'ok' | 'bad';
+
+/**
+ * Live feedback while typing: 'ok' while the input is still a prefix of the answer
+ * (trailing spaces after the full answer are fine), 'bad' once it strays.
+ */
+export function typingState(input: string, answer: string): TypingState {
+	const s = input.trimStart().toLowerCase().replace(/[’‘]/g, "'").replace(/\s+/g, ' ');
+	if (!s) return 'empty';
+	const a = normalize(answer);
+	return a.startsWith(s) || s.trimEnd() === a ? 'ok' : 'bad';
+}
+
 export function shuffle<T>(items: T[], rng: () => number = Math.random): T[] {
 	const a = [...items];
 	for (let i = a.length - 1; i > 0; i--) {
