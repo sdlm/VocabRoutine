@@ -1,5 +1,6 @@
 """Step 4: card input batches — new words, failed cards with their errors, the pilot, chosen ids."""
 
+import re
 from pathlib import Path
 
 from .dictionary import DictWord, load_dictionary
@@ -7,11 +8,12 @@ from .files import ContentError, write_json
 from .forms import lemma_forms
 from .paths import Paths
 from .rules import validate_card
-from .store import Version, batch_numbers, in_path, input_ids, pending, versions
+from .store import Version, in_path, input_ids, pending, versions
 
 BATCH = 25
 PILOT = 25
 MAX_ATTEMPTS = 3
+BATCH_FILE = re.compile(r"^(\d+)\.(?:in\.)?json$")
 
 
 def pilot_words(words: list[DictWord]) -> list[DictWord]:
@@ -27,6 +29,8 @@ def card_batches(
     By default: words without a valid latest card, in freqRank order, skipping words in pending batches;
     a word with MAX_ATTEMPTS invalid versions goes to stuck.md instead. pilot / ids pick words explicitly.
     """
+    if limit is not None and limit < 1:
+        raise ContentError("--limit must be at least 1")
     words = load_dictionary(paths)
     by_id = {w.id: w for w in words}
     lemma_ids = set(by_id)
@@ -54,12 +58,19 @@ def card_batches(
         _write_stuck(paths, stuck)
 
     chunks = [items[i : i + BATCH] for i in range(0, len(items), BATCH)][:limit]
-    start = max(batch_numbers(paths), default=0) + 1
+    start = _last_number(paths) + 1
     created = []
     for num, chunk in enumerate(chunks, start):
         write_json(in_path(paths, num), chunk)
         created.append(in_path(paths, num))
     return created
+
+
+def _last_number(paths: Paths) -> int:
+    """Highest batch number in use, counting orphan outputs without an input too."""
+    if not paths.cards_dir.exists():
+        return 0
+    return max((int(m[1]) for p in paths.cards_dir.iterdir() if (m := BATCH_FILE.match(p.name))), default=0)
 
 
 def _lookup(by_id: dict[str, DictWord], id_: str) -> DictWord:
@@ -92,7 +103,8 @@ def _write_stuck(paths: Paths, stuck: list[dict]) -> None:
         "# Застрявшие слова",
         "",
         f"Карточки не прошли валидатор за {MAX_ATTEMPTS} попытки. "
-        "Исправить вручную в новой пачке или перегенерировать через `card-batches --ids`.",
+        "Исправить карточку прямо в её последнем `NNN.json` и проверить `validate`, "
+        "или перегенерировать через `card-batches --ids`.",
         "",
     ]
     for item in stuck:

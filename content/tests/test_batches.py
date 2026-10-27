@@ -107,3 +107,36 @@ def test_items_carry_lemma_forms(tmp_path):
     paths = make_data(tmp_path, [("find", "verb"), ("house", "noun"), ("found", "verb")])
     [created] = card_batches(paths)
     assert read_json(created)[0]["lemmaForms"] == ["found"]
+
+
+def test_numbering_skips_orphan_outputs(tmp_path):
+    paths, words = dictionary(tmp_path, 2)
+    paths.cards_dir.mkdir(parents=True, exist_ok=True)
+    (paths.cards_dir / "003.json").write_text("{}", encoding="utf-8")
+    [created] = card_batches(paths)
+    assert created.name == "004.in.json"
+
+
+def test_stuck_says_where_to_fix(tmp_path):
+    paths, words = dictionary(tmp_path, 1)
+    for num in (1, 2, 3):
+        write_batch(paths, num, {words[0]: bad_card(words[0])})
+    card_batches(paths)
+    stuck = paths.stuck.read_text(encoding="utf-8")
+    assert "Исправить карточку прямо в её последнем `NNN.json` и проверить `validate`" in stuck
+    assert "`card-batches --ids`" in stuck
+
+
+@pytest.mark.parametrize("limit", [0, -1])
+def test_limit_must_be_positive(tmp_path, limit):
+    paths, _ = dictionary(tmp_path, 3)
+    with pytest.raises(ContentError, match="--limit must be at least 1"):
+        card_batches(paths, limit=limit)
+    assert not paths.cards_dir.exists() or not list(paths.cards_dir.iterdir())
+
+
+def test_pilot_refuses_words_in_pending_batches(tmp_path):
+    paths, words = dictionary(tmp_path, 100)
+    write_batch(paths, 1, None, words=[words[2]])
+    with pytest.raises(ContentError, match="already in a pending batch: wordac"):
+        card_batches(paths, pilot=True)
