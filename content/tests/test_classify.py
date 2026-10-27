@@ -78,3 +78,29 @@ def test_merge_keeps_manual_edits(tmp_path):
     with pytest.raises(ContentError, match="--force"):
         merge_pos(paths)
     assert merge_pos(paths, force=True) == 0
+
+
+def test_merge_rejects_answer_that_is_not_an_array(tmp_path):
+    paths = make_csv(tmp_path, ["the"])
+    answer(paths, {"answers": []})
+    with pytest.raises(ContentError, match=r"001\.out\.json: expected a JSON array"):
+        merge_pos(paths)
+
+
+def test_merge_rejects_malformed_entries(tmp_path):
+    paths = make_csv(tmp_path, ["the"])
+    answer(paths, ["the", {"lemma": ["x"], "pos": None}])
+    with pytest.raises(ContentError) as e:
+        merge_pos(paths)
+    msg = str(e.value)
+    assert "001.out.json[0]: not an object" in msg
+    assert "001.out.json[1]: lemma must be a string" in msg
+
+
+def test_dropped_md_escapes_pipes_in_reason(tmp_path):
+    paths = make_csv(tmp_path, ["the"])
+    answer(paths, [entry("the", None, True, "a | b")])
+    merge_pos(paths)
+    text = paths.dropped.read_text(encoding="utf-8")
+    assert text.count("a \\| b") == 1
+    assert text.index("a \\| b") < text.index("## Отброшенные")
