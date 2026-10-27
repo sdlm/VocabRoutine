@@ -2,7 +2,7 @@ import pytest
 from helpers import make_card
 
 from content.dictionary import DictWord
-from content.rules import validate_card
+from content.rules import FIELDS, validate_card
 
 HOUSE = DictWord("house", "noun", "A1", 165)
 FIND = DictWord("find", "verb", "A1", 81)
@@ -59,6 +59,16 @@ CASES = [
      "cloze[0]: options must be 3 different strings"),
     ("option is answer", lambda c: c["cloze"][0].update(options=["room", "House", "road"]),
      "cloze[0]: options contain the answer 'house'"),
+    ("stray braces", lambda c: c["cloze"][0].update(en="The {{house}} is {{big."),
+     "cloze[0]: stray braces outside the gap"),
+    ("braces in example", lambda c: c["examples"][0].update(en="A {{house}} here."),
+     "examples[0]: braces are only for Cloze gaps"),
+    ("padded option is answer", lambda c: c["cloze"][0].update(options=["house ", "room", "road"]),
+     "cloze[0]: options contain the answer 'house'"),
+    ("blank option", lambda c: c["cloze"][0].update(options=[" ", "room", "road"]),
+     "cloze[0]: options must be 3 different strings"),
+    ("padded same options", lambda c: c["cloze"][0].update(options=["room ", "Room", "road"]),
+     "cloze[0]: options must be 3 different strings"),
 ]
 
 
@@ -80,3 +90,57 @@ def test_gap_cannot_be_another_lemma_but_forms_and_examples_can():
 
 def test_own_lemma_is_a_fine_gap():
     assert validate_card(FOUND, make_card("found", ["founded"]), LEMMAS) == []
+
+
+def test_missing_field_does_not_hide_other_errors():
+    card = house_card()
+    del card["similar"]
+    card["register"] = "casual"
+    errors = validate_card(HOUSE, card, LEMMAS)
+    assert "card: missing similar" in errors
+    assert any("register: 'casual'" in e for e in errors), errors
+
+
+def test_missing_forms_still_checks_the_rest():
+    card = house_card()
+    del card["forms"]
+    card["definition"] = "short"
+    errors = validate_card(HOUSE, card, LEMMAS)
+    assert "card: missing forms" in errors
+    assert any(e.startswith("definition:") for e in errors), errors
+    assert not any(e.startswith(("examples", "cloze")) for e in errors), errors
+
+
+def test_sentence_without_gap_still_gets_ru_and_options_checked():
+    card = house_card()
+    card["cloze"][0].update(en="No gap here.", ru=" ", options=["room", "room", "road"])
+    errors = validate_card(HOUSE, card, LEMMAS)
+    assert any("cloze[0]: 0 gaps" in e for e in errors), errors
+    assert any("cloze[0]: ru must be a non-empty string" in e for e in errors), errors
+    assert any("cloze[0]: options must be 3 different strings" in e for e in errors), errors
+    assert not any("options contain the answer" in e for e in errors), errors
+
+
+def test_missing_word_message_explains_possessives():
+    card = house_card()
+    card["examples"][0]["en"] = "We live by the lake."
+    card["collocations"][0] = "buy a flat"
+    errors = validate_card(HOUSE, card, LEMMAS)
+    hint = "no form of the word as a separate word in"
+    assert any(e.startswith("examples[0]: " + hint) and "(possessives like house's do not count)" in e for e in errors)
+    assert any(e.startswith("collocations[0]: " + hint) and "(possessives like house's do not count)" in e
+               for e in errors)
+
+
+BAD_VALUES = [None, 0, True, "x", [], {}, [None], [1], [{}]]
+
+
+@pytest.mark.parametrize("value", BAD_VALUES, ids=repr)
+@pytest.mark.parametrize("field", FIELDS)
+def test_wrong_type_never_crashes(field, value):
+    if field == "forms" and value == []:
+        pytest.skip("an empty forms list is a valid value")
+    card = house_card()
+    card[field] = value
+    errors = validate_card(HOUSE, card, LEMMAS)
+    assert errors and all(isinstance(e, str) for e in errors)

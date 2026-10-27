@@ -21,18 +21,23 @@ def validate_card(word: DictWord, card: object, lemma_ids: set[str]) -> list[str
         errors.append(f"card: missing {', '.join(missing)}")
     if extra := [k for k in card if k not in FIELDS]:
         errors.append(f"card: unexpected {', '.join(extra)}")
-    if missing:
-        return errors
-    allowed = {word.id, *_forms(word, card["forms"], errors)}
-    if card["register"] not in REGISTERS:
+    # Fields that are present are checked even when others are missing: one regeneration fixes more.
+    allowed = {word.id}
+    if "forms" in card:
+        allowed |= _forms(word, card["forms"], errors)
+    if "register" in card and card["register"] not in REGISTERS:
         errors.append(f"register: {card['register']!r} is not one of {', '.join(REGISTERS)}")
-    _translations(card["translations"], errors)
-    if not isinstance(card["definition"], str) or len(card["definition"]) <= 10:
+    if "translations" in card:
+        _translations(card["translations"], errors)
+    if "definition" in card and (not isinstance(card["definition"], str) or len(card["definition"]) <= 10):
         errors.append("definition: must be longer than 10 characters")
-    examples = _examples(card["examples"], allowed, errors)
-    _collocations(card["collocations"], allowed, errors)
-    _similar(word, card["similar"], errors)
-    _cloze(word, card["cloze"], allowed, examples, lemma_ids, errors)
+    examples = _examples(card["examples"], allowed, errors) if "examples" in card else set()
+    if "collocations" in card:
+        _collocations(card["collocations"], allowed, errors)
+    if "similar" in card:
+        _similar(word, card["similar"], errors)
+    if "cloze" in card:
+        _cloze(word, card["cloze"], allowed, examples, lemma_ids, errors)
     return errors
 
 
@@ -42,6 +47,10 @@ def _filled(value: object) -> bool:
 
 def _strings(value: object) -> bool:
     return isinstance(value, list) and all(isinstance(x, str) for x in value)
+
+
+NOT_SEPARATE = "as a separate word in"
+POSSESSIVE_HINT = "(possessives like house's do not count)"
 
 
 def _tokens(text: str) -> set[str]:
@@ -92,7 +101,9 @@ def _examples(items: object, allowed: set[str], errors: list[str]) -> set[str]:
         errors.append(f"examples: {len(items)} items, need 3–4")
     for i, x in enumerate(items):
         if not _tokens(x["en"]) & allowed:
-            errors.append(f"examples[{i}]: no form of the word in {x['en']!r}")
+            errors.append(f"examples[{i}]: no form of the word {NOT_SEPARATE} {x['en']!r} {POSSESSIVE_HINT}")
+        if "{{" in x["en"] or "}}" in x["en"]:
+            errors.append(f"examples[{i}]: braces are only for Cloze gaps")
     return {_plain(x["en"]) for x in items}
 
 
@@ -102,7 +113,7 @@ def _collocations(items: object, allowed: set[str], errors: list[str]) -> None:
         return
     for i, c in enumerate(items):
         if not _tokens(c) & allowed:
-            errors.append(f"collocations[{i}]: no form of the word in {c!r}")
+            errors.append(f"collocations[{i}]: no form of the word {NOT_SEPARATE} {c!r} {POSSESSIVE_HINT}")
 
 
 def _similar(word: DictWord, items: object, errors: list[str]) -> None:
@@ -134,29 +145,32 @@ def _cloze(
     seen: dict[str, int] = {}
     for i, c in enumerate(items):
         at = f"cloze[{i}]"
+        answer = None  # set only when the sentence has exactly one gap
         if not _filled(c.get("en")):
             errors.append(f"{at}: en must be a non-empty string")
-            continue
-        gaps = GAP.findall(c["en"])
-        if len(gaps) != 1:
+        elif len(gaps := GAP.findall(c["en"])) != 1:
             errors.append(f"{at}: {len(gaps)} gaps, need exactly one {{{{…}}}}")
-            continue
-        answer = gaps[0].lower()
-        if answer not in allowed:
-            errors.append(f"{at}: gap {gaps[0]!r} is not the word or one of its forms")
-        elif answer != word.id and answer in lemma_ids:
-            errors.append(f"{at}: gap {gaps[0]!r} is the lemma of another word")
-        plain = _plain(c["en"])
-        if plain in examples:
-            errors.append(f"{at}: repeats an example")
-        if plain in seen:
-            errors.append(f"{at}: repeats cloze[{seen[plain]}]")
         else:
-            seen[plain] = i
+            answer = gaps[0].lower()
+            if answer not in allowed:
+                errors.append(f"{at}: gap {gaps[0]!r} is not the word or one of its forms")
+            elif answer != word.id and answer in lemma_ids:
+                errors.append(f"{at}: gap {gaps[0]!r} is the lemma of another word")
+            rest = GAP.sub("", c["en"])
+            if "{{" in rest or "}}" in rest:
+                errors.append(f"{at}: stray braces outside the gap")
+            plain = _plain(c["en"])
+            if plain in examples:
+                errors.append(f"{at}: repeats an example")
+            if plain in seen:
+                errors.append(f"{at}: repeats cloze[{seen[plain]}]")
+            else:
+                seen[plain] = i
         if not _filled(c.get("ru")):
             errors.append(f"{at}: ru must be a non-empty string")
         options = c.get("options")
-        if not _strings(options) or len(options) != 3 or len({o.lower() for o in options}) != 3:
+        stripped = {o.strip().lower() for o in options} if _strings(options) else set()
+        if not _strings(options) or len(options) != 3 or len(stripped) != 3 or "" in stripped:
             errors.append(f"{at}: options must be 3 different strings")
-        elif answer in {o.lower() for o in options}:
+        elif answer is not None and answer in stripped:
             errors.append(f"{at}: options contain the answer {gaps[0]!r}")
