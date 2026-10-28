@@ -27,7 +27,7 @@ def card_batches(
     """Writes new NNN.in.json files and returns them.
 
     By default: words without a valid latest card, in freqRank order, skipping words in pending batches;
-    a word with MAX_ATTEMPTS invalid versions goes to stuck.md instead. pilot / ids pick words explicitly.
+    a word whose last MAX_ATTEMPTS versions are all invalid goes to stuck.md instead. pilot / ids pick words explicitly.
     """
     if limit is not None and limit < 1:
         raise ContentError("--limit must be at least 1")
@@ -51,7 +51,7 @@ def card_batches(
             item = _item(w, lemma_ids, tries)
             if tries and "errors" not in item:
                 continue  # the latest version is valid
-            if len(tries) >= MAX_ATTEMPTS:
+            if _failed_in_a_row(w, tries, lemma_ids) >= MAX_ATTEMPTS:
                 stuck.append(item)
                 continue
             items.append(item)
@@ -93,6 +93,16 @@ def _item(w: DictWord, lemma_ids: set[str], tries: list[Version]) -> dict:
         item["errors"] = errors
         item["previous"] = tries[-1].card
     return item
+
+
+def _failed_in_a_row(w: DictWord, tries: list[Version], lemma_ids: set[str]) -> int:
+    """Length of the trailing run of invalid versions, looking at MAX_ATTEMPTS at most."""
+    count = 0
+    for version in reversed(tries[-MAX_ATTEMPTS:]):
+        if not validate_card(w, version.card, lemma_ids):
+            break
+        count += 1
+    return count
 
 
 def _write_stuck(paths: Paths, stuck: list[dict]) -> None:

@@ -140,3 +140,25 @@ def test_pilot_refuses_words_in_pending_batches(tmp_path):
     write_batch(paths, 1, None, words=[words[2]])
     with pytest.raises(ContentError, match="already in a pending batch: wordac"):
         card_batches(paths, pilot=True)
+
+
+def test_valid_versions_do_not_count_as_failed_attempts(tmp_path):
+    paths, words = dictionary(tmp_path, 1)
+    w = words[0]
+    write_batch(paths, 1, {w: make_card(w)})
+    write_batch(paths, 2, {w: make_card(w)})
+    write_batch(paths, 3, {w: bad_card(w)})
+    [created] = card_batches(paths)
+    [item] = read_json(created)
+    assert item["word"] == w and item["errors"]
+    assert not paths.stuck.exists()
+
+
+def test_stuck_needs_three_invalid_versions_in_a_row(tmp_path):
+    paths, words = dictionary(tmp_path, 1)
+    w = words[0]
+    write_batch(paths, 1, {w: make_card(w)})
+    for num in (2, 3, 4):
+        write_batch(paths, num, {w: bad_card(w)})
+    assert card_batches(paths) == []
+    assert "## wordaa (noun, rank 1)" in paths.stuck.read_text(encoding="utf-8")
