@@ -168,3 +168,11 @@ def test_empty_ids_list_picks_nothing(tmp_path):
     a = names(1)[0]
     paths = make_data(tmp_path, [(a, "noun")])
     assert card_batches(paths, ids=[]) == []
+
+
+@pytest.mark.parametrize("kwargs", [{"pilot": True}, {"ids": ["wordaa"]}])
+def test_limit_conflicts_with_pilot_and_ids(tmp_path, kwargs):
+    paths, _ = dictionary(tmp_path, 30)
+    with pytest.raises(ContentError, match="--limit works only without --pilot and --ids"):
+        card_batches(paths, limit=1, **kwargs)
+    assert not paths.cards_dir.exists() or not list(paths.cards_dir.iterdir())

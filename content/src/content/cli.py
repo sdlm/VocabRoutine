@@ -9,8 +9,8 @@ from .batches import card_batches
 from .classify import classify_batches, merge_pos
 from .files import ContentError
 from .paths import DEFAULT_DATA, Paths
-from .store import pending, read_output
-from .validate import validate_all, validate_file
+from .store import pending
+from .validate import file_card_count, validate_all, validate_file
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -49,7 +49,7 @@ def _parser() -> argparse.ArgumentParser:
 
 
 def _id_list(value: str) -> list[str]:
-    ids = list(dict.fromkeys(x.strip() for x in value.split(",") if x.strip()))
+    ids = list(dict.fromkeys(x.strip().lower() for x in value.split(",") if x.strip()))
     if not ids:
         raise argparse.ArgumentTypeError("no ids given")
     return ids
@@ -87,8 +87,7 @@ def _validate(paths: Paths, args) -> int:
             print(f"{id_}:")
             for error in errors:
                 print(f"  {error}")
-        # Cards in the output plus input ids the output is missing.
-        total = len(set(read_output(args.file)) | set(report))
+        total = file_card_count(args.file)
         if total == 0:
             print("no cards in the file")
             return 1

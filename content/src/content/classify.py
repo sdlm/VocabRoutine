@@ -78,7 +78,7 @@ def _check(source: str, at: str, entry: object, known: set[str], seen: dict[str,
         errors.append(f"{source}: {lemma}: pos {entry['pos']!r} is not one of {', '.join(POS)} or null")
     if not isinstance(entry.get("doubt"), bool):
         errors.append(f"{source}: {lemma}: doubt must be true or false")
-    if (entry.get("pos") is None or entry.get("doubt")) and not str(entry.get("reason") or "").strip():
+    if (entry.get("pos") is None or entry.get("doubt") is True) and not str(entry.get("reason") or "").strip():
         errors.append(f"{source}: {lemma}: reason is required when pos is null or doubt is true")
     return errors
 

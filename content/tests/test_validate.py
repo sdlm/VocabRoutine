@@ -1,6 +1,7 @@
 import pytest
 from helpers import make_card, make_data, names, write_batch
 
+from content.batches import card_batches
 from content.files import ContentError, read_json, write_json
 from content.store import pending, read_output, versions
 from content.validate import validate_all, validate_file
@@ -87,3 +88,17 @@ def test_read_output_allows_repeated_keys_inside_cards(tmp_path):
     path = tmp_path / "001.json"
     path.write_text('{"wordaa": {"a": 1, "a": 2}}', encoding="utf-8")
     assert read_output(path) == {"wordaa": {"a": 2}}
+
+
+def test_versions_count_only_ids_the_batch_asked_for(tmp_path):
+    a, b = names(2)
+    paths = make_data(tmp_path, [(a, "noun"), (b, "noun")])
+    write_batch(paths, 1, {a: make_card(a), b: make_card(b), a.upper(): make_card(a)}, words=[a])
+    assert list(versions(paths)) == [a]
+    checked, report = validate_all(paths)
+    assert (checked, report) == (1, {})
+    assert picked_words(card_batches(paths)) == [[b]]
+
+
+def picked_words(created):
+    return [[item["word"] for item in read_json(p)] for p in created]

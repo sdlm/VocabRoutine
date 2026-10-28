@@ -118,3 +118,12 @@ def test_merge_without_batches_says_to_run_classify_batches(tmp_path):
     paths = make_csv(tmp_path, ["house"])
     with pytest.raises(ContentError, match="no classification batches; run classify-batches first"):
         merge_pos(paths)
+
+
+def test_string_false_doubt_gets_only_the_type_error(tmp_path):
+    paths = make_csv(tmp_path, ["up"])
+    answer(paths, [entry("up", "noun", doubt="false")])
+    with pytest.raises(ContentError) as e:
+        merge_pos(paths)
+    assert str(e.value).count("up:") == 1
+    assert "up: doubt must be true or false" in str(e.value)

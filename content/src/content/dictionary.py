@@ -33,6 +33,8 @@ def load_dictionary(paths: Paths) -> list[DictWord]:
     pos = read_json(paths.pos)
     lemmas = read_ngsl(paths.csv)
     errors = [f"pos.json: {x.lemma} is missing" for x in lemmas if x.lemma not in pos]
+    known = {x.lemma for x in lemmas}
+    errors += [f"pos.json: unknown lemma {key!r}" for key in pos if key not in known]
     errors += [
         f"pos.json: {lemma}: {value!r} is not one of {', '.join(POS)} or null"
         for lemma, value in pos.items()

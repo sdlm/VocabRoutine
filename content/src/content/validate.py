@@ -6,7 +6,7 @@ from .dictionary import load_dictionary
 from .files import write_json
 from .paths import Paths
 from .rules import validate_card
-from .store import read_input_ids, read_output, versions
+from .store import in_path_for, read_input_ids, read_output, versions
 
 
 def validate_file(paths: Paths, file: Path) -> dict[str, list[str]]:
@@ -14,7 +14,7 @@ def validate_file(paths: Paths, file: Path) -> dict[str, list[str]]:
     words = {w.id: w for w in load_dictionary(paths)}
     cards = read_output(file)
     report: dict[str, list[str]] = {}
-    in_file = file.with_name(file.name.removesuffix(".json") + ".in.json")
+    in_file = in_path_for(file)
     if in_file.exists():
         expected = read_input_ids(in_file)
         for id_ in expected:
@@ -35,6 +35,13 @@ def validate_file(paths: Paths, file: Path) -> dict[str, list[str]]:
         elif errors := validate_card(words[id_], card, set(words)):
             report[id_] = errors
     return report
+
+
+def file_card_count(file: Path) -> int:
+    """Cards in one output file: its input ids and its keys, case-insensitively."""
+    in_file = in_path_for(file)
+    ids = set(read_input_ids(in_file)) if in_file.exists() else set()
+    return len(ids | {id_.lower() for id_ in read_output(file)})
 
 
 def validate_all(paths: Paths) -> tuple[int, dict[str, list[str]]]:

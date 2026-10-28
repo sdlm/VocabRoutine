@@ -116,3 +116,18 @@ def test_validate_file_with_no_cards_fails(tmp_path, capsys):
     (paths.cards_dir / "001.json").write_text("{}", encoding="utf-8")
     assert main(["--data", str(tmp_path), "validate", "--file", str(paths.cards_dir / "001.json")]) == 1
     assert "no cards in the file" in capsys.readouterr().out
+
+
+def test_ids_are_deduplicated_after_lower_casing(tmp_path):
+    a, b = names(2)
+    paths = make_data(tmp_path, [(a, "noun"), (b, "noun")])
+    assert main(["--data", str(tmp_path), "card-batches", "--ids", f"{a},{a.upper()}"]) == 0
+    assert [x["word"] for x in read_json(paths.cards_dir / "001.in.json")] == [a]
+
+
+def test_validate_file_counts_upper_case_key_as_one_card(tmp_path, capsys):
+    a, b = names(2)
+    paths = make_data(tmp_path, [(a, "noun"), (b, "noun")])
+    write_batch(paths, 1, {a: make_card(a), b.upper(): make_card(b)}, words=[a, b])
+    assert main(["--data", str(tmp_path), "validate", "--file", str(paths.cards_dir / "001.json")]) == 1
+    assert "2 of 2 cards invalid" in capsys.readouterr().out

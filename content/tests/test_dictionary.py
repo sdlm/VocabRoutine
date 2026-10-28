@@ -4,7 +4,7 @@ import pytest
 from helpers import make_csv, make_data
 
 from content.dictionary import LEVELS, DictWord, level_of, load_dictionary
-from content.files import ContentError
+from content.files import ContentError, write_json
 
 
 def test_levels_are_six_equal_bands():
@@ -29,3 +29,12 @@ def test_dictionary_needs_pos_json(tmp_path):
     paths = make_csv(tmp_path, ["house"])
     with pytest.raises(ContentError, match="run merge-pos first"):
         load_dictionary(paths)
+
+
+def test_dictionary_rejects_unknown_pos_keys(tmp_path):
+    paths = make_data(tmp_path, [("house", "noun")])
+    write_json(paths.pos, {"house": "noun", "hose": "noun", "zzz": None})
+    with pytest.raises(ContentError) as e:
+        load_dictionary(paths)
+    assert "pos.json: unknown lemma 'hose'" in str(e.value)
+    assert "pos.json: unknown lemma 'zzz'" in str(e.value)

@@ -1,6 +1,5 @@
 """Step 4: card input batches — new words, failed cards with their errors, the pilot, chosen ids."""
 
-import re
 from pathlib import Path
 
 from .dictionary import DictWord, load_dictionary
@@ -8,12 +7,11 @@ from .files import ContentError, write_json
 from .forms import lemma_forms
 from .paths import Paths
 from .rules import validate_card
-from .store import Version, in_path, input_ids, pending, versions
+from .store import Version, in_path, input_ids, next_number, pending, versions
 
 BATCH = 25
 PILOT = 25
 MAX_ATTEMPTS = 3
-BATCH_FILE = re.compile(r"^(\d+)\.(?:in\.)?json$")
 
 
 def pilot_words(words: list[DictWord]) -> list[DictWord]:
@@ -31,6 +29,8 @@ def card_batches(
     """
     if limit is not None and limit < 1:
         raise ContentError("--limit must be at least 1")
+    if limit is not None and (pilot or ids is not None):
+        raise ContentError("--limit works only without --pilot and --ids")
     words = load_dictionary(paths)
     by_id = {w.id: w for w in words}
     lemma_ids = set(by_id)
@@ -58,19 +58,11 @@ def card_batches(
         _write_stuck(paths, stuck)
 
     chunks = [items[i : i + BATCH] for i in range(0, len(items), BATCH)][:limit]
-    start = _last_number(paths) + 1
     created = []
-    for num, chunk in enumerate(chunks, start):
+    for num, chunk in enumerate(chunks, next_number(paths)):
         write_json(in_path(paths, num), chunk)
         created.append(in_path(paths, num))
     return created
-
-
-def _last_number(paths: Paths) -> int:
-    """Highest batch number in use, counting orphan outputs without an input too."""
-    if not paths.cards_dir.exists():
-        return 0
-    return max((int(m[1]) for p in paths.cards_dir.iterdir() if (m := BATCH_FILE.match(p.name))), default=0)
 
 
 def _lookup(by_id: dict[str, DictWord], id_: str) -> DictWord:
