@@ -1,0 +1,66 @@
+{
+  "input": [
+    { "word": "house", "pos": "noun", "level": "A1", "freqRank": 165, "lemmaForms": [] },
+    { "word": "find", "pos": "verb", "level": "A1", "freqRank": 81, "lemmaForms": ["found"] }
+  ],
+  "output": {
+    "house": {
+      "forms": ["houses"],
+      "register": "neutral",
+      "translations": [{ "text": "дом", "share": 85 }, { "text": "жильё", "share": 15 }],
+      "definition": "A building where people live, usually one family or a small group.",
+      "examples": [
+        { "en": "They bought a small house near the sea.", "ru": "Они купили маленький дом у моря." },
+        { "en": "Our house has three bedrooms.", "ru": "В нашем доме три спальни." },
+        { "en": "Come to my house for dinner.", "ru": "Приходи ко мне домой на ужин." },
+        { "en": "The houses on this street are old.", "ru": "Дома на этой улице старые." }
+      ],
+      "collocations": ["buy a house", "move house", "house party", "haunted house"],
+      "similar": [
+        { "word": "home", "note": "место, где ты живёшь и чувствуешь себя своим; house — просто здание, не обязательно родное." },
+        { "word": "apartment", "note": "квартира в многоквартирном доме; house — отдельный дом, обычно с садом или двором." }
+      ],
+      "cloze": [
+        { "en": "Our {{house}} has a small garden with apple trees.", "ru": "У нашего дома небольшой сад с яблонями.", "options": ["cloud", "song", "lake"] },
+        { "en": "Most {{houses}} in this village have red roofs.", "ru": "У большинства домов в этой деревне красные крыши.", "options": ["rooms", "gardens", "roads"] },
+        { "en": "We sold our {{house}} because we needed fewer bedrooms.", "ru": "Мы продали дом, потому что нам нужно было меньше спален.", "options": ["car", "bike", "garden"] },
+        { "en": "The children ran out of the burning {{house}} just in time.", "ru": "Дети выбежали из горящего дома как раз вовремя.", "options": ["river", "lake", "road"] },
+        { "en": "Families in the {{houses}} near the airport cannot sleep because of the planes.", "ru": "Семьи в домах рядом с аэропортом не могут спать из-за самолётов.", "options": ["shops", "offices", "parks"] },
+        { "en": "I left my keys inside the {{house}}, so I couldn't get in.", "ru": "Я оставил ключи в доме, поэтому не смог войти.", "options": ["river", "sky", "forest"] },
+        { "en": "The {{houses}} on the hill have a beautiful view of the sea.", "ru": "Из домов на холме открывается прекрасный вид на море.", "options": ["songs", "rivers", "clouds"] },
+        { "en": "My grandparents built this {{house}} with their own hands.", "ru": "Мои бабушка и дедушка построили этот дом своими руками.", "options": ["sky", "lake", "rain"] },
+        { "en": "The {{house}} was empty: nobody had lived there for years.", "ru": "Дом пустовал: в нём никто не жил много лет.", "options": ["river", "road", "field"] },
+        { "en": "They are looking for a bigger {{house}} because they are having a second baby.", "ru": "Они ищут дом побольше, потому что ждут второго ребёнка.", "options": ["cloud", "river", "song"] }
+      ]
+    },
+    "find": {
+      "forms": ["finds", "found", "finding"],
+      "register": "neutral",
+      "translations": [{ "text": "находить", "share": 75 }, { "text": "считать", "share": 15 }, { "text": "обнаруживать", "share": 10 }],
+      "definition": "To discover or get something, especially something you have been looking for.",
+      "examples": [
+        { "en": "I can't find my keys anywhere.", "ru": "Я нигде не могу найти ключи." },
+        { "en": "She found a wallet in the street.", "ru": "Она нашла на улице кошелёк." },
+        { "en": "Many people find this book difficult.", "ru": "Многим эта книга кажется сложной." },
+        { "en": "Scientists are finding new ways to treat the disease.", "ru": "Учёные находят новые способы лечить эту болезнь." }
+      ],
+      "collocations": ["find a job", "find out", "find a way", "find it hard"],
+      "similar": [
+        { "word": "discover", "note": "узнать или найти впервые то, о чём раньше не знали; find — просто найти, в том числе потерянное." },
+        { "word": "look for", "note": "искать — сам процесс; find — результат, когда ты уже нашёл." }
+      ],
+      "cloze": [
+        { "en": "I looked everywhere but couldn't {{find}} my phone.", "ru": "Я искал везде, но не смог найти телефон.", "options": ["lose", "drop", "break"] },
+        { "en": "She always {{finds}} time to call her mother.", "ru": "Она всегда находит время позвонить маме.", "options": ["loses", "wastes", "forgets"] },
+        { "en": "Can you help me {{find}} a cheap hotel for tonight?", "ru": "Поможешь мне найти недорогую гостиницу на эту ночь?", "options": ["build", "sell", "close"] },
+        { "en": "Most students {{find}} grammar boring.", "ru": "Большинству студентов грамматика кажется скучной.", "options": ["discover", "notice", "meet"] },
+        { "en": "My son is {{finding}} school hard this year.", "ru": "Сыну в этом году тяжело даётся школа.", "options": ["giving", "building", "losing"] },
+        { "en": "Did the police {{find}} the stolen car?", "ru": "Полиция нашла угнанную машину?", "options": ["steal", "forget", "lose"] },
+        { "en": "If you {{find}} a mistake in my essay, please mark it in red.", "ru": "Если найдёшь ошибку в моём сочинении, отметь её красным.", "options": ["hide", "forget", "lose"] },
+        { "en": "He {{finds}} it difficult to wake up early.", "ru": "Ему трудно рано вставать.", "options": ["gives", "puts", "sends"] },
+        { "en": "We are still {{finding}} toys under the sofa after the party.", "ru": "Мы до сих пор находим под диваном игрушки после праздника.", "options": ["eating", "cooking", "writing"] },
+        { "en": "It took him six months to {{find}} a new job.", "ru": "Ему понадобилось полгода, чтобы найти новую работу.", "options": ["lose", "quit", "hate"] }
+      ]
+    }
+  }
+}
