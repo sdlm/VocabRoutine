@@ -22,16 +22,16 @@
         { "word": "apartment", "note": "квартира в многоквартирном доме; house — отдельный дом, обычно с садом или двором." }
       ],
       "cloze": [
-        { "en": "Our {{house}} has a small garden with apple trees.", "ru": "У нашего дома небольшой сад с яблонями.", "options": ["kitchen", "car", "bed"] },
-        { "en": "Most {{houses}} in this village have red roofs.", "ru": "У большинства домов в этой деревне красные крыши.", "options": ["rooms", "gardens", "roads"] },
-        { "en": "We sold our {{house}} with its big garden and moved into a flat.", "ru": "Мы продали дом с большим садом и переехали в квартиру.", "options": ["car", "bike", "boat"] },
-        { "en": "The children ran out of the burning {{house}} just in time.", "ru": "Дети выбежали из горящего дома как раз вовремя.", "options": ["river", "lake", "road"] },
-        { "en": "In the north, many {{houses}} are made of wood.", "ru": "На севере многие дома строят из дерева.", "options": ["roads", "rivers", "songs"] },
-        { "en": "I left my keys inside the {{house}}, so I couldn't get in.", "ru": "Я оставил ключи в доме, поэтому не смог войти.", "options": ["river", "sky", "forest"] },
-        { "en": "The {{houses}} on the hill have a beautiful view of the sea.", "ru": "Из домов на холме открывается прекрасный вид на море.", "options": ["songs", "rivers", "clouds"] },
-        { "en": "My grandparents built this {{house}} with their own hands.", "ru": "Мои бабушка и дедушка построили этот дом своими руками.", "options": ["sky", "lake", "rain"] },
-        { "en": "The {{house}} was empty: nobody had lived there for years.", "ru": "Дом пустовал: в нём никто не жил много лет.", "options": ["shop", "school", "park"] },
-        { "en": "They want a {{house}} with two floors and a garden, not a flat.", "ru": "Им нужен двухэтажный дом с садом, а не квартира.", "options": ["boat", "car", "cloud"] }
+        { "en": "Our {{house}} has a small garden with apple trees.", "ru": "У нашего дома небольшой сад с яблонями.", "options": ["kitchen", "car", "bed"], "alsoFits": ["home"] },
+        { "en": "Most {{houses}} in this village have red roofs.", "ru": "У большинства домов в этой деревне красные крыши.", "options": ["rooms", "gardens", "roads"], "alsoFits": ["homes", "buildings"] },
+        { "en": "We sold our {{house}} with its big garden and moved into a flat.", "ru": "Мы продали дом с большим садом и переехали в квартиру.", "options": ["car", "bike", "boat"], "alsoFits": ["home"] },
+        { "en": "The children ran out of the burning {{house}} just in time.", "ru": "Дети выбежали из горящего дома как раз вовремя.", "options": ["river", "lake", "road"], "alsoFits": ["building", "home"] },
+        { "en": "In the north, many {{houses}} are made of wood.", "ru": "На севере многие дома строят из дерева.", "options": ["roads", "rivers", "songs"], "alsoFits": ["homes", "buildings"] },
+        { "en": "I left my keys inside the {{house}}, so I couldn't get in.", "ru": "Я оставил ключи в доме, поэтому не смог войти.", "options": ["river", "sky", "forest"], "alsoFits": ["flat", "car"] },
+        { "en": "The {{houses}} on the hill have a beautiful view of the sea.", "ru": "Из домов на холме открывается прекрасный вид на море.", "options": ["songs", "rivers", "clouds"], "alsoFits": ["homes", "hotels"] },
+        { "en": "My grandparents built this {{house}} with their own hands.", "ru": "Мои бабушка и дедушка построили этот дом своими руками.", "options": ["sky", "lake", "rain"], "alsoFits": ["home"] },
+        { "en": "The {{house}} was empty: nobody had lived there for years.", "ru": "Дом пустовал: в нём никто не жил много лет.", "options": ["shop", "school", "park"], "alsoFits": ["flat", "cottage"] },
+        { "en": "They want a {{house}} with two floors and a garden, not a flat.", "ru": "Им нужен двухэтажный дом с садом, а не квартира.", "options": ["boat", "car", "cloud"], "alsoFits": [] }
       ]
     },
     "find": {
@@ -51,16 +51,16 @@
         { "word": "look for", "note": "искать — сам процесс; find — результат, когда ты уже нашёл." }
       ],
       "cloze": [
-        { "en": "I looked everywhere but couldn't {{find}} my phone.", "ru": "Я искал везде, но не смог найти телефон.", "options": ["lose", "drop", "break"] },
-        { "en": "My little brother always {{finds}} the chocolate I hide.", "ru": "Младший брат всегда находит шоколад, который я прячу.", "options": ["sells", "paints", "washes"] },
-        { "en": "There are so many people here that I can't {{find}} my friends.", "ru": "Здесь столько людей, что я не могу найти своих друзей.", "options": ["sell", "paint", "cook"] },
-        { "en": "Most students {{find}} grammar boring.", "ru": "Большинству студентов грамматика кажется скучной.", "options": ["make", "keep", "leave"] },
-        { "en": "My son is {{finding}} school hard this year.", "ru": "Сыну в этом году тяжело в школе.", "options": ["making", "keeping", "leaving"] },
-        { "en": "Did the police {{find}} the stolen car?", "ru": "Полиция нашла угнанную машину?", "options": ["steal", "forget", "lose"] },
-        { "en": "I hope you {{find}} your lost dog soon.", "ru": "Надеюсь, ты скоро найдёшь свою потерявшуюся собаку.", "options": ["lose", "sell", "wash"] },
-        { "en": "A bee {{finds}} flowers by their smell.", "ru": "Пчела находит цветы по запаху.", "options": ["eats", "builds", "sells"] },
-        { "en": "We are still {{finding}} toys under the sofa after the party.", "ru": "После праздника мы до сих пор находим под диваном игрушки.", "options": ["eating", "cooking", "writing"] },
-        { "en": "Use the map to {{find}} the way to the museum.", "ru": "Найди по карте дорогу к музею.", "options": ["cook", "paint", "wash"] }
+        { "en": "I looked everywhere but couldn't {{find}} my phone.", "ru": "Я искал везде, но не смог найти телефон.", "options": ["lose", "drop", "break"], "alsoFits": ["see"] },
+        { "en": "My little brother always {{finds}} the chocolate I hide.", "ru": "Младший брат всегда находит шоколад, который я прячу.", "options": ["sells", "paints", "washes"], "alsoFits": ["eats", "steals", "gets"] },
+        { "en": "There are so many people here that I can't {{find}} my friends.", "ru": "Здесь столько людей, что я не могу найти своих друзей.", "options": ["sell", "paint", "cook"], "alsoFits": ["see"] },
+        { "en": "Most students {{find}} grammar boring.", "ru": "Большинству студентов грамматика кажется скучной.", "options": ["make", "keep", "leave"], "alsoFits": ["consider"] },
+        { "en": "My son is {{finding}} school hard this year.", "ru": "Сыну в этом году тяжело в школе.", "options": ["making", "keeping", "leaving"], "alsoFits": [] },
+        { "en": "Did the police {{find}} the stolen car?", "ru": "Полиция нашла угнанную машину?", "options": ["steal", "forget", "lose"], "alsoFits": ["recover"] },
+        { "en": "I hope you {{find}} your lost dog soon.", "ru": "Надеюсь, ты скоро найдёшь свою потерявшуюся собаку.", "options": ["lose", "sell", "wash"], "alsoFits": [] },
+        { "en": "A bee {{finds}} flowers by their smell.", "ru": "Пчела находит цветы по запаху.", "options": ["eats", "builds", "sells"], "alsoFits": ["locates"] },
+        { "en": "We are still {{finding}} toys under the sofa after the party.", "ru": "После праздника мы до сих пор находим под диваном игрушки.", "options": ["eating", "cooking", "writing"], "alsoFits": [] },
+        { "en": "Use the map to {{find}} the way to the museum.", "ru": "Найди по карте дорогу к музею.", "options": ["cook", "paint", "wash"], "alsoFits": [] }
       ]
     },
     "between": {
@@ -80,16 +80,16 @@
         { "word": "through", "note": "сквозь, насквозь, от одного края до другого; between — в промежутке, не проходя насквозь." }
       ],
       "cloze": [
-        { "en": "The letter B comes {{between}} A and C.", "ru": "Буква B стоит между A и C.", "options": ["after", "under", "behind"] },
-        { "en": "I sat {{between}} my mum and my dad at the cinema.", "ru": "В кино я сидел между мамой и папой.", "options": ["after", "against", "without"] },
-        { "en": "The shop is closed {{between}} one and two for lunch.", "ru": "С часу до двух магазин закрыт на обед.", "options": ["since", "during", "under"] },
-        { "en": "Always put a space {{between}} two words.", "ru": "Всегда ставь пробел между двумя словами.", "options": ["under", "inside", "toward"] },
-        { "en": "You must choose {{between}} the red dress and the blue one.", "ru": "Тебе нужно выбрать между красным платьем и синим.", "options": ["under", "behind", "inside"] },
-        { "en": "Don't eat {{between}} meals, or you won't be hungry at dinner.", "ru": "Не перекусывай между приёмами пищи, а то не захочешь ужинать.", "options": ["during", "without", "across"] },
-        { "en": "Our town is halfway {{between}} London and Oxford.", "ru": "Наш город на полпути между Лондоном и Оксфордом.", "options": ["across", "inside", "under"] },
-        { "en": "The cat is hiding in the gap {{between}} the sofa and the wall.", "ru": "Кошка прячется в щели между диваном и стеной.", "options": ["above", "across", "toward"] },
-        { "en": "Children aged {{between}} six and ten can join the club.", "ru": "В клуб принимают детей от шести до десяти лет.", "options": ["during", "under", "across"] },
-        { "en": "The game {{between}} Spain and Italy ended in a draw.", "ru": "Матч между Испанией и Италией закончился вничью.", "options": ["across", "under", "toward"] }
+        { "en": "The letter B comes {{between}} A and C.", "ru": "Буква B стоит между A и C.", "options": ["after", "under", "behind"], "alsoFits": [] },
+        { "en": "I sat {{between}} my mum and my dad at the cinema.", "ru": "В кино я сидел между мамой и папой.", "options": ["after", "against", "without"], "alsoFits": [] },
+        { "en": "The shop is closed {{between}} one and two for lunch.", "ru": "С часу до двух магазин закрыт на обед.", "options": ["since", "during", "under"], "alsoFits": [] },
+        { "en": "Always put a space {{between}} two words.", "ru": "Всегда ставь пробел между двумя словами.", "options": ["under", "inside", "toward"], "alsoFits": [] },
+        { "en": "You must choose {{between}} the red dress and the blue one.", "ru": "Тебе нужно выбрать между красным платьем и синим.", "options": ["under", "behind", "inside"], "alsoFits": [] },
+        { "en": "Don't eat {{between}} meals, or you won't be hungry at dinner.", "ru": "Не перекусывай между приёмами пищи, а то не захочешь ужинать.", "options": ["during", "without", "across"], "alsoFits": [] },
+        { "en": "Our town is halfway {{between}} London and Oxford.", "ru": "Наш город на полпути между Лондоном и Оксфордом.", "options": ["across", "inside", "under"], "alsoFits": [] },
+        { "en": "The cat is hiding in the gap {{between}} the sofa and the wall.", "ru": "Кошка прячется в щели между диваном и стеной.", "options": ["above", "across", "toward"], "alsoFits": [] },
+        { "en": "Children aged {{between}} six and ten can join the club.", "ru": "В клуб принимают детей от шести до десяти лет.", "options": ["during", "under", "across"], "alsoFits": [] },
+        { "en": "The game {{between}} Spain and Italy ended in a draw.", "ru": "Матч между Испанией и Италией закончился вничью.", "options": ["across", "under", "toward"], "alsoFits": [] }
       ]
     }
   }

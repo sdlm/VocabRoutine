@@ -31,12 +31,13 @@ If it still prints errors after 3 rounds of fixes, or prints `error:` about anyt
 - **examples**: 3–4 `{en, ru}`. Natural English sentences of 5–12 words with the word or one of its forms as a separate word (`house's` does not count). `ru` is a natural Russian translation, not word for word.
 - **collocations**: 3–5 common combinations that contain the word or a form (`buy a house`, `move house`).
 - **similar**: 2–3 words that learners confuse with this one, or close synonyms; not words that merely share a topic. `note` is Russian and explains what the similar word means and when to choose which. The app prints `<similar word> — <note>`, so the note never starts with the similar word. The note is longer than 10 characters. A similar word is never the word itself.
-- **cloze**: exactly 10 `{en, ru, options}`.
+- **cloze**: exactly 10 `{en, ru, options, alsoFits}`.
   - `en` has exactly one gap `{{…}}` holding the word or one of its forms. Use a form only where a native speaker would naturally say it; never force a plural or another form into a sentence for variety.
   - `lemmaForms` lists other dictionary words that look like forms of this word. Never put any of them in the gap (`find` → no `{{found}}`). Put one in `forms` only if it really is a form of this word (`found` for `find`, but not `teacher` for `teach`); then it may appear in examples. No other dictionary word goes in the gap either: only the word and its own forms.
   - 10 different situations, not rewordings of one; no sentence repeats an example.
-  - The context makes the word the clearly best answer: no word from `similar` and none of the options fits as well, and a learner who knows the word picks it with no doubt. Learners type the answer, so avoid sentences where a common synonym fits too.
+  - The context makes the word the best answer: none of the options fits, and a learner who knows the word thinks of it first. Other words that fit as well go to `alsoFits`.
   - `options`: 3 wrong words in the same grammatical form as the gap (`houses` → `rooms`, `gardens`, `roads`). Each one makes the sentence wrong in meaning, not merely unusual. An option is never a form of the word itself. Prefer everyday words that the context rules out over random unrelated ones. Use words from `similar` when they do not fit the sentence; no set of three repeats within the card.
+  - `alsoFits`: words that fit the gap as well as the answer, in the same form (`That's {{strange}}` → `weird`, `odd`); `[]` when nothing else fits. Before keeping a sentence, put each word from `similar` and 2–3 common synonyms into the gap and list the ones that fit. The app shows them to learners who start typing one, so a learner who knows the word is not punished for a synonym. Still prefer contexts where the word is clearly best: at most 5; if more fit, rewrite the sentence. Plain words only; never the word or its forms. If an option fits the gap, it is not a wrong word: move it to `alsoFits` and pick another option.
   - `ru` translates the whole sentence with the gap filled.
 
 ## For every field
