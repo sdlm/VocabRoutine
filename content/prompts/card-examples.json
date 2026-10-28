@@ -1,7 +1,8 @@
 {
   "input": [
     { "word": "house", "pos": "noun", "level": "A1", "freqRank": 165, "lemmaForms": [] },
-    { "word": "find", "pos": "verb", "level": "A1", "freqRank": 81, "lemmaForms": ["found"] }
+    { "word": "find", "pos": "verb", "level": "A1", "freqRank": 81, "lemmaForms": ["found"] },
+    { "word": "between", "pos": "preposition", "level": "A1", "freqRank": 116, "lemmaForms": [] }
   ],
   "output": {
     "house": {
@@ -60,6 +61,35 @@
         { "en": "A bee {{finds}} flowers by their smell.", "ru": "Пчела находит цветы по запаху.", "options": ["eats", "builds", "sells"] },
         { "en": "We are still {{finding}} toys under the sofa after the party.", "ru": "После праздника мы до сих пор находим под диваном игрушки.", "options": ["eating", "cooking", "writing"] },
         { "en": "Use the map to {{find}} the way to the museum.", "ru": "Найди по карте дорогу к музею.", "options": ["cook", "paint", "wash"] }
+      ]
+    },
+    "between": {
+      "forms": [],
+      "register": "neutral",
+      "translations": [{ "text": "между", "share": 100 }],
+      "definition": "In the space or time that separates two things, people or moments.",
+      "examples": [
+        { "en": "The shop is between the bank and the café.", "ru": "Магазин находится между банком и кафе." },
+        { "en": "Come to my office between two and four.", "ru": "Приходи ко мне в офис с двух до четырёх." },
+        { "en": "What is the difference between these two words?", "ru": "Какая разница между этими двумя словами?" },
+        { "en": "We shared the pizza between the three of us.", "ru": "Мы разделили пиццу на троих." }
+      ],
+      "collocations": ["between you and me", "the difference between", "in between", "between jobs"],
+      "similar": [
+        { "word": "among", "note": "среди многих, в толпе или в группе; between — между двумя или между отдельными, ясно видными предметами." },
+        { "word": "through", "note": "сквозь, насквозь, от одного края до другого; between — в промежутке, не проходя насквозь." }
+      ],
+      "cloze": [
+        { "en": "The letter B comes {{between}} A and C.", "ru": "Буква B стоит между A и C.", "options": ["after", "under", "behind"] },
+        { "en": "I sat {{between}} my mum and my dad at the cinema.", "ru": "В кино я сидел между мамой и папой.", "options": ["after", "against", "without"] },
+        { "en": "The shop is closed {{between}} one and two for lunch.", "ru": "С часу до двух магазин закрыт на обед.", "options": ["since", "during", "under"] },
+        { "en": "Always put a space {{between}} two words.", "ru": "Всегда ставь пробел между двумя словами.", "options": ["under", "inside", "toward"] },
+        { "en": "You must choose {{between}} the red dress and the blue one.", "ru": "Тебе нужно выбрать между красным платьем и синим.", "options": ["under", "behind", "inside"] },
+        { "en": "Don't eat {{between}} meals, or you won't be hungry at dinner.", "ru": "Не перекусывай между приёмами пищи, а то не захочешь ужинать.", "options": ["during", "without", "across"] },
+        { "en": "Our town is halfway {{between}} London and Oxford.", "ru": "Наш город на полпути между Лондоном и Оксфордом.", "options": ["across", "inside", "under"] },
+        { "en": "The cat is hiding in the gap {{between}} the sofa and the wall.", "ru": "Кошка прячется в щели между диваном и стеной.", "options": ["above", "across", "toward"] },
+        { "en": "Children aged {{between}} six and ten can join the club.", "ru": "В клуб принимают детей от шести до десяти лет.", "options": ["during", "under", "across"] },
+        { "en": "The game {{between}} Spain and Italy ended in a draw.", "ru": "Матч между Испанией и Италией закончился вничью.", "options": ["across", "under", "toward"] }
       ]
     }
   }

@@ -10,7 +10,7 @@ VocabRoutine teaches English words to Russian speakers. Each card shows translat
 - Write one card for every input item, and nothing else.
 - Write valid JSON only: double quotes, no comments, no trailing commas.
 - An item with `errors` comes back after its `previous` card failed the checks. Fix what the errors name; keep the rest of `previous` unless it is wrong too.
-- Two finished cards with their input: `content/prompts/card-examples.json`. Read it first and match its style and length.
+- Three finished cards with their input: `content/prompts/card-examples.json` (a noun, a verb and a preposition). Read it first and match its style and length.
 
 When the file is written, run from the repository root:
 
@@ -24,7 +24,7 @@ If it still prints errors after 3 rounds of fixes, or prints `error:` about anyt
 
 ## Fields
 
-- **forms**: every other form of the word for this part of speech, irregular ones included, without the word itself; `[]` when there are none. Nouns: the plural. Verbs: third person, past, past participle, -ing, each once (`find` → `finds`, `found`, `finding`). Adjectives and adverbs: comparative and superlative only when the one-word forms are common (`happy` → `happier`, `happiest`; `reliable` → `[]`). Letters only, at most one apostrophe.
+- **forms**: every other form of the word for this part of speech, irregular ones included, without the word itself; `[]` when there are none. Nouns: the plural. Verbs: third person, past, past participle, -ing, each once (`find` → `finds`, `found`, `finding`). Adjectives and adverbs: comparative and superlative only when the one-word forms are common (`happy` → `happier`, `happiest`; `reliable` → `[]`). Prepositions, conjunctions and pronouns: `[]`. Letters only, at most one apostrophe.
 - **register**: `neutral`, unless the word is clearly `formal` (`purchase`), `informal` (`kid`, `guy`) or `slang`.
 - **translations**: 1–4 Russian translations of this part of speech, the most common first. `share` is a whole percentage of how often each meaning occurs; the shares sum to 100.
 - **definition**: one English sentence in simple words; avoid the word itself.
