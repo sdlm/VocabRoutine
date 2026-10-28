@@ -7,6 +7,7 @@ from .dictionary import DictWord
 FIELDS = ("forms", "register", "translations", "definition", "examples", "collocations", "similar", "cloze")
 REGISTERS = ("neutral", "formal", "informal", "slang")
 CLOZE_COUNT = 10
+ALSO_FITS_MAX = 7
 FORM = re.compile(r"^[A-Za-z]+(?:'[A-Za-z]+)?$")
 TOKEN = re.compile(r"[A-Za-z]+(?:'[A-Za-z]+)?")
 GAP = re.compile(r"\{\{([^}]+)\}\}")
@@ -174,3 +175,27 @@ def _cloze(
             errors.append(f"{at}: options must be 3 different strings")
         elif answer is not None and answer in stripped:
             errors.append(f"{at}: options contain the answer {gaps[0]!r}")
+        if "alsoFits" not in c:
+            errors.append(f"{at}: missing alsoFits")
+        else:
+            _also_fits(at, c["alsoFits"], allowed, stripped, errors)
+
+
+def _also_fits(at: str, items: object, allowed: set[str], options: set[str], errors: list[str]) -> None:
+    """Words that fit the gap as well as the answer: plain, distinct, not the word and not a wrong option."""
+    if not _strings(items):
+        errors.append(f"{at}: alsoFits must be a list of strings")
+        return
+    if len(items) > ALSO_FITS_MAX:
+        errors.append(f"{at}: alsoFits has {len(items)} words, at most {ALSO_FITS_MAX}")
+    for w in items:
+        if not FORM.match(w):
+            errors.append(f"{at}: alsoFits {w!r} is not a plain word")
+    lower = [w.lower() for w in items]
+    if len(set(lower)) != len(lower):
+        errors.append(f"{at}: alsoFits duplicates")
+    for w in items:
+        if w.lower() in allowed:
+            errors.append(f"{at}: alsoFits {w!r} is the word or one of its forms")
+        elif w.lower() in options:
+            errors.append(f"{at}: alsoFits {w!r} is also an option")

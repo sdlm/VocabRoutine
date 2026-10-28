@@ -39,7 +39,12 @@ def make_card(word: str, forms: list[str] = ()) -> dict:
             {"word": "beta", "note": "второе близкое слово"},
         ],
         "cloze": [
-            {"en": f"Sentence {i} with {{{{{word}}}}}.", "ru": "Перевод.", "options": ["room", "garden", "road"]}
+            {
+                "en": f"Sentence {i} with {{{{{word}}}}}.",
+                "ru": "Перевод.",
+                "options": ["room", "garden", "road"],
+                "alsoFits": [],
+            }
             for i in range(10)
         ],
     }

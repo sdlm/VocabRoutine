@@ -75,6 +75,19 @@ CASES = [
      "cloze[0]: options must be 3 different strings"),
     ("padded same options", lambda c: c["cloze"][0].update(options=["room ", "Room", "road"]),
      "cloze[0]: options must be 3 different strings"),
+    ("no alsoFits", lambda c: c["cloze"][0].pop("alsoFits"), "cloze[0]: missing alsoFits"),
+    ("alsoFits not a list", lambda c: c["cloze"][0].update(alsoFits="home"),
+     "cloze[0]: alsoFits must be a list of strings"),
+    ("eight alsoFits", lambda c: c["cloze"][0].update(alsoFits=["a", "b", "c", "d", "e", "f", "g", "h"]),
+     "cloze[0]: alsoFits has 8 words, at most 7"),
+    ("alsoFits with space", lambda c: c["cloze"][0].update(alsoFits=["big home"]),
+     "cloze[0]: alsoFits 'big home' is not a plain word"),
+    ("alsoFits duplicates", lambda c: c["cloze"][0].update(alsoFits=["home", "Home"]),
+     "cloze[0]: alsoFits duplicates"),
+    ("alsoFits is a form", lambda c: c["cloze"][0].update(alsoFits=["Houses"]),
+     "cloze[0]: alsoFits 'Houses' is the word or one of its forms"),
+    ("alsoFits is an option", lambda c: c["cloze"][0].update(alsoFits=["Room"]),
+     "cloze[0]: alsoFits 'Room' is also an option"),
 ]
 
 
@@ -150,3 +163,10 @@ def test_wrong_type_never_crashes(field, value):
     card[field] = value
     errors = validate_card(HOUSE, card, LEMMAS)
     assert errors and all(isinstance(e, str) for e in errors)
+
+
+def test_also_fits_up_to_seven_plain_words_pass():
+    card = house_card()
+    card["cloze"][0]["alsoFits"] = ["home", "flat", "cottage", "hut", "cabin", "villa", "lodge"]
+    card["cloze"][1]["alsoFits"] = ["don't"]
+    assert validate_card(HOUSE, card, LEMMAS) == []
