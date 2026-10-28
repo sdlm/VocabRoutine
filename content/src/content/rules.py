@@ -68,7 +68,7 @@ def _forms(word: DictWord, forms: object, errors: list[str]) -> set[str]:
         errors.append("forms: must be a list of strings")
         return set()
     for f in forms:
-        if not FORM.match(f):
+        if not FORM.fullmatch(f):
             errors.append(f"forms: {f!r} is not a plain word")
     lower = [f.lower() for f in forms]
     if word.id in lower:
@@ -139,7 +139,7 @@ def _cloze(
     word: DictWord, items: object, allowed: set[str], examples: set[str], lemma_ids: set[str], errors: list[str]
 ) -> None:
     if not isinstance(items, list) or not all(isinstance(c, dict) for c in items):
-        errors.append("cloze: need a list of {en, ru, options}")
+        errors.append("cloze: need a list of {en, ru, options, alsoFits}")
         return
     if len(items) != CLOZE_COUNT:
         errors.append(f"cloze: {len(items)} sentences, need exactly {CLOZE_COUNT}")
@@ -189,7 +189,7 @@ def _also_fits(at: str, items: object, allowed: set[str], options: set[str], err
     if len(items) > ALSO_FITS_MAX:
         errors.append(f"{at}: alsoFits has {len(items)} words, at most {ALSO_FITS_MAX}")
     for w in items:
-        if not FORM.match(w):
+        if not FORM.fullmatch(w):
             errors.append(f"{at}: alsoFits {w!r} is not a plain word")
     lower = [w.lower() for w in items]
     if len(set(lower)) != len(lower):
