@@ -429,7 +429,10 @@
           "never",
           "seldom"
         ],
-        "alsoFits": []
+        "alsoFits": [
+          "frequently",
+          "regularly"
+        ]
       },
       {
         "en": "My grandmother {{often}} calls me, sometimes twice a day.",
@@ -439,7 +442,10 @@
           "seldom",
           "never"
         ],
-        "alsoFits": []
+        "alsoFits": [
+          "frequently",
+          "regularly"
+        ]
       },
       {
         "en": "She {{often}} reads before bed; it's her favourite habit.",
@@ -449,7 +455,11 @@
           "never",
           "seldom"
         ],
-        "alsoFits": []
+        "alsoFits": [
+          "usually",
+          "regularly",
+          "always"
+        ]
       },
       {
         "en": "We {{often}} see each other because we live next door.",
@@ -459,7 +469,10 @@
           "seldom",
           "never"
         ],
-        "alsoFits": []
+        "alsoFits": [
+          "frequently",
+          "regularly"
+        ]
       },
       {
         "en": "She {{often}} helps her neighbours, so everyone loves her.",
@@ -469,7 +482,11 @@
           "never",
           "seldom"
         ],
-        "alsoFits": []
+        "alsoFits": [
+          "always",
+          "frequently",
+          "regularly"
+        ]
       }
     ]
   },
@@ -826,7 +843,10 @@
           "quiet",
           "crowded"
         ],
-        "alsoFits": []
+        "alsoFits": [
+          "inexpensive",
+          "affordable"
+        ]
       },
       {
         "en": "This phone costs too much; do you have anything {{cheaper}}?",
@@ -1295,7 +1315,10 @@
           "hide",
           "copy"
         ],
-        "alsoFits": []
+        "alsoFits": [
+          "boost",
+          "enhance"
+        ]
       },
       {
         "en": "Her health has {{improved}} a lot, and she feels great.",
@@ -1315,7 +1338,10 @@
           "deleting",
           "selling"
         ],
-        "alsoFits": []
+        "alsoFits": [
+          "updating",
+          "optimising"
+        ]
       },
       {
         "en": "Exercise {{improves}} your mood and helps you sleep.",
@@ -1325,7 +1351,10 @@
           "ruins",
           "spoils"
         ],
-        "alsoFits": []
+        "alsoFits": [
+          "lifts",
+          "boosts"
+        ]
       },
       {
         "en": "The new bridge {{improved}} traffic, so jams are rare now.",
@@ -1335,7 +1364,9 @@
           "painted",
           "stopped"
         ],
-        "alsoFits": []
+        "alsoFits": [
+          "eased"
+        ]
       }
     ]
   },
