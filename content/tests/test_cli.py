@@ -130,4 +130,4 @@ def test_validate_file_counts_upper_case_key_as_one_card(tmp_path, capsys):
     paths = make_data(tmp_path, [(a, "noun"), (b, "noun")])
     write_batch(paths, 1, {a: make_card(a), b.upper(): make_card(b)}, words=[a, b])
     assert main(["--data", str(tmp_path), "validate", "--file", str(paths.cards_dir / "001.json")]) == 1
-    assert "2 of 2 cards invalid" in capsys.readouterr().out
+    assert "1 of 2 cards invalid" in capsys.readouterr().out

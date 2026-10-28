@@ -91,7 +91,8 @@ def _validate(paths: Paths, args) -> int:
         if total == 0:
             print("no cards in the file")
             return 1
-        print(f"{len(report)} of {total} cards invalid" if report else f"all {total} cards valid")
+        invalid = len({id_.lower() for id_ in report})  # a mis-cased key and its missing id are one card
+        print(f"{invalid} of {total} cards invalid" if report else f"all {total} cards valid")
         return 1 if report else 0
     checked, report = validate_all(paths)
     print(f"{checked - len(report)} valid, {len(report)} invalid; report: {paths.report}")
