@@ -12,6 +12,8 @@ export interface ClozeSentence {
 	ru: string;
 	/** Three wrong choices in the same grammatical form as the gap. */
 	options: string[];
+	/** Words that fit the gap as well as the answer, in the same form; shown as «Точно не» while typing. */
+	alsoFits: string[];
 }
 
 export interface Word {

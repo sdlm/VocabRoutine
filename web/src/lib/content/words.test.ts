@@ -68,6 +68,14 @@ describe.each(words.map((w) => [w.id, w] as const))('words.json: %s', (_id, w) =
 			expect(c.options).toHaveLength(3);
 			expect(new Set(c.options.map(lc)).size).toBe(3);
 			expect(c.options.map(lc)).not.toContain(lc(answer));
+			expect(c.alsoFits.length, c.en).toBeLessThanOrEqual(7);
+			const fits = c.alsoFits.map(lc);
+			expect(new Set(fits).size, c.en).toBe(fits.length);
+			for (const f of c.alsoFits) {
+				expect(f, c.en).toMatch(/^[A-Za-z]+(?:'[A-Za-z]+)?$/);
+				expect(allowed, c.en).not.toContain(lc(f));
+				expect(c.options.map(lc), c.en).not.toContain(lc(f));
+			}
 		}
 	});
 

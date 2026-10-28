@@ -62,6 +62,10 @@
           "kitchen",
           "garden",
           "office"
+        ],
+        "alsoFits": [
+          "home",
+          "cottage"
         ]
       },
       {
@@ -71,6 +75,10 @@
           "rooms",
           "gardens",
           "doors"
+        ],
+        "alsoFits": [
+          "homes",
+          "buildings"
         ]
       },
       {
@@ -80,6 +88,9 @@
           "room",
           "garden",
           "street"
+        ],
+        "alsoFits": [
+          "home"
         ]
       },
       {
@@ -89,6 +100,9 @@
           "school",
           "village",
           "street"
+        ],
+        "alsoFits": [
+          "home"
         ]
       },
       {
@@ -98,6 +112,9 @@
           "shops",
           "trees",
           "schools"
+        ],
+        "alsoFits": [
+          "homes"
         ]
       }
     ]
@@ -172,6 +189,9 @@
           "drinks",
           "wears",
           "reads"
+        ],
+        "alsoFits": [
+          "has"
         ]
       },
       {
@@ -181,6 +201,9 @@
           "drank",
           "wore",
           "read"
+        ],
+        "alsoFits": [
+          "had"
         ]
       },
       {
@@ -190,7 +213,8 @@
           "drunk",
           "slept",
           "washed"
-        ]
+        ],
+        "alsoFits": []
       },
       {
         "en": "The kids are {{eating}} lunch at school.",
@@ -199,6 +223,9 @@
           "drinking",
           "wearing",
           "reading"
+        ],
+        "alsoFits": [
+          "having"
         ]
       },
       {
@@ -208,7 +235,8 @@
           "drinks",
           "wears",
           "reads"
-        ]
+        ],
+        "alsoFits": []
       }
     ]
   },
@@ -280,6 +308,12 @@
           "bored",
           "upset",
           "angry"
+        ],
+        "alsoFits": [
+          "glad",
+          "content",
+          "pleased",
+          "satisfied"
         ]
       },
       {
@@ -289,6 +323,9 @@
           "sadder",
           "angrier",
           "lonelier"
+        ],
+        "alsoFits": [
+          "calmer"
         ]
       },
       {
@@ -298,6 +335,11 @@
           "saddest",
           "worst",
           "darkest"
+        ],
+        "alsoFits": [
+          "best",
+          "greatest",
+          "proudest"
         ]
       },
       {
@@ -307,6 +349,10 @@
           "sleepy",
           "scared",
           "angry"
+        ],
+        "alsoFits": [
+          "cheerful",
+          "pleased"
         ]
       },
       {
@@ -316,7 +362,8 @@
           "Sad",
           "Busy",
           "Quiet"
-        ]
+        ],
+        "alsoFits": []
       }
     ]
   },
@@ -381,7 +428,8 @@
           "rarely",
           "never",
           "seldom"
-        ]
+        ],
+        "alsoFits": []
       },
       {
         "en": "My grandmother {{often}} calls me, sometimes twice a day.",
@@ -390,7 +438,8 @@
           "rarely",
           "seldom",
           "never"
-        ]
+        ],
+        "alsoFits": []
       },
       {
         "en": "She {{often}} reads before bed; it's her favourite habit.",
@@ -399,7 +448,8 @@
           "rarely",
           "never",
           "seldom"
-        ]
+        ],
+        "alsoFits": []
       },
       {
         "en": "We {{often}} see each other because we live next door.",
@@ -408,7 +458,8 @@
           "rarely",
           "seldom",
           "never"
-        ]
+        ],
+        "alsoFits": []
       },
       {
         "en": "She {{often}} helps her neighbours, so everyone loves her.",
@@ -417,7 +468,8 @@
           "rarely",
           "never",
           "seldom"
-        ]
+        ],
+        "alsoFits": []
       }
     ]
   },
@@ -488,6 +540,11 @@
           "boss",
           "uncle",
           "neighbour"
+        ],
+        "alsoFits": [
+          "child",
+          "son",
+          "daughter"
         ]
       },
       {
@@ -497,6 +554,11 @@
           "pets",
           "cars",
           "shops"
+        ],
+        "alsoFits": [
+          "children",
+          "sons",
+          "daughters"
         ]
       },
       {
@@ -506,6 +568,11 @@
           "dog",
           "horse",
           "teacher"
+        ],
+        "alsoFits": [
+          "child",
+          "boy",
+          "girl"
         ]
       },
       {
@@ -515,6 +582,11 @@
           "cats",
           "dogs",
           "birds"
+        ],
+        "alsoFits": [
+          "children",
+          "boys",
+          "girls"
         ]
       },
       {
@@ -524,6 +596,10 @@
           "soldier",
           "manager",
           "driver"
+        ],
+        "alsoFits": [
+          "child",
+          "boy"
         ]
       }
     ]
@@ -597,6 +673,9 @@
           "lend",
           "sell",
           "steal"
+        ],
+        "alsoFits": [
+          "take"
         ]
       },
       {
@@ -606,6 +685,10 @@
           "stole",
           "sold",
           "lent"
+        ],
+        "alsoFits": [
+          "took",
+          "used"
         ]
       },
       {
@@ -615,6 +698,9 @@
           "buying",
           "stealing",
           "selling"
+        ],
+        "alsoFits": [
+          "using"
         ]
       },
       {
@@ -624,6 +710,10 @@
           "bought",
           "sold",
           "lent"
+        ],
+        "alsoFits": [
+          "taken",
+          "got"
         ]
       },
       {
@@ -633,6 +723,10 @@
           "lends",
           "sells",
           "buys"
+        ],
+        "alsoFits": [
+          "takes",
+          "steals"
         ]
       }
     ]
@@ -701,7 +795,8 @@
           "luxury",
           "fancy",
           "grand"
-        ]
+        ],
+        "alsoFits": []
       },
       {
         "en": "Buses are {{cheaper}} than taxis, so I save money.",
@@ -710,7 +805,8 @@
           "dearer",
           "slower",
           "dirtier"
-        ]
+        ],
+        "alsoFits": []
       },
       {
         "en": "I only had ten euros, so I bought the {{cheapest}} ticket.",
@@ -719,7 +815,8 @@
           "priciest",
           "fastest",
           "biggest"
-        ]
+        ],
+        "alsoFits": []
       },
       {
         "en": "Everything in this shop is really {{cheap}}.",
@@ -728,7 +825,8 @@
           "dark",
           "quiet",
           "crowded"
-        ]
+        ],
+        "alsoFits": []
       },
       {
         "en": "This phone costs too much; do you have anything {{cheaper}}?",
@@ -737,7 +835,8 @@
           "bigger",
           "newer",
           "heavier"
-        ]
+        ],
+        "alsoFits": []
       }
     ]
   },
@@ -808,6 +907,11 @@
           "ticket",
           "weather",
           "hotel"
+        ],
+        "alsoFits": [
+          "way",
+          "drive",
+          "trip"
         ]
       },
       {
@@ -817,6 +921,10 @@
           "station",
           "ticket",
           "platform"
+        ],
+        "alsoFits": [
+          "ride",
+          "trip"
         ]
       },
       {
@@ -826,6 +934,11 @@
           "lessons",
           "dinners",
           "houses"
+        ],
+        "alsoFits": [
+          "travels",
+          "trips",
+          "voyages"
         ]
       },
       {
@@ -835,6 +948,11 @@
           "lesson",
           "meeting",
           "speech"
+        ],
+        "alsoFits": [
+          "trip",
+          "drive",
+          "flight"
         ]
       },
       {
@@ -844,6 +962,9 @@
           "homework",
           "dinner",
           "party"
+        ],
+        "alsoFits": [
+          "trip"
         ]
       }
     ]
@@ -913,6 +1034,12 @@
           "boring",
           "ugly",
           "weak"
+        ],
+        "alsoFits": [
+          "great",
+          "amazing",
+          "cool",
+          "fantastic"
         ]
       },
       {
@@ -922,6 +1049,10 @@
           "terrible",
           "awful",
           "dull"
+        ],
+        "alsoFits": [
+          "amazing",
+          "great"
         ]
       },
       {
@@ -931,6 +1062,13 @@
           "boring",
           "awful",
           "terrible"
+        ],
+        "alsoFits": [
+          "great",
+          "amazing",
+          "cool",
+          "fantastic",
+          "brilliant"
         ]
       },
       {
@@ -940,6 +1078,13 @@
           "terrible",
           "rainy",
           "cold"
+        ],
+        "alsoFits": [
+          "great",
+          "amazing",
+          "fantastic",
+          "lovely",
+          "perfect"
         ]
       },
       {
@@ -949,6 +1094,12 @@
           "weak",
           "thin",
           "tired"
+        ],
+        "alsoFits": [
+          "amazing",
+          "beautiful",
+          "great",
+          "fantastic"
         ]
       }
     ]
@@ -1018,6 +1169,9 @@
           "slowly",
           "rarely",
           "loudly"
+        ],
+        "alsoFits": [
+          "fast"
         ]
       },
       {
@@ -1027,6 +1181,9 @@
           "slowly",
           "rarely",
           "politely"
+        ],
+        "alsoFits": [
+          "fast"
         ]
       },
       {
@@ -1036,6 +1193,9 @@
           "slowly",
           "badly",
           "rarely"
+        ],
+        "alsoFits": [
+          "fast"
         ]
       },
       {
@@ -1045,6 +1205,9 @@
           "slowly",
           "rarely",
           "quietly"
+        ],
+        "alsoFits": [
+          "fast"
         ]
       },
       {
@@ -1054,6 +1217,10 @@
           "slowly",
           "rarely",
           "politely"
+        ],
+        "alsoFits": [
+          "fast",
+          "soon"
         ]
       }
     ]
@@ -1127,7 +1294,8 @@
           "ruin",
           "hide",
           "copy"
-        ]
+        ],
+        "alsoFits": []
       },
       {
         "en": "Her health has {{improved}} a lot, and she feels great.",
@@ -1136,7 +1304,8 @@
           "worsened",
           "suffered",
           "failed"
-        ]
+        ],
+        "alsoFits": []
       },
       {
         "en": "We are {{improving}} the app to make it faster.",
@@ -1145,7 +1314,8 @@
           "breaking",
           "deleting",
           "selling"
-        ]
+        ],
+        "alsoFits": []
       },
       {
         "en": "Exercise {{improves}} your mood and helps you sleep.",
@@ -1154,7 +1324,8 @@
           "worsens",
           "ruins",
           "spoils"
-        ]
+        ],
+        "alsoFits": []
       },
       {
         "en": "The new bridge {{improved}} traffic, so jams are rare now.",
@@ -1163,7 +1334,8 @@
           "blocked",
           "painted",
           "stopped"
-        ]
+        ],
+        "alsoFits": []
       }
     ]
   },
@@ -1232,7 +1404,8 @@
           "comfortable",
           "beautiful",
           "clean"
-        ]
+        ],
+        "alsoFits": []
       },
       {
         "en": "Wikipedia is not always a {{reliable}} source.",
@@ -1241,6 +1414,9 @@
           "famous",
           "free",
           "quick"
+        ],
+        "alsoFits": [
+          "trustworthy"
         ]
       },
       {
@@ -1250,6 +1426,10 @@
           "tall",
           "rich",
           "famous"
+        ],
+        "alsoFits": [
+          "responsible",
+          "trustworthy"
         ]
       },
       {
@@ -1259,6 +1439,9 @@
           "crowded",
           "noisy",
           "old"
+        ],
+        "alsoFits": [
+          "punctual"
         ]
       },
       {
@@ -1268,6 +1451,10 @@
           "popular",
           "colourful",
           "empty"
+        ],
+        "alsoFits": [
+          "trustworthy",
+          "real"
         ]
       }
     ]
@@ -1337,6 +1524,11 @@
           "borrow",
           "repair",
           "cancel"
+        ],
+        "alsoFits": [
+          "buy",
+          "get",
+          "order"
         ]
       },
       {
@@ -1346,6 +1538,10 @@
           "stole",
           "borrowed",
           "found"
+        ],
+        "alsoFits": [
+          "bought",
+          "acquired"
         ]
       },
       {
@@ -1355,6 +1551,11 @@
           "repairing",
           "cleaning",
           "selling"
+        ],
+        "alsoFits": [
+          "buying",
+          "getting",
+          "ordering"
         ]
       },
       {
@@ -1364,6 +1565,10 @@
           "sells",
           "grows",
           "cooks"
+        ],
+        "alsoFits": [
+          "buys",
+          "gets"
         ]
       },
       {
@@ -1373,6 +1578,9 @@
           "painted",
           "visited",
           "rented"
+        ],
+        "alsoFits": [
+          "bought"
         ]
       }
     ]
@@ -1448,6 +1656,10 @@
           "plan",
           "idea",
           "place"
+        ],
+        "alsoFits": [
+          "man",
+          "boy"
         ]
       },
       {
@@ -1457,6 +1669,10 @@
           "pets",
           "bags",
           "doors"
+        ],
+        "alsoFits": [
+          "all",
+          "two"
         ]
       },
       {
@@ -1466,6 +1682,13 @@
           "book",
           "tree",
           "chair"
+        ],
+        "alsoFits": [
+          "man",
+          "woman",
+          "girl",
+          "boy",
+          "barista"
         ]
       },
       {
@@ -1475,6 +1698,13 @@
           "books",
           "desks",
           "chairs"
+        ],
+        "alsoFits": [
+          "men",
+          "boys",
+          "friends",
+          "neighbours",
+          "girls"
         ]
       },
       {
@@ -1484,6 +1714,9 @@
           "tree",
           "bag",
           "idea"
+        ],
+        "alsoFits": [
+          "man"
         ]
       }
     ]
@@ -1553,6 +1786,10 @@
           "hardly",
           "rarely",
           "often"
+        ],
+        "alsoFits": [
+          "finally",
+          "later"
         ]
       },
       {
@@ -1562,6 +1799,10 @@
           "often",
           "rarely",
           "hardly"
+        ],
+        "alsoFits": [
+          "later",
+          "finally"
         ]
       },
       {
@@ -1571,6 +1812,10 @@
           "hardly",
           "rarely",
           "never"
+        ],
+        "alsoFits": [
+          "finally",
+          "soon"
         ]
       },
       {
@@ -1580,6 +1825,10 @@
           "recently",
           "sometimes",
           "rarely"
+        ],
+        "alsoFits": [
+          "finally",
+          "then"
         ]
       },
       {
@@ -1589,6 +1838,10 @@
           "recently",
           "rarely",
           "often"
+        ],
+        "alsoFits": [
+          "finally",
+          "then"
         ]
       }
     ]
@@ -1655,45 +1908,71 @@
         "en": "They {{deployed}} the fix overnight.",
         "ru": "Они выкатили исправление за ночь.",
         "options": [
+          "deleted",
+          "forgot",
+          "broke"
+        ],
+        "alsoFits": [
+          "released",
           "installed",
-          "implemented",
-          "released"
+          "shipped",
+          "pushed"
         ]
       },
       {
         "en": "We {{deploy}} to production twice a week.",
         "ru": "Мы выкатываем в продакшен два раза в неделю.",
         "options": [
-          "install",
-          "implement",
-          "release"
+          "travel",
+          "walk",
+          "cook"
+        ],
+        "alsoFits": [
+          "release",
+          "ship",
+          "push"
         ]
       },
       {
         "en": "The team is {{deploying}} the update right now.",
         "ru": "Команда прямо сейчас выкатывает обновление.",
         "options": [
+          "painting",
+          "cooking",
+          "washing"
+        ],
+        "alsoFits": [
+          "releasing",
           "installing",
-          "implementing",
-          "releasing"
+          "shipping",
+          "pushing"
         ]
       },
       {
         "en": "She {{deploys}} every change through a pipeline.",
         "ru": "Она выкатывает каждое изменение через пайплайн.",
         "options": [
-          "installs",
-          "implements",
-          "releases"
+          "paints",
+          "cooks",
+          "sells"
+        ],
+        "alsoFits": [
+          "releases",
+          "ships",
+          "pushes"
         ]
       },
       {
         "en": "The UN {{deployed}} peacekeepers to the region.",
         "ru": "ООН направила миротворцев в регион.",
         "options": [
-          "installed",
-          "implemented",
-          "released"
+          "sold",
+          "fed",
+          "painted"
+        ],
+        "alsoFits": [
+          "sent",
+          "moved"
         ]
       }
     ]
@@ -1765,6 +2044,9 @@
           "topic",
           "colour",
           "weather"
+        ],
+        "alsoFits": [
+          "result"
         ]
       },
       {
@@ -1774,6 +2056,9 @@
           "prices",
           "names",
           "colours"
+        ],
+        "alsoFits": [
+          "results"
         ]
       },
       {
@@ -1783,6 +2068,9 @@
           "building",
           "poster",
           "weather"
+        ],
+        "alsoFits": [
+          "result"
         ]
       },
       {
@@ -1792,6 +2080,10 @@
           "poster",
           "colour",
           "ticket"
+        ],
+        "alsoFits": [
+          "result",
+          "score"
         ]
       },
       {
@@ -1801,6 +2093,9 @@
           "houses",
           "jokes",
           "colours"
+        ],
+        "alsoFits": [
+          "results"
         ]
       }
     ]
@@ -1874,6 +2169,10 @@
           "quick",
           "short",
           "sudden"
+        ],
+        "alsoFits": [
+          "detailed",
+          "careful"
         ]
       },
       {
@@ -1883,6 +2182,9 @@
           "lucky",
           "polite",
           "shy"
+        ],
+        "alsoFits": [
+          "careful"
         ]
       },
       {
@@ -1892,6 +2194,10 @@
           "careless",
           "vague",
           "brief"
+        ],
+        "alsoFits": [
+          "detailed",
+          "complete"
         ]
       },
       {
@@ -1901,6 +2207,11 @@
           "funny",
           "rude",
           "loud"
+        ],
+        "alsoFits": [
+          "detailed",
+          "full",
+          "complete"
         ]
       },
       {
@@ -1910,6 +2221,11 @@
           "poor",
           "rare",
           "brief"
+        ],
+        "alsoFits": [
+          "deep",
+          "good",
+          "proper"
         ]
       }
     ]
@@ -1987,6 +2303,9 @@
           "argue",
           "fight",
           "panic"
+        ],
+        "alsoFits": [
+          "relax"
         ]
       },
       {
@@ -1996,6 +2315,9 @@
           "worked",
           "studied",
           "cleaned"
+        ],
+        "alsoFits": [
+          "relaxed"
         ]
       },
       {
@@ -2005,6 +2327,11 @@
           "working",
           "shouting",
           "running"
+        ],
+        "alsoFits": [
+          "relaxing",
+          "resting",
+          "sleeping"
         ]
       },
       {
@@ -2014,6 +2341,9 @@
           "works",
           "argues",
           "shouts"
+        ],
+        "alsoFits": [
+          "relaxes"
         ]
       },
       {
@@ -2023,6 +2353,9 @@
           "hurry",
           "run",
           "work"
+        ],
+        "alsoFits": [
+          "relax"
         ]
       }
     ]
@@ -2092,6 +2425,11 @@
           "Therefore",
           "Meanwhile",
           "Besides"
+        ],
+        "alsoFits": [
+          "however",
+          "still",
+          "nonetheless"
         ]
       },
       {
@@ -2101,6 +2439,9 @@
           "therefore",
           "moreover",
           "meanwhile"
+        ],
+        "alsoFits": [
+          "still"
         ]
       },
       {
@@ -2110,6 +2451,10 @@
           "therefore",
           "moreover",
           "besides"
+        ],
+        "alsoFits": [
+          "however",
+          "nonetheless"
         ]
       },
       {
@@ -2119,6 +2464,11 @@
           "Furthermore",
           "Therefore",
           "Instead"
+        ],
+        "alsoFits": [
+          "however",
+          "still",
+          "nonetheless"
         ]
       },
       {
@@ -2128,6 +2478,10 @@
           "therefore",
           "otherwise",
           "moreover"
+        ],
+        "alsoFits": [
+          "however",
+          "nonetheless"
         ]
       }
     ]
@@ -2201,6 +2555,12 @@
           "increase",
           "ignore",
           "measure"
+        ],
+        "alsoFits": [
+          "reduce",
+          "lessen",
+          "limit",
+          "soften"
         ]
       },
       {
@@ -2210,6 +2570,11 @@
           "worsened",
           "ignored",
           "explained"
+        ],
+        "alsoFits": [
+          "reduced",
+          "limited",
+          "softened"
         ]
       },
       {
@@ -2219,6 +2584,9 @@
           "celebrating",
           "ignoring",
           "predicting"
+        ],
+        "alsoFits": [
+          "fighting"
         ]
       },
       {
@@ -2228,6 +2596,11 @@
           "increases",
           "causes",
           "hides"
+        ],
+        "alsoFits": [
+          "reduces",
+          "lowers",
+          "lessens"
         ]
       },
       {
@@ -2237,6 +2610,11 @@
           "increased",
           "caused",
           "measured"
+        ],
+        "alsoFits": [
+          "limited",
+          "reduced",
+          "repaired"
         ]
       }
     ]
@@ -2306,6 +2684,10 @@
           "rare",
           "forbidden",
           "expensive"
+        ],
+        "alsoFits": [
+          "everywhere",
+          "common"
         ]
       },
       {
@@ -2315,6 +2697,10 @@
           "unnecessary",
           "illegal",
           "silent"
+        ],
+        "alsoFits": [
+          "everywhere",
+          "common"
         ]
       },
       {
@@ -2324,6 +2710,10 @@
           "secret",
           "invisible",
           "tiny"
+        ],
+        "alsoFits": [
+          "famous",
+          "iconic"
         ]
       },
       {
@@ -2333,6 +2723,12 @@
           "unknown",
           "secret",
           "invisible"
+        ],
+        "alsoFits": [
+          "everywhere",
+          "common",
+          "popular",
+          "normal"
         ]
       },
       {
@@ -2342,6 +2738,10 @@
           "unknown",
           "forbidden",
           "dangerous"
+        ],
+        "alsoFits": [
+          "everywhere",
+          "universal"
         ]
       }
     ]
@@ -2417,6 +2817,11 @@
           "pleasure",
           "bargain",
           "holiday"
+        ],
+        "alsoFits": [
+          "pain",
+          "nuisance",
+          "problem"
         ]
       },
       {
@@ -2426,6 +2831,10 @@
           "luck",
           "fun",
           "joy"
+        ],
+        "alsoFits": [
+          "trouble",
+          "bother"
         ]
       },
       {
@@ -2435,6 +2844,11 @@
           "gifts",
           "jokes",
           "prizes"
+        ],
+        "alsoFits": [
+          "problems",
+          "issues",
+          "troubles"
         ]
       },
       {
@@ -2444,6 +2858,11 @@
           "petrol",
           "paper",
           "weight"
+        ],
+        "alsoFits": [
+          "trouble",
+          "bother",
+          "pain"
         ]
       },
       {
@@ -2453,6 +2872,11 @@
           "gift",
           "joy",
           "prize"
+        ],
+        "alsoFits": [
+          "pain",
+          "nightmare",
+          "problem"
         ]
       }
     ]
@@ -2526,6 +2950,10 @@
           "humour",
           "space",
           "furniture"
+        ],
+        "alsoFits": [
+          "power",
+          "influence"
         ]
       },
       {
@@ -2535,6 +2963,10 @@
           "weight",
           "colour",
           "noise"
+        ],
+        "alsoFits": [
+          "force",
+          "power"
         ]
       },
       {
@@ -2544,6 +2976,11 @@
           "insurance",
           "evidence",
           "decoration"
+        ],
+        "alsoFits": [
+          "power",
+          "influence",
+          "control"
         ]
       },
       {
@@ -2553,7 +2990,8 @@
           "colour",
           "holiday",
           "furniture"
-        ]
+        ],
+        "alsoFits": []
       },
       {
         "en": "A second job offer gave him {{leverage}} to ask for more money.",
@@ -2562,6 +3000,9 @@
           "pleasure",
           "patience",
           "silence"
+        ],
+        "alsoFits": [
+          "power"
         ]
       }
     ]
@@ -2631,6 +3072,10 @@
           "clearly",
           "proudly",
           "openly"
+        ],
+        "alsoFits": [
+          "reportedly",
+          "supposedly"
         ]
       },
       {
@@ -2640,6 +3085,11 @@
           "clearly",
           "definitely",
           "certainly"
+        ],
+        "alsoFits": [
+          "reportedly",
+          "supposedly",
+          "possibly"
         ]
       },
       {
@@ -2649,6 +3099,10 @@
           "proudly",
           "openly",
           "honestly"
+        ],
+        "alsoFits": [
+          "reportedly",
+          "supposedly"
         ]
       },
       {
@@ -2658,6 +3112,10 @@
           "clearly",
           "proudly",
           "definitely"
+        ],
+        "alsoFits": [
+          "reportedly",
+          "supposedly"
         ]
       },
       {
@@ -2667,6 +3125,10 @@
           "clearly",
           "bravely",
           "openly"
+        ],
+        "alsoFits": [
+          "reportedly",
+          "supposedly"
         ]
       }
     ]
@@ -2736,6 +3198,11 @@
           "eternal",
           "local",
           "legal"
+        ],
+        "alsoFits": [
+          "short",
+          "brief",
+          "fleeting"
         ]
       },
       {
@@ -2745,6 +3212,10 @@
           "permanent",
           "hidden",
           "common"
+        ],
+        "alsoFits": [
+          "brief",
+          "fleeting"
         ]
       },
       {
@@ -2754,6 +3225,11 @@
           "endless",
           "empty",
           "ugly"
+        ],
+        "alsoFits": [
+          "brief",
+          "short",
+          "fleeting"
         ]
       },
       {
@@ -2763,6 +3239,10 @@
           "lasting",
           "valuable",
           "helpful"
+        ],
+        "alsoFits": [
+          "brief",
+          "fleeting"
         ]
       },
       {
@@ -2772,6 +3252,10 @@
           "solid",
           "dangerous",
           "heavy"
+        ],
+        "alsoFits": [
+          "fragile",
+          "fleeting"
         ]
       }
     ]
@@ -2845,6 +3329,11 @@
           "explain",
           "clarify",
           "illustrate"
+        ],
+        "alsoFits": [
+          "hide",
+          "obscure",
+          "confuse"
         ]
       },
       {
@@ -2854,6 +3343,11 @@
           "clarified",
           "revealed",
           "praised"
+        ],
+        "alsoFits": [
+          "dodged",
+          "avoided",
+          "confused"
         ]
       },
       {
@@ -2863,6 +3357,11 @@
           "revealing",
           "explaining",
           "admitting"
+        ],
+        "alsoFits": [
+          "hiding",
+          "obscuring",
+          "twisting"
         ]
       },
       {
@@ -2872,6 +3371,10 @@
           "clarifies",
           "reveals",
           "simplifies"
+        ],
+        "alsoFits": [
+          "confuses",
+          "hides"
         ]
       },
       {
@@ -2881,6 +3384,11 @@
           "checked",
           "stated",
           "proved"
+        ],
+        "alsoFits": [
+          "twisted",
+          "hidden",
+          "muddled"
         ]
       }
     ]
@@ -2952,6 +3460,11 @@
           "victory",
           "triumph",
           "festival"
+        ],
+        "alsoFits": [
+          "mess",
+          "nightmare",
+          "swamp"
         ]
       },
       {
@@ -2961,6 +3474,12 @@
           "garden",
           "mountain",
           "carpet"
+        ],
+        "alsoFits": [
+          "mud",
+          "swamp",
+          "bog",
+          "marsh"
         ]
       },
       {
@@ -2970,6 +3489,11 @@
           "gifts",
           "bargains",
           "holidays"
+        ],
+        "alsoFits": [
+          "messes",
+          "nightmares",
+          "failures"
         ]
       },
       {
@@ -2979,6 +3503,12 @@
           "adventure",
           "picnic",
           "festival"
+        ],
+        "alsoFits": [
+          "maze",
+          "jungle",
+          "mess",
+          "nightmare"
         ]
       },
       {
@@ -2988,6 +3518,11 @@
           "success",
           "victory",
           "holiday"
+        ],
+        "alsoFits": [
+          "mess",
+          "nightmare",
+          "maze"
         ]
       }
     ]
@@ -3057,6 +3592,13 @@
           "relaxed",
           "grateful",
           "sleepy"
+        ],
+        "alsoFits": [
+          "shocked",
+          "stunned",
+          "amazed",
+          "speechless",
+          "surprised"
         ]
       },
       {
@@ -3066,6 +3608,13 @@
           "bored",
           "annoyed",
           "sleepy"
+        ],
+        "alsoFits": [
+          "amazed",
+          "shocked",
+          "stunned",
+          "surprised",
+          "thrilled"
         ]
       },
       {
@@ -3075,6 +3624,11 @@
           "amused",
           "bored",
           "relaxed"
+        ],
+        "alsoFits": [
+          "shocked",
+          "stunned",
+          "surprised"
         ]
       },
       {
@@ -3084,6 +3638,12 @@
           "relaxed",
           "bored",
           "calm"
+        ],
+        "alsoFits": [
+          "shocked",
+          "stunned",
+          "surprised",
+          "amazed"
         ]
       },
       {
@@ -3093,6 +3653,12 @@
           "tired",
           "bored",
           "worried"
+        ],
+        "alsoFits": [
+          "amazed",
+          "surprised",
+          "shocked",
+          "stunned"
         ]
       }
     ]
@@ -3164,6 +3730,12 @@
           "sad",
           "sleepy",
           "dull"
+        ],
+        "alsoFits": [
+          "good",
+          "cool",
+          "great",
+          "sick"
         ]
       },
       {
@@ -3173,6 +3745,12 @@
           "saddest",
           "dullest",
           "worst"
+        ],
+        "alsoFits": [
+          "best",
+          "coolest",
+          "greatest",
+          "wildest"
         ]
       },
       {
@@ -3182,6 +3760,12 @@
           "ugly",
           "dull",
           "awful"
+        ],
+        "alsoFits": [
+          "cool",
+          "great",
+          "awesome",
+          "amazing"
         ]
       },
       {
@@ -3191,6 +3775,11 @@
           "boring",
           "weak",
           "awful"
+        ],
+        "alsoFits": [
+          "good",
+          "great",
+          "cool"
         ]
       },
       {
@@ -3200,6 +3789,12 @@
           "boring",
           "sad",
           "long"
+        ],
+        "alsoFits": [
+          "cool",
+          "great",
+          "amazing",
+          "awesome"
         ]
       }
     ]
