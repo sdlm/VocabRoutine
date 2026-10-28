@@ -1,5 +1,5 @@
 import { describe, expect, test } from 'vitest';
-import { applyLetterHint, choices, isCorrect, linkWords, maxHintLetters, parseCloze, typingState } from './cloze';
+import { applyLetterHint, choices, isCorrect, linkWords, maxHintLetters, parseCloze, ruledOut, typingState } from './cloze';
 
 describe('parseCloze', () => {
 	test('splits around the single gap', () => {
@@ -103,5 +103,40 @@ describe('letter hint', () => {
 	});
 	test('typing that contradicts the prefix is cleared', () => {
 		expect(applyLetterHint('deployed', '', 'xyz')).toEqual({ prefix: 'd', typed: '' });
+	});
+});
+
+describe('ruledOut', () => {
+	const fits = ['stopped', 'blocked'];
+
+	test('nothing while the input is empty or still on the answer', () => {
+		expect(ruledOut('', 'suspended', fits)).toEqual([]);
+		expect(ruledOut('s', 'suspended', fits)).toEqual([]);
+		expect(ruledOut('suspended ', 'suspended', fits)).toEqual([]);
+	});
+
+	test('a word shows once the input leaves the answer and still starts the word', () => {
+		expect(ruledOut('st', 'suspended', fits)).toEqual(['stopped']);
+		expect(ruledOut('stopped', 'suspended', fits)).toEqual(['stopped']);
+		expect(ruledOut('b', 'suspended', fits)).toEqual(['blocked']);
+	});
+
+	test('nothing when the input starts no word', () => {
+		expect(ruledOut('stoppedx', 'suspended', fits)).toEqual([]);
+		expect(ruledOut('x', 'suspended', fits)).toEqual([]);
+	});
+
+	test('the first letter is enough when the word starts differently', () => {
+		expect(ruledOut('w', 'strange', ['weird', 'odd'])).toEqual(['weird']);
+		expect(ruledOut('o', 'strange', ['weird', 'odd'])).toEqual(['odd']);
+	});
+
+	test('several words for one input, in alsoFits order', () => {
+		expect(ruledOut('g', 'happy', ['great', 'sad', 'glad'])).toEqual(['great', 'glad']);
+	});
+
+	test('ignores case and typographic apostrophes', () => {
+		expect(ruledOut('W', 'strange', ['weird'])).toEqual(['weird']);
+		expect(ruledOut('don’', 'never', ["don't"])).toEqual(["don't"]);
 	});
 });

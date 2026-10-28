@@ -36,6 +36,16 @@ export function typingState(input: string, answer: string): TypingState {
 	return a.startsWith(s) || s.trimEnd() === a ? 'ok' : 'bad';
 }
 
+/**
+ * alsoFits words the input points to: it has left the answer ('bad' in typingState)
+ * and is still the start of the word. Letters revealed by a hint are part of the input.
+ */
+export function ruledOut(input: string, answer: string, alsoFits: string[]): string[] {
+	if (typingState(input, answer) !== 'bad') return [];
+	const s = normalize(input);
+	return alsoFits.filter((w) => normalize(w).startsWith(s));
+}
+
 export function shuffle<T>(items: T[], rng: () => number = Math.random): T[] {
 	const a = [...items];
 	for (let i = a.length - 1; i > 0; i--) {
