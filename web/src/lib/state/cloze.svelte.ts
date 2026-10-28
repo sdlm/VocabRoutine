@@ -1,5 +1,5 @@
 import { wordById } from '$lib/content';
-import { applyLetterHint, choices, maxHintLetters, parseCloze } from '$lib/domain/cloze';
+import { applyLetterHint, choices, maxHintLetters, parseCloze, ruledOut } from '$lib/domain/cloze';
 import {
 	closeWord,
 	isNewInCloze,
@@ -30,6 +30,8 @@ export interface ClozeView {
 	/** Letters revealed by the hint; they cannot be erased. */
 	prefix: string;
 	typed: string;
+	/** alsoFits words shown as «Точно не», in the order they appeared; they stay until the next word. */
+	ruledOut: string[];
 	hints: { translation: boolean; meta: boolean };
 	/** Set once the word is closed. `picked` is the typed text or the chosen option. */
 	closed: { outcome: ClozeOutcome; picked: string | null } | null;
@@ -74,6 +76,7 @@ function newView(s: ClozeSession, wordId: string): ClozeView {
 		choices: choices(parseCloze(c.en).answer, c.options),
 		prefix: '',
 		typed: '',
+		ruledOut: [],
 		hints: { translation: false, meta: false },
 		closed: null
 	};
@@ -134,6 +137,16 @@ export function useLetterHint(): void {
 	const next = applyLetterHint(answer, v.prefix, v.typed);
 	v.prefix = next.prefix;
 	v.typed = next.typed;
+}
+
+/** Adds the alsoFits words the current input points to; words already shown stay. */
+export function noteRuledOut(): void {
+	const v = cloze.view;
+	if (!v || v.closed) return;
+	const c = wordById.get(v.wordId)!.cloze[v.sentence];
+	for (const w of ruledOut(v.prefix + v.typed, parseCloze(c.en).answer, c.alsoFits)) {
+		if (!v.ruledOut.includes(w)) v.ruledOut.push(w);
+	}
 }
 
 export function useHint(kind: 'translation' | 'meta'): void {

@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, test } from 'vitest';
 import { DAY, dayKey } from '$lib/domain/time';
-import { answerCloze, cloze, ensureClozeSession, finishClozeSession, nextCloze, syncClozeView, useLetterHint } from './cloze.svelte';
+import { answerCloze, cloze, ensureClozeSession, finishClozeSession, nextCloze, noteRuledOut, syncClozeView, useLetterHint } from './cloze.svelte';
 import { app, resetDemo } from './store.svelte';
 
 const today = () => app.activity[dayKey(Date.now())]?.counted ?? 0;
@@ -157,5 +157,52 @@ describe('finishClozeSession', () => {
 		finishClozeSession();
 		expect(app.sessions.cloze).toBeNull();
 		expect(cloze.view).toBeNull();
+	});
+});
+
+describe('noteRuledOut', () => {
+	function typeInto(typed: string) {
+		cloze.view!.typed = typed;
+		noteRuledOut();
+	}
+
+	test('a new word starts with nothing ruled out', () => {
+		start();
+		expect(cloze.view!.ruledOut).toEqual([]);
+	});
+
+	test('a word shows once typed and stays when the input is erased', () => {
+		start();
+		cloze.view!.sentence = 0; // «She {{eats}} an apple every morning.», alsoFits: has
+		typeInto('h');
+		expect(cloze.view!.ruledOut).toEqual(['has']);
+		typeInto('');
+		typeInto('ha');
+		expect(cloze.view!.ruledOut).toEqual(['has']);
+	});
+
+	test('letters revealed by the hint count as typed', () => {
+		start();
+		cloze.view!.sentence = 0;
+		useLetterHint();
+		typeInto('h');
+		expect(cloze.view!.ruledOut).toEqual([]);
+	});
+
+	test('the next word starts over', () => {
+		start();
+		cloze.view!.sentence = 0;
+		typeInto('h');
+		nextCloze();
+		expect(cloze.view!.wordId).toBe('house');
+		expect(cloze.view!.ruledOut).toEqual([]);
+	});
+
+	test('a closed word is left alone', () => {
+		start();
+		cloze.view!.sentence = 0;
+		answerCloze('wrong', 'x');
+		typeInto('h');
+		expect(cloze.view!.ruledOut).toEqual([]);
 	});
 });
