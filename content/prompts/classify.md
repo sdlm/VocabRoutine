@@ -14,7 +14,10 @@ VocabRoutine teaches English words to Russian speakers. Its dictionary keeps onl
 - `pos` is the word's most frequent use in general modern English: `"noun"`, `"verb"`, `"adjective"`, `"adverb"`, or `null`.
 - `null` when the most frequent use is anything else: article, determiner, pronoun, preposition, conjunction, modal verb, number, interjection, discourse marker. So `the`, `of`, `that`, `one`, `can`, `will`, `must`, `I`, `yeah`, `hello`, `please` are `null`, even when a rare noun or verb use exists (`can` = tin, `will` = testament).
 - `be`, `have`, `do`, `get` and other verbs that also work as auxiliaries are verbs.
-- `doubt` is `true` when two readings are close in frequency or the choice is debatable (`up`, `out`, `so`, `still`, `well`, `right`, `like`); otherwise `false`.
+- A frequent discourse-marker use does not drop a word that also has a common content use: `like` → verb, `well` → adverb, `right` → adjective, `so` → adverb. Only words with no common content use (`yeah`, `oh`, `hello`) are `null`.
+- "Number" means cardinal numbers (`one`, `two`, `hundred`); `first`, `last`, `next` are adjectives.
+- When unsure whether to keep or drop a word, keep it with its likeliest part of speech and set `doubt: true`.
+- `doubt` is `true` when keeping or dropping the word is debatable, or when two of the four parts of speech are about equally frequent (`up`, `out`, `so`, `still`, `well`, `right`, `like`). An ordinary noun/verb word such as `work` or `change` is not doubtful: pick the more frequent use. Otherwise `false`.
 - `reason` is a short English explanation. It is required when `pos` is `null` or `doubt` is `true`; otherwise it is `""`.
 
 ## Example
