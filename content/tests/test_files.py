@@ -1,3 +1,5 @@
+import os
+
 import pytest
 
 from content.files import ContentError, read_json, write_json
@@ -34,3 +36,20 @@ def test_non_utf8_file_is_a_content_error(tmp_path):
     path.write_bytes(b'{"a": "\xff\xfe"}')
     with pytest.raises(ContentError, match="x.json: not UTF-8 text"):
         read_json(path)
+
+
+def test_write_json_replaces_file_and_leaves_no_temp(tmp_path):
+    path = tmp_path / "x.json"
+    path.write_text('"old"', encoding="utf-8")
+    write_json(path, {"a": 1})
+    assert read_json(path) == {"a": 1}
+    assert [p.name for p in tmp_path.iterdir()] == ["x.json"]
+
+
+def test_write_json_goes_through_a_temp_file(tmp_path, monkeypatch):
+    path = tmp_path / "x.json"
+    calls = []
+    real_replace = os.replace
+    monkeypatch.setattr(os, "replace", lambda src, dst: (calls.append((src, dst)), real_replace(src, dst)))
+    write_json(path, [1])
+    assert calls == [(path.with_name("x.json.tmp"), path)]

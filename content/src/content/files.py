@@ -1,6 +1,7 @@
 """JSON helpers and the error every pipeline step raises."""
 
 import json
+import os
 from pathlib import Path
 
 
@@ -21,4 +22,6 @@ def read_json(path: Path, object_pairs_hook=None):
 
 def write_json(path: Path, data, indent: int | str = 2) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(json.dumps(data, ensure_ascii=False, indent=indent) + "\n", encoding="utf-8")
+    tmp = path.with_name(path.name + ".tmp")
+    tmp.write_text(json.dumps(data, ensure_ascii=False, indent=indent) + "\n", encoding="utf-8")
+    os.replace(tmp, path)  # atomic: a crash never leaves a half-written file

@@ -44,6 +44,7 @@ def test_assemble_needs_three_words_per_pos(tmp_path):
     words = names(3)
     paths = make_data(tmp_path, [(w, "noun") for w in words])
     write_batch(paths, 1, {w: make_card(w) for w in words})
+    paths.words.write_text("old", encoding="utf-8")
     with pytest.raises(ContentError, match="fewer than 3 words for verb, adjective, adverb"):
         assemble(paths)
-    assert not paths.words.exists()
+    assert paths.words.read_text(encoding="utf-8") == "old"
