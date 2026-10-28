@@ -13,7 +13,7 @@ def read_json(path: Path, object_pairs_hook=None):
     try:
         return json.loads(path.read_text(encoding="utf-8"), object_pairs_hook=object_pairs_hook)
     except FileNotFoundError as e:
-        raise ContentError(f"{path}: not found") from e
+        raise ContentError(f"{path.resolve()}: not found") from e
     except UnicodeDecodeError as e:
         raise ContentError(f"{path.name}: not UTF-8 text") from e
     except json.JSONDecodeError as e:

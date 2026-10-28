@@ -30,23 +30,34 @@ def merge_pos(paths: Paths, force: bool = False) -> int:
     known = {x.lemma for x in lemmas}
     seen: dict[str, dict] = {}
     errors: list[str] = []
-    for in_path in sorted(paths.classify_dir.glob("*.in.json")):
+    in_paths = sorted(paths.classify_dir.glob("*.in.json"))
+    if not in_paths:
+        raise ContentError("no classification batches; run classify-batches first")
+    skipped: set[str] = set()  # lemmas of batches without a usable answer: already reported per batch
+    for in_path in in_paths:
         out_path = in_path.with_name(in_path.name.replace(".in.json", ".out.json"))
         if not out_path.exists():
             errors.append(f"{out_path.name}: missing")
+            skipped |= _batch_lemmas(in_path)
             continue
         answers = read_json(out_path)
         if not isinstance(answers, list):
             errors.append(f"{out_path.name}: expected a JSON array")
+            skipped |= _batch_lemmas(in_path)
             continue
         for i, entry in enumerate(answers):
             errors += _check(out_path.name, f"{out_path.name}[{i}]", entry, known, seen)
-    errors += [f"{x.lemma}: not classified" for x in lemmas if x.lemma not in seen]
+    errors += [f"{x.lemma}: not classified" for x in lemmas if x.lemma not in seen and x.lemma not in skipped]
     if errors:
         raise ContentError("\n".join(errors))
     write_json(paths.pos, {x.lemma: seen[x.lemma]["pos"] for x in lemmas})
     paths.dropped.write_text(_dropped_md(lemmas, seen), encoding="utf-8")
     return sum(1 for x in lemmas if seen[x.lemma]["pos"] is None)
+
+
+def _batch_lemmas(in_path: Path) -> set[str]:
+    batch = read_json(in_path)
+    return {x["lemma"] for x in batch if isinstance(x, dict) and isinstance(x.get("lemma"), str)}
 
 
 def _check(source: str, at: str, entry: object, known: set[str], seen: dict[str, dict]) -> list[str]:

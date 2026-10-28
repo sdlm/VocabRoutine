@@ -17,7 +17,7 @@ def main(argv: list[str] | None = None) -> int:
     args = _parser().parse_args(argv)
     try:
         return args.run(Paths(args.data), args)
-    except ContentError as e:
+    except (ContentError, OSError) as e:
         print(f"error: {e}", file=sys.stderr)
         return 1
 
@@ -49,7 +49,10 @@ def _parser() -> argparse.ArgumentParser:
 
 
 def _id_list(value: str) -> list[str]:
-    return [x.strip() for x in value.split(",") if x.strip()]
+    ids = list(dict.fromkeys(x.strip() for x in value.split(",") if x.strip()))
+    if not ids:
+        raise argparse.ArgumentTypeError("no ids given")
+    return ids
 
 
 def _classify_batches(paths: Paths, args) -> int:
@@ -65,13 +68,14 @@ def _merge_pos(paths: Paths, args) -> int:
 
 
 def _card_batches(paths: Paths, args) -> int:
+    earlier = pending(paths)  # before this run adds new batches
     created = card_batches(paths, pilot=args.pilot, ids=args.ids, limit=args.limit)
     for path in created:
         print(path)
     print(f"{len(created)} new batches")
-    if waiting := pending(paths):
-        print("waiting for output: " + ", ".join(f"{n:03}" for n in waiting))
-    if paths.stuck.exists():
+    if earlier:
+        print("waiting for output (earlier batches): " + ", ".join(f"{n:03}" for n in earlier))
+    if not (args.pilot or args.ids) and paths.stuck.exists():
         print(f"stuck words: {paths.stuck}")
     return 0
 
@@ -85,6 +89,9 @@ def _validate(paths: Paths, args) -> int:
                 print(f"  {error}")
         # Cards in the output plus input ids the output is missing.
         total = len(set(read_output(args.file)) | set(report))
+        if total == 0:
+            print("no cards in the file")
+            return 1
         print(f"{len(report)} of {total} cards invalid" if report else f"all {total} cards valid")
         return 1 if report else 0
     checked, report = validate_all(paths)

@@ -162,3 +162,9 @@ def test_stuck_needs_three_invalid_versions_in_a_row(tmp_path):
         write_batch(paths, num, {w: bad_card(w)})
     assert card_batches(paths) == []
     assert "## wordaa (noun, rank 1)" in paths.stuck.read_text(encoding="utf-8")
+
+
+def test_empty_ids_list_picks_nothing(tmp_path):
+    a = names(1)[0]
+    paths = make_data(tmp_path, [(a, "noun")])
+    assert card_batches(paths, ids=[]) == []

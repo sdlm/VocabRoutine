@@ -27,7 +27,7 @@ def test_invalid_json_is_a_content_error(tmp_path):
 
 def test_missing_file_names_the_full_path(tmp_path):
     path = tmp_path / "x.json"
-    with pytest.raises(ContentError, match=f"{path}: not found"):
+    with pytest.raises(ContentError, match=f"{path.resolve()}: not found"):
         read_json(path)
 
 

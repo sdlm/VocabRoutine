@@ -104,3 +104,17 @@ def test_dropped_md_escapes_pipes_in_reason(tmp_path):
     text = paths.dropped.read_text(encoding="utf-8")
     assert text.count("a \\| b c") == 1
     assert text.index("a \\| b c") < text.index("## Отброшенные")
+
+
+def test_merge_missing_batch_does_not_list_its_lemmas(tmp_path):
+    paths = make_csv(tmp_path, ["the", "house"])
+    classify_batches(paths)
+    with pytest.raises(ContentError) as e:
+        merge_pos(paths)
+    assert str(e.value) == "001.out.json: missing"
+
+
+def test_merge_without_batches_says_to_run_classify_batches(tmp_path):
+    paths = make_csv(tmp_path, ["house"])
+    with pytest.raises(ContentError, match="no classification batches; run classify-batches first"):
+        merge_pos(paths)

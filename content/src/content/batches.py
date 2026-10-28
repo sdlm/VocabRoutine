@@ -37,7 +37,7 @@ def card_batches(
     history = versions(paths)
     busy = {id_ for num in pending(paths) for id_ in input_ids(paths, num)}
 
-    if pilot or ids:
+    if pilot or ids is not None:
         chosen = pilot_words(words) if pilot else [_lookup(by_id, id_) for id_ in ids]
         if taken := [w.id for w in chosen if w.id in busy]:
             raise ContentError(f"already in a pending batch: {', '.join(taken)}")
