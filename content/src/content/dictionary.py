@@ -6,8 +6,9 @@ from .files import ContentError, read_json
 from .ngsl import read_ngsl
 from .paths import Paths
 
-POS = ("noun", "verb", "adjective", "adverb")
+POS = ("noun", "verb", "adjective", "adverb", "preposition", "conjunction", "pronoun")
 LEVELS = ("A1", "A2", "B1", "B2", "C1", "C2")
+TOP_DROPPED = 30  # the most frequent lemmas are dropped whatever the classification says
 
 
 @dataclass(frozen=True)

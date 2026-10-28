@@ -10,15 +10,15 @@ KEYS = ["id", "word", "forms", "pos", "level", "register", "freqRank",
 
 
 def mixed(n):
-    return [(w, POS[i % 4]) for i, w in enumerate(names(n))]
+    return [(w, POS[i % len(POS)]) for i, w in enumerate(names(n))]
 
 
 def test_assemble_writes_valid_cards_in_rank_order(tmp_path):
-    lemmas = mixed(12)
+    lemmas = mixed(21)
     paths = make_data(tmp_path, lemmas)
     words = [w for w, _ in lemmas]
     write_batch(paths, 1, {w: make_card(w) for w in reversed(words)})
-    assert assemble(paths) == 12
+    assert assemble(paths) == 21
     records = read_json(paths.words)
     assert [r["id"] for r in records] == words
     first = records[0]
@@ -29,15 +29,15 @@ def test_assemble_writes_valid_cards_in_rank_order(tmp_path):
 
 
 def test_assemble_skips_invalid_and_missing_cards(tmp_path):
-    lemmas = mixed(14)
+    lemmas = mixed(23)
     paths = make_data(tmp_path, lemmas)
     words = [w for w, _ in lemmas]
     bad = make_card(words[0])
     bad["cloze"].pop()
-    write_batch(paths, 1, {words[0]: bad, **{w: make_card(w) for w in words[1:13]}})
-    assert assemble(paths) == 12
+    write_batch(paths, 1, {words[0]: bad, **{w: make_card(w) for w in words[1:22]}})
+    assert assemble(paths) == 21
     ids = {r["id"] for r in read_json(paths.words)}
-    assert words[0] not in ids and words[13] not in ids
+    assert words[0] not in ids and words[22] not in ids
 
 
 def test_assemble_needs_three_words_per_pos(tmp_path):
@@ -45,6 +45,6 @@ def test_assemble_needs_three_words_per_pos(tmp_path):
     paths = make_data(tmp_path, [(w, "noun") for w in words])
     write_batch(paths, 1, {w: make_card(w) for w in words})
     paths.words.write_text("old", encoding="utf-8")
-    with pytest.raises(ContentError, match="fewer than 3 words for verb, adjective, adverb"):
+    with pytest.raises(ContentError, match="fewer than 3 words for verb, adjective, adverb, preposition, conjunction, pronoun"):
         assemble(paths)
     assert paths.words.read_text(encoding="utf-8") == "old"

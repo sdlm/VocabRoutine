@@ -2,7 +2,7 @@ import pytest
 from helpers import make_card, make_csv, make_data, names, write_batch
 
 from content.cli import main
-from content.dictionary import POS
+from content.dictionary import POS, TOP_DROPPED
 from content.files import read_json, write_json
 
 
@@ -34,10 +34,10 @@ def test_content_errors_go_to_stderr(tmp_path, capsys):
 
 
 def test_pipeline_end_to_end(tmp_path, capsys):
-    words = names(12)
+    words = names(21)
     lemmas = ["the", *words]
-    paths = make_csv(tmp_path, lemmas)
-    pos = {"the": None, **{w: POS[i % 4] for i, w in enumerate(words)}}
+    paths = make_csv(tmp_path, lemmas, first_rank=TOP_DROPPED + 1)
+    pos = {"the": None, **{w: POS[i % len(POS)] for i, w in enumerate(words)}}
 
     def run(*args):
         return main(["--data", str(tmp_path), *args])
@@ -56,9 +56,9 @@ def test_pipeline_end_to_end(tmp_path, capsys):
     assert run("assemble") == 0
     assert [r["id"] for r in read_json(paths.words)] == words
     out = capsys.readouterr().out
-    assert "12 valid, 0 invalid" in out
+    assert "21 valid, 0 invalid" in out
     assert "0 new batches" in out
-    assert "12 words in" in out
+    assert "21 words in" in out
 
 
 @pytest.mark.parametrize("value", [",", ""])

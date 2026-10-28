@@ -4,11 +4,11 @@ from content.files import write_json
 from content.paths import Paths
 
 
-def make_csv(tmp_path, lemmas: list[str]) -> Paths:
-    """NGSL CSV with the lemmas ranked 1..n in the given order."""
+def make_csv(tmp_path, lemmas: list[str], first_rank: int = 1) -> Paths:
+    """NGSL CSV with the lemmas ranked first_rank, first_rank + 1, … in the given order."""
     paths = Paths(tmp_path)
     paths.csv.parent.mkdir(parents=True, exist_ok=True)
-    rows = ["lemma,rank,sfi,u", *(f"{lemma},{rank},50.0,10.0" for rank, lemma in enumerate(lemmas, 1))]
+    rows = ["lemma,rank,sfi,u", *(f"{lemma},{rank},50.0,10.0" for rank, lemma in enumerate(lemmas, first_rank))]
     paths.csv.write_text("\n".join(rows) + "\n", encoding="utf-8")
     return paths
 

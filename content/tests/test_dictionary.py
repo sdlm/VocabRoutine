@@ -3,7 +3,7 @@ from collections import Counter
 import pytest
 from helpers import make_csv, make_data
 
-from content.dictionary import LEVELS, DictWord, level_of, load_dictionary
+from content.dictionary import LEVELS, POS, DictWord, level_of, load_dictionary
 from content.files import ContentError, write_json
 
 
@@ -19,9 +19,20 @@ def test_dictionary_keeps_classified_words_with_ranks(tmp_path):
     assert load_dictionary(paths)[0].id == "house"
 
 
+def test_pos_has_seven_values():
+    assert POS == ("noun", "verb", "adjective", "adverb", "preposition", "conjunction", "pronoun")
+
+
+def test_dictionary_keeps_new_parts_of_speech(tmp_path):
+    paths = make_data(tmp_path, [("between", "preposition"), ("although", "conjunction"), ("everybody", "pronoun")])
+    assert [(w.word, w.pos) for w in load_dictionary(paths)] == [
+        ("between", "preposition"), ("although", "conjunction"), ("everybody", "pronoun")
+    ]
+
+
 def test_dictionary_rejects_bad_pos(tmp_path):
-    paths = make_data(tmp_path, [("house", "pronoun")])
-    with pytest.raises(ContentError, match="house: 'pronoun'"):
+    paths = make_data(tmp_path, [("house", "article")])
+    with pytest.raises(ContentError, match="house: 'article'"):
         load_dictionary(paths)
 
 

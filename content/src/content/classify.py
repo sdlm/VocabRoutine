@@ -2,7 +2,7 @@
 
 from pathlib import Path
 
-from .dictionary import POS
+from .dictionary import POS, TOP_DROPPED
 from .files import ContentError, read_json, write_json
 from .ngsl import Lemma, read_ngsl
 from .paths import Paths
@@ -50,6 +50,9 @@ def merge_pos(paths: Paths, force: bool = False) -> int:
     errors += [f"{x.lemma}: not classified" for x in lemmas if x.lemma not in seen and x.lemma not in skipped]
     if errors:
         raise ContentError("\n".join(errors))
+    for x in lemmas:
+        if x.rank <= TOP_DROPPED:
+            seen[x.lemma] = {"lemma": x.lemma, "pos": None, "doubt": False, "reason": f"top {TOP_DROPPED}"}
     write_json(paths.pos, {x.lemma: seen[x.lemma]["pos"] for x in lemmas})
     paths.dropped.write_text(_dropped_md(lemmas, seen), encoding="utf-8")
     return sum(1 for x in lemmas if seen[x.lemma]["pos"] is None)
