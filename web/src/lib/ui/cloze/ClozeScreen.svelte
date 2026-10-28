@@ -1,10 +1,10 @@
 <script lang="ts">
-	import { flushSync } from 'svelte';
+	import { flushSync, untrack } from 'svelte';
 	import { formIndex, wordById } from '$lib/content';
 	import { metaTags } from '$lib/content/labels';
 	import { isCorrect, linkWords, maxHintLetters, parseCloze, typingState } from '$lib/domain/cloze';
 	import { href } from '$lib/nav';
-	import { answerCloze, nextCloze, useHint, useLetterHint, type ClozeView } from '$lib/state/cloze.svelte';
+	import { answerCloze, nextCloze, noteRuledOut, useHint, useLetterHint, type ClozeView } from '$lib/state/cloze.svelte';
 	import { app } from '$lib/state/store.svelte';
 	import { keyboardInset } from '$lib/ui/keyboard.svelte';
 	import { tapGuard } from '$lib/ui/tap-guard.svelte';
@@ -56,6 +56,12 @@
 	$effect(() => {
 		void view.wordId;
 		if (typing && !view.closed) input?.focus();
+	});
+
+	// Each change of the input may point at another alsoFits word.
+	$effect(() => {
+		void (view.prefix + view.typed);
+		untrack(noteRuledOut);
 	});
 
 	const tooSoon = tapGuard(() => [view.wordId, view.closed]);
@@ -134,6 +140,9 @@
 	<div class="tags">
 		{#each metaTags(word) as t (t)}<span>{t}</span>{/each}
 	</div>
+{/if}
+{#if typing && view.ruledOut.length}
+	<p class="ruled">Точно не: {#each view.ruledOut as w, i (w)}{#if i}{', '}{/if}<b>{w}</b>{/each}</p>
 {/if}
 
 {#if view.closed}
@@ -274,6 +283,14 @@
 		background: var(--surface-2);
 		color: var(--text-2);
 		font-size: 13px;
+	}
+	.ruled {
+		margin-top: 8px;
+		color: var(--text-2);
+		font-size: 15px;
+	}
+	.ruled b {
+		font-weight: 600;
 	}
 	.bottom {
 		position: fixed;
