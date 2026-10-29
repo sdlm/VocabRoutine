@@ -18,7 +18,7 @@ When the file is written, run from the repository root:
 uv run --project content content validate --file <output file>
 ```
 
-Fix every error it prints and run it again until it prints `all N cards valid`. Reply with that last line only.
+Fix every error it prints and run it again until it prints `all N cards valid`. Reply with that last line only. Do not read the validator's code to predict its checks: write the cards, then run it.
 
 If it still prints errors after 3 rounds of fixes, or prints `error:` about anything other than your output file, stop and reply with its last line.
 

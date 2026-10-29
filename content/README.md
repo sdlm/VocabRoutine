@@ -29,9 +29,9 @@ NGSL_12_stats.csv
 gen/classify/NNN.in.json  ──2──► субагенты Sonnet (prompts/classify.md) ──► NNN.out.json
    │ 3 merge-pos               скрипт → gen/pos.json, gen/dropped.md (просматривает человек)
    ▼
-   │ 4 card-batches            скрипт: уровни, формы-леммы, пачки по 25
+   │ 4 card-batches            скрипт: уровни, формы-леммы, пачки по 20
    ▼
-gen/cards/NNN.in.json     ──5──► субагенты Opus (prompts/card.md) ──► NNN.json
+gen/cards/NNN.in.json     ──5──► субагенты card-writer (prompts/card.md) ──► NNN.json
    │ 6 validate                скрипт → gen/report.json; невалидное снова уходит в шаг 4
    ▼
    │ 7 assemble                скрипт → data/words.json
@@ -120,10 +120,9 @@ uv run --project content content merge-pos
 uv run --project content content card-batches --pilot
 ```
 
-Запустить субагента на Opus:
+Запустить субагента `card-writer` (`.claude/agents/card-writer.md`: Opus с effort low, только Read, Write и Bash, поэтому своих агентов он не запускает):
 
 ```
-Read content/prompts/card.md and follow it.
 Input: data/gen/cards/NNN.in.json
 Output: data/gen/cards/NNN.json
 ```
@@ -135,8 +134,8 @@ Output: data/gen/cards/NNN.json
 Повторять, пока `card-batches` создаёт пачки:
 
 ```bash
-uv run --project content content card-batches --limit 4
-# 4 субагента Opus параллельно, по одному на пачку
+uv run --project content content card-batches --limit 8
+# 8 субагентов card-writer параллельно, по одному на пачку
 uv run --project content content validate
 ```
 

@@ -20,12 +20,12 @@ def picked(path):
     return [item["word"] for item in read_json(path)]
 
 
-def test_new_words_go_in_batches_of_25(tmp_path):
-    paths, words = dictionary(tmp_path, 30)
+def test_new_words_go_in_batches_of_20(tmp_path):
+    paths, words = dictionary(tmp_path, 22)
     created = card_batches(paths)
     assert [p.name for p in created] == ["001.in.json", "002.in.json"]
     first = read_json(created[0])
-    assert len(first) == 25 and len(read_json(created[1])) == 5
+    assert len(first) == 20 and len(read_json(created[1])) == 2
     assert first[0] == {"word": "wordaa", "pos": "noun", "level": "A1", "freqRank": 1, "lemmaForms": []}
 
 
@@ -76,8 +76,7 @@ def test_three_failed_attempts_go_to_stuck(tmp_path):
 
 def test_pilot_spreads_25_words_over_the_list(tmp_path):
     paths, words = dictionary(tmp_path, 100)
-    [created] = card_batches(paths, pilot=True)
-    chosen = picked(created)
+    chosen = [w for path in card_batches(paths, pilot=True) for w in picked(path)]
     assert len(set(chosen)) == 25
     assert chosen[0] == words[2] and chosen[-1] == words[98]
 

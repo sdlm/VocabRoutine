@@ -9,7 +9,7 @@ from .paths import Paths
 from .rules import validate_card
 from .store import Version, in_path, input_ids, next_number, pending, versions
 
-BATCH = 25
+BATCH = 20
 PILOT = 25
 MAX_ATTEMPTS = 3
 

@@ -53,7 +53,8 @@ Thumbs.db
 *.log
 
 # Brainstorm companion sessions
-.claude/
+.claude/*
+!.claude/agents/
 .superpowers/
 superpowers/
 docs/

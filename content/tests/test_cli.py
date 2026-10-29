@@ -48,8 +48,9 @@ def test_pipeline_end_to_end(tmp_path, capsys):
     ])
     assert run("merge-pos") == 0
     assert run("card-batches") == 0
-    batch = read_json(paths.cards_dir / "001.in.json")
-    write_json(paths.cards_dir / "001.json", {item["word"]: make_card(item["word"]) for item in batch})
+    for in_file in sorted(paths.cards_dir.glob("*.in.json")):
+        batch = read_json(in_file)
+        write_json(in_file.with_name(in_file.name.replace(".in", "")), {item["word"]: make_card(item["word"]) for item in batch})
     assert run("validate", "--file", str(paths.cards_dir / "001.json")) == 0
     assert run("validate") == 0
     assert run("card-batches") == 0
