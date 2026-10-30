@@ -1,5 +1,8 @@
 """Card batch files in data/gen/cards: NNN.in.json is the input, NNN.json the subagent's output.
 
+The subagent writes and fixes NNN.draft.json and renames it to NNN.json when it is done, so a batch
+stays pending while its cards are being fixed.
+
 The latest version of a card is the one in the highest-numbered output; attempts are outputs holding the id.
 """
 
@@ -29,8 +32,9 @@ def out_path(paths: Paths, num: int) -> Path:
 
 
 def in_path_for(output: Path) -> Path:
-    """The NNN.in.json next to an NNN.json output."""
-    return output.with_name(output.name.removesuffix(".json") + ".in.json")
+    """The NNN.in.json next to an NNN.json output or an NNN.draft.json draft."""
+    stem = output.name.removesuffix(".json").removesuffix(".draft")
+    return output.with_name(stem + ".in.json")
 
 
 def next_number(paths: Paths) -> int:

@@ -6,21 +6,23 @@ VocabRoutine teaches English words to Russian speakers. Each card shows translat
 
 - Input: the JSON file named in your task, one item per word:
   `{"word", "pos", "level", "freqRank", "lemmaForms", "errors"?, "previous"?}`.
-- Output: write the JSON file named in your task: one object keyed by id (`word` in lower case). Each value has exactly these keys: `forms`, `register`, `translations`, `definition`, `examples`, `collocations`, `similar`, `cloze`. Do not write `id`, `word`, `pos`, `level` or `freqRank`.
+- Output: the JSON file named in your task, written through a draft (see below): one object keyed by id (`word` in lower case). Each value has exactly these keys: `forms`, `register`, `translations`, `definition`, `examples`, `collocations`, `similar`, `cloze`. Do not write `id`, `word`, `pos`, `level` or `freqRank`.
 - Write one card for every input item, and nothing else.
 - Write valid JSON only: double quotes, no comments, no trailing commas.
 - An item with `errors` comes back after its `previous` card failed the checks. Fix what the errors name; keep the rest of `previous` unless it is wrong too.
 - Three finished cards with their input: `content/prompts/card-examples.json` (a noun, a verb and a preposition). Read it first and match its style and length.
 
-When the file is written, run from the repository root:
+Write the cards to a draft next to the output: `NNN.draft.json` for the output `NNN.json`. Then run from the repository root:
 
 ```bash
-uv run --project content content validate --file <output file>
+uv run --project content content validate --file <draft file>
 ```
 
-Fix every error it prints and run it again until it prints `all N cards valid`. Reply with that last line only. Do not read the validator's code to predict its checks: write the cards, then run it.
+Fix every error it prints in the draft and run it again until it prints `all N cards valid`. Do not read the validator's code to predict its checks: write the cards, then run it. If it still prints errors after 3 rounds of fixes, stop fixing.
 
-If it still prints errors after 3 rounds of fixes, or prints `error:` about anything other than your output file, stop and reply with its last line.
+Then rename the draft to the output file (`mv NNN.draft.json NNN.json`) and reply with the validator's last line only. Until the rename the batch counts as unfinished, so never write the output file directly.
+
+If the validator prints `error:` about anything other than your draft, stop without renaming and reply with its last line.
 
 ## Fields
 

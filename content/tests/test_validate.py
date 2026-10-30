@@ -102,3 +102,22 @@ def test_versions_count_only_ids_the_batch_asked_for(tmp_path):
 
 def picked_words(created):
     return [[item["word"] for item in read_json(p)] for p in created]
+
+
+def test_validate_file_checks_a_draft_against_its_batch(tmp_path):
+    a, b = names(2)
+    paths = make_data(tmp_path, [(a, "noun"), (b, "noun")])
+    write_batch(paths, 1, None, words=[a, b])
+    draft = paths.cards_dir / "001.draft.json"
+    write_json(draft, {a: make_card(a)})
+    assert validate_file(paths, draft) == {b: ["card: missing from the output"]}
+
+
+def test_a_draft_is_not_an_output(tmp_path):
+    a = names(1)[0]
+    paths = make_data(tmp_path, [(a, "noun")])
+    write_batch(paths, 1, None, words=[a])
+    write_json(paths.cards_dir / "001.draft.json", {a: make_card(a)})
+    assert pending(paths) == [1]
+    assert versions(paths) == {}
+    assert card_batches(paths) == []
