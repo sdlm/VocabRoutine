@@ -5,6 +5,9 @@ import { isLearning, toggleLearning } from './store.svelte';
 
 const randomSeed = () => Math.floor(Math.random() * 2 ** 31);
 
+/** Rows of «Добавить» drawn at once; scrolling near the end adds another page. */
+export const PAGE = 60;
+
 /** «Добавить». Kept in memory: it survives a trip to a card and back, a reload starts clean. */
 export const search = $state({
 	open: false,
@@ -13,13 +16,25 @@ export const search = $state({
 	/** Order for «Случайно»; picking «Случайно» again reshuffles. */
 	seed: randomSeed(),
 	/** Words toggled while the list looked like `key` stay in it under «Только новые». */
-	kept: { key: '', ids: [] as string[] }
+	kept: { key: '', ids: [] as string[] },
+	/** Rows shown while the list looks like `key`; another query or filter starts from one page. */
+	shown: { key: '', limit: PAGE }
 });
 
 export function searchResults(): Word[] {
 	const key = searchKey(search.query, search.filters);
 	const kept = search.kept.key === key ? search.kept.ids : [];
 	return searchWords(words, search.query, search.filters, (id) => isLearning(id) && !kept.includes(id), search.seed);
+}
+
+/** How many rows of `searchResults()` the screen draws. */
+export function visibleLimit(): number {
+	return search.shown.key === searchKey(search.query, search.filters) ? search.shown.limit : PAGE;
+}
+
+/** The end of the list is in reach: draw one more page. */
+export function showMore(): void {
+	search.shown = { key: searchKey(search.query, search.filters), limit: visibleLimit() + PAGE };
 }
 
 /** Row tap and the card's «Учить»: toggle learning; the row stays put until the query or filters change. */

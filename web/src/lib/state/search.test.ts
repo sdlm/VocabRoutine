@@ -1,6 +1,17 @@
 import { beforeEach, describe, expect, test } from 'vitest';
 import { defaultFilters } from '$lib/domain/search';
-import { closeSearch, leaveAddTab, resetFilters, search, searchResults, setSort, toggleWord } from './search.svelte';
+import {
+	closeSearch,
+	leaveAddTab,
+	PAGE,
+	resetFilters,
+	search,
+	searchResults,
+	setSort,
+	showMore,
+	toggleWord,
+	visibleLimit
+} from './search.svelte';
 import { app, isLearning, resetDemo } from './store.svelte';
 
 const ids = () => searchResults().map((w) => w.id);
@@ -12,6 +23,7 @@ beforeEach(() => {
 	closeSearch();
 	resetFilters('all');
 	search.kept = { key: '', ids: [] };
+	search.shown = { key: '', limit: PAGE };
 });
 
 describe('searchResults', () => {
@@ -118,5 +130,33 @@ describe('closeSearch / resetFilters / setSort', () => {
 		}
 		expect(search.filters.sort).toBe('random');
 		expect(seeds.size).toBeGreaterThan(1);
+	});
+});
+
+describe('visibleLimit / showMore', () => {
+	test('starts with one page', () => {
+		expect(visibleLimit()).toBe(PAGE);
+	});
+
+	test('each showMore adds a page', () => {
+		showMore();
+		showMore();
+		expect(visibleLimit()).toBe(3 * PAGE);
+	});
+
+	test('a new query or filter starts from one page again, and grows from there', () => {
+		showMore();
+		search.query = 'a';
+		expect(visibleLimit()).toBe(PAGE);
+		showMore();
+		expect(visibleLimit()).toBe(2 * PAGE);
+		search.filters.levels = ['B2'];
+		expect(visibleLimit()).toBe(PAGE);
+	});
+
+	test('leaving the tab keeps the limit: the list is the same on return', () => {
+		showMore();
+		leaveAddTab();
+		expect(visibleLimit()).toBe(2 * PAGE);
 	});
 });
