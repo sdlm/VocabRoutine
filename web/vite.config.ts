@@ -67,7 +67,11 @@ export default defineConfig(({ mode, command }) => ({
 			workbox: {
 				globPatterns: ['**/*.{js,css,html,svg,json,webmanifest,br}'],
 				// words.<hash>.br is ~1.7 MB; the default 2 MiB cap is too close.
-				maximumFileSizeToCacheInBytes: 5 * 1024 * 1024
+				maximumFileSizeToCacheInBytes: 5 * 1024 * 1024,
+				// injectRegister: false keeps the plugin from setting these; without them «autoUpdate»
+				// waits until every tab and the installed app are closed.
+				skipWaiting: true,
+				clientsClaim: true
 			},
 			devOptions: { enabled: false }
 		})
