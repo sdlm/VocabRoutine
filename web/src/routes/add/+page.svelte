@@ -39,8 +39,8 @@
 	let more: HTMLElement | undefined = $state();
 
 	$effect(() => {
-		// A fresh observer reports the current state at once: if the sentinel is still in reach
-		// after a page (short rows, tall screen), the next page follows.
+		// Re-observe whenever the list changes: a fresh observer reports the current state at once,
+		// so if the sentinel is still in reach after a page (short rows, tall screen), the next page follows.
 		visible.length;
 		if (!more) return;
 		const io = new IntersectionObserver(([e]) => e.isIntersecting && showMore(), { rootMargin: '0px 0px 600px 0px' });
