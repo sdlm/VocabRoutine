@@ -2,6 +2,7 @@ import { decompress } from 'brotli/decompress';
 import type { Word } from './types';
 
 const RETRY_TEXT = 'Не удалось загрузить словарь, пробуем ещё раз…';
+const RELOADED_KEY = 'vocabroutine:words-reloaded';
 
 export interface LoadDeps {
 	fetch: (url: string) => Promise<Response>;
@@ -9,6 +10,8 @@ export interface LoadDeps {
 	wait: (ms: number) => Promise<void>;
 	/** An attempt failed; another one follows. */
 	onRetry: () => void;
+	/** The file is gone: this page belongs to an older build. Reloads at most once per URL and session. */
+	reloadOnce: (url: string) => void;
 }
 
 const browserDeps: LoadDeps = {
@@ -26,6 +29,16 @@ const browserDeps: LoadDeps = {
 	onRetry: () => {
 		const boot = document.getElementById('boot');
 		if (boot) boot.textContent = RETRY_TEXT;
+	},
+	reloadOnce: (url) => {
+		try {
+			// Keyed by URL: the same missing file never reloads twice, a newer build's file may.
+			if (sessionStorage.getItem(RELOADED_KEY) === url) return;
+			sessionStorage.setItem(RELOADED_KEY, url);
+		} catch {
+			return; // No storage, no guard against a reload loop: keep retrying instead.
+		}
+		location.reload();
 	}
 };
 
@@ -48,6 +61,7 @@ export async function loadWords(url: string, deps: LoadDeps = browserDeps): Prom
 	for (let attempt = 0; ; attempt++) {
 		try {
 			const res = await deps.fetch(url);
+			if (res.status === 404) deps.reloadOnce(url);
 			if (!res.ok) throw new Error(`HTTP ${res.status}`);
 			return decodeWords(new Uint8Array(await res.arrayBuffer()));
 		} catch (e) {

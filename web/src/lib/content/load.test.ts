@@ -8,9 +8,10 @@ const BR = new Uint8Array(brotliCompressSync(Buffer.from(JSON.stringify(WORDS)))
 
 const ok = (body: Uint8Array<ArrayBuffer>) => new Response(body, { status: 200 });
 
-/** Answers fetches in order and records every wait and retry. */
+/** Answers fetches in order and records every wait, retry and reload request. */
 function fakeDeps(...responses: (Response | Error)[]) {
 	const waits: number[] = [];
+	const reloads: string[] = [];
 	let retries = 0;
 	const deps: LoadDeps = {
 		fetch: async () => {
@@ -20,9 +21,10 @@ function fakeDeps(...responses: (Response | Error)[]) {
 			return next;
 		},
 		wait: async (ms) => void waits.push(ms),
-		onRetry: () => void retries++
+		onRetry: () => void retries++,
+		reloadOnce: (url) => void reloads.push(url)
 	};
-	return { deps, waits, retries: () => retries };
+	return { deps, waits, reloads, retries: () => retries };
 }
 
 describe('decodeWords', () => {
@@ -79,6 +81,20 @@ describe('loadWords', () => {
 		expect(await loadWords('words.br', f.deps)).toEqual(WORDS);
 		expect(f.retries()).toBe(1);
 		expect(f.waits).toEqual([1000]);
+	});
+
+	test('a missing file asks to reload with its URL, then keeps retrying', async () => {
+		const f = fakeDeps(new Response('gone', { status: 404 }), ok(BR));
+		expect(await loadWords('words.br', f.deps)).toEqual(WORDS);
+		expect(f.reloads).toEqual(['words.br']);
+		expect(f.retries()).toBe(1);
+	});
+
+	test('a server error or a network error does not ask to reload', async () => {
+		const f = fakeDeps(new Response('oops', { status: 500 }), new TypeError('Failed to fetch'), ok(BR));
+		expect(await loadWords('words.br', f.deps)).toEqual(WORDS);
+		expect(f.reloads).toEqual([]);
+		expect(f.retries()).toBe(2);
 	});
 
 	test('a broken file is retried', async () => {
