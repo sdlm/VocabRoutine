@@ -8,7 +8,9 @@ const config = {
 		adapter: adapter(),
 		// URLs like /#/settings/queue: no server fallback needed, every screen opens offline.
 		// Page options (ssr, prerender) are not allowed with the hash router.
-		router: { type: 'hash' }
+		router: { type: 'hash' },
+		// `/VocabRoutine` on GitHub Pages (set by the deploy workflow), empty at the root. Mirrors vite.config.ts.
+		paths: { base: process.env.BASE_PATH ?? '' }
 	}
 };
 
