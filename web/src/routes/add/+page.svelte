@@ -5,7 +5,7 @@
 	import type { SheetPart } from '$lib/domain/search';
 	import { plural, WORD_FORMS } from '$lib/format';
 	import { href } from '$lib/nav';
-	import { search, searchResults, toggleWord } from '$lib/state/search.svelte';
+	import { search, searchResults, showMore, toggleWord, visibleLimit } from '$lib/state/search.svelte';
 	import { isLearning } from '$lib/state/store.svelte';
 	import { hideTabBarWhile } from '$lib/state/ui.svelte';
 	import FilterChips from '$lib/ui/add/FilterChips.svelte';
@@ -34,6 +34,20 @@
 	const results = $derived(searchResults());
 	const added = $derived(results.filter((w) => isLearning(w.id)).length);
 
+	// Thousands of rows take seconds to build: draw a page, add the next one before the list ends.
+	const visible = $derived(results.slice(0, visibleLimit()));
+	let more: HTMLElement | undefined = $state();
+
+	$effect(() => {
+		// A fresh observer reports the current state at once: if the sentinel is still in reach
+		// after a page (short rows, tall screen), the next page follows.
+		visible.length;
+		if (!more) return;
+		const io = new IntersectionObserver(([e]) => e.isIntersecting && showMore(), { rootMargin: '0px 0px 600px 0px' });
+		io.observe(more);
+		return () => io.disconnect();
+	});
+
 	/** Runs inside the loupe tap: focusing there is what opens the keyboard on iOS. */
 	function openSearch() {
 		search.open = true;
@@ -53,11 +67,14 @@
 		{results.length}
 		{plural(results.length, WORD_FORMS)}{#if added > 0}&nbsp;· добавлено {added}{/if}
 	</p>
-	{#each results as w (w.id)}
+	{#each visible as w (w.id)}
 		<WordRow word={w} query={search.query} added={isLearning(w.id)} onToggle={() => toggleWord(w.id)} />
 	{:else}
 		<p class="empty">Ничего не найдено</p>
 	{/each}
+	{#if visible.length < results.length}
+		<div bind:this={more} class="more" aria-hidden="true"></div>
+	{/if}
 	<div style:height="max(0px, calc({kb.px}px - var(--tabbar-h) - var(--safe-bottom)))" aria-hidden="true"></div>
 </main>
 
@@ -70,6 +87,9 @@
 		margin-bottom: 6px;
 		font-size: 13px;
 		color: var(--text-3);
+	}
+	.more {
+		height: 1px;
 	}
 	.empty {
 		padding: 32px 0;
