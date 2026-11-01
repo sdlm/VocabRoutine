@@ -1,3 +1,4 @@
+import { wordById } from '$lib/content';
 import { DAY, HOUR, dayKey, shiftDay } from '$lib/domain/time';
 import type { Activity, LearningEntry } from '$lib/domain/types';
 import { defaultSettings, type AppState } from './schema';
@@ -50,7 +51,8 @@ function seedActivity(today: string, goal: number): Activity {
 export function makeSeed(now: number): AppState {
 	const settings = defaultSettings();
 	const learning: Record<string, LearningEntry> = {};
-	SEEN.forEach((w, i) => {
+	// A swapped-in dictionary may lack some demo words.
+	SEEN.filter((w) => wordById.has(w.id)).forEach((w, i) => {
 		const intervalMs = w.interval * DAY;
 		const dueAt = now + w.dueIn * HOUR;
 		const inCloze = w.clozeDueIn !== undefined;
@@ -63,7 +65,7 @@ export function makeSeed(now: number): AppState {
 			cloze: inCloze ? { intervalMs: w.clozeInterval! * DAY, dueAt: now + w.clozeDueIn! * HOUR } : null
 		};
 	});
-	FRESH.forEach((id, i) => {
+	FRESH.filter((id) => wordById.has(id)).forEach((id, i) => {
 		learning[id] = {
 			wordId: id,
 			addedAt: now - DAY + i * HOUR,

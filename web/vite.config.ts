@@ -1,9 +1,24 @@
 import { sveltekit } from '@sveltejs/kit/vite';
 import { SvelteKitPWA } from '@vite-pwa/sveltekit';
+import type { Plugin } from 'vite';
 import { defineConfig } from 'vitest/config';
 
-export default defineConfig({
+/** `--mode data` swaps the 30 mock words for the assembled ../data/words.json. */
+function wordsSource(mode: string): Plugin {
+	const file = new URL('../data/words.json', import.meta.url).pathname;
+	return {
+		name: 'words-source',
+		enforce: 'pre',
+		resolveId(id, importer) {
+			if (mode === 'data' && id === './words.json' && importer?.endsWith('/lib/content/index.ts'))
+				return file;
+		}
+	};
+}
+
+export default defineConfig(({ mode }) => ({
 	plugins: [
+		wordsSource(mode),
 		sveltekit(),
 		SvelteKitPWA({
 			registerType: 'autoUpdate',
@@ -24,5 +39,6 @@ export default defineConfig({
 			devOptions: { enabled: false }
 		})
 	],
+	server: { fs: { allow: ['../data'] } },
 	test: { include: ['src/**/*.test.ts'] }
-});
+}));
