@@ -39,6 +39,8 @@
 	$effect(() => applyTheme(app.settings.theme));
 
 	onMount(async () => {
+		// With --mode data the layout mounts only once the dictionary has loaded.
+		document.getElementById('boot')?.remove();
 		if (import.meta.env.DEV) return;
 		const { registerSW } = await import('virtual:pwa-register');
 		registerSW({ immediate: true });
