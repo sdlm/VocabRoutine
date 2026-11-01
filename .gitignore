@@ -65,6 +65,3 @@ SESSION.md
 
 # Card generation scratch (data/gen)
 data/gen/
-
-# Assembled cards, not committed yet
-data/words.json
