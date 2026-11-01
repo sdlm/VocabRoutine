@@ -32,6 +32,7 @@ function wordsSource(mode: string, command: 'build' | 'serve'): Plugin {
 				params: {
 					[constants.BROTLI_PARAM_MODE]: constants.BROTLI_MODE_TEXT,
 					[constants.BROTLI_PARAM_QUALITY]: constants.BROTLI_MAX_QUALITY,
+					// Keep 24: decodeWords in load.ts tells an already-decoded body by a leading `[`, which a 24-bit-window stream never starts with.
 					[constants.BROTLI_PARAM_LGWIN]: constants.BROTLI_MAX_WINDOW_BITS,
 					[constants.BROTLI_PARAM_SIZE_HINT]: json.length
 				}
@@ -43,8 +44,6 @@ function wordsSource(mode: string, command: 'build' | 'serve'): Plugin {
 }
 
 export default defineConfig(({ mode, command }) => ({
-	// Top-level await in the words module.
-	build: { target: 'es2022' },
 	plugins: [
 		wordsSource(mode, command),
 		sveltekit(),
