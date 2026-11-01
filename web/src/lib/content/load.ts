@@ -1,7 +1,7 @@
 import { decompress } from 'brotli/decompress';
 import type { Word } from './types';
 
-export const RETRY_TEXT = 'Не удалось загрузить словарь, пробуем ещё раз…';
+const RETRY_TEXT = 'Не удалось загрузить словарь, пробуем ещё раз…';
 
 export interface LoadDeps {
 	fetch: (url: string) => Promise<Response>;
@@ -34,10 +34,12 @@ export function retryDelay(attempt: number): number {
 	return Math.min(1000 * 2 ** attempt, 30_000);
 }
 
-/** Brotli-compressed JSON array → words. Throws on anything else. */
+/** Brotli-compressed JSON array → words; plain JSON too, when the host already decoded it. Throws on anything else. */
 export function decodeWords(bytes: Uint8Array): Word[] {
-	const words: unknown = JSON.parse(new TextDecoder().decode(decompress(bytes)));
-	if (!Array.isArray(words)) throw new Error('words.br holds no list');
+	// Our lgwin-24 brotli stream starts with a byte whose low nibble is 0xF, so it is never `[` (0x5B).
+	const json = bytes[0] === 0x5b ? bytes : decompress(bytes);
+	const words: unknown = JSON.parse(new TextDecoder().decode(json));
+	if (!Array.isArray(words)) throw new Error('the dictionary holds no list');
 	return words as Word[];
 }
 
@@ -48,7 +50,8 @@ export async function loadWords(url: string, deps: LoadDeps = browserDeps): Prom
 			const res = await deps.fetch(url);
 			if (!res.ok) throw new Error(`HTTP ${res.status}`);
 			return decodeWords(new Uint8Array(await res.arrayBuffer()));
-		} catch {
+		} catch (e) {
+			console.warn('loadWords', e);
 			deps.onRetry();
 			await deps.wait(retryDelay(attempt));
 		}

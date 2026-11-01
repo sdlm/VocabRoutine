@@ -1,5 +1,5 @@
 import { brotliCompressSync } from 'node:zlib';
-import { describe, expect, test } from 'vitest';
+import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest';
 import { decodeWords, loadWords, retryDelay, type LoadDeps } from './load';
 
 const WORDS = [{ id: 'go', word: 'go' }, { id: 'идти', word: 'идти' }];
@@ -30,6 +30,10 @@ describe('decodeWords', () => {
 		expect(decodeWords(BR)).toEqual(WORDS);
 	});
 
+	test('plain JSON bytes, already decoded by the host, come back as the same words', () => {
+		expect(decodeWords(new TextEncoder().encode(JSON.stringify(WORDS)))).toEqual(WORDS);
+	});
+
 	test('garbage throws', () => {
 		expect(() => decodeWords(new TextEncoder().encode('<html>404</html>'))).toThrow();
 	});
@@ -48,6 +52,14 @@ describe('retryDelay', () => {
 });
 
 describe('loadWords', () => {
+	beforeEach(() => {
+		vi.spyOn(console, 'warn').mockImplementation(() => {});
+	});
+
+	afterEach(() => {
+		vi.restoreAllMocks();
+	});
+
 	test('the first good answer needs no retry', async () => {
 		const f = fakeDeps(ok(BR));
 		expect(await loadWords('words.br', f.deps)).toEqual(WORDS);
@@ -65,12 +77,14 @@ describe('loadWords', () => {
 	test('an HTTP error is retried', async () => {
 		const f = fakeDeps(new Response('nope', { status: 404 }), ok(BR));
 		expect(await loadWords('words.br', f.deps)).toEqual(WORDS);
+		expect(f.retries()).toBe(1);
 		expect(f.waits).toEqual([1000]);
 	});
 
 	test('a broken file is retried', async () => {
 		const f = fakeDeps(ok(BR.subarray(0, BR.length - 3)), ok(BR));
 		expect(await loadWords('words.br', f.deps)).toEqual(WORDS);
+		expect(f.retries()).toBe(1);
 		expect(f.waits).toEqual([1000]);
 	});
 
