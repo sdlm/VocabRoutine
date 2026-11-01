@@ -61,6 +61,7 @@
 	<Group label="Прототип">
 		<button type="button" class="danger" onclick={reset}>Сбросить данные</button>
 	</Group>
+	<p class="version">Версия {__APP_VERSION__}</p>
 </main>
 
 <style>
@@ -74,5 +75,11 @@
 	}
 	.danger:active {
 		background: var(--surface-2);
+	}
+	.version {
+		margin: 24px 0 8px;
+		text-align: center;
+		font-size: 13px;
+		color: var(--text-3);
 	}
 </style>

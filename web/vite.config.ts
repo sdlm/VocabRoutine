@@ -8,6 +8,9 @@ import { defineConfig } from 'vitest/config';
 /** Path prefix of the site: `/VocabRoutine` on GitHub Pages, empty at the root. Mirrors svelte.config.js. */
 const base = process.env.BASE_PATH ?? '';
 
+/** Shown at the bottom of «Настройки»: bump `version` in package.json with every release. */
+const { version } = JSON.parse(readFileSync(new URL('package.json', import.meta.url), 'utf8'));
+
 const WORDS_BR = '\0words-br';
 
 /**
@@ -44,6 +47,7 @@ function wordsSource(mode: string, command: 'build' | 'serve'): Plugin {
 }
 
 export default defineConfig(({ mode, command }) => ({
+	define: { __APP_VERSION__: JSON.stringify(version) },
 	plugins: [
 		wordsSource(mode, command),
 		sveltekit(),
