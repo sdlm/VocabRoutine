@@ -172,6 +172,16 @@ describe('gradeForwardWord', () => {
 		expect(today()).toBe(counted);
 		expect(app.sessions.forward!.queue.some((q) => q.wordId === id)).toBe(false);
 	});
+
+	test('the card is checked at the time of the answer, not the real clock', () => {
+		start();
+		skipTo('review');
+		const id = app.sessions.forward!.queue[0].wordId;
+		const now = Date.now() + 2 * 60_000;
+		app.learning[id].forward!.dueAt = now - 60_000;
+		gradeForwardWord('remember', now);
+		expect(app.sessions.forward!.done.at(-1)).toEqual({ wordId: id, grade: 'remember' });
+	});
 });
 
 describe('passForwardWord', () => {

@@ -52,12 +52,12 @@ export function ensureForwardSession(now: number = Date.now()): void {
 	app.sessions.forward = items.length ? startForwardSession(items, now) : null;
 }
 
-/** The current screen, if it is valid; a stale one is pruned and null is returned. */
-function currentStep(): ForwardStep | null {
+/** The current screen, if it is valid at `now`; a stale one is pruned and null is returned. */
+function currentStep(now: number): ForwardStep | null {
 	const s = app.sessions.forward;
 	const step = s?.queue[0];
 	if (!s || !step) return null;
-	const valid = validSteps(dueForward());
+	const valid = validSteps(dueForward(now));
 	if (valid(step)) return step;
 	app.sessions.forward = pruneForwardSession(s, valid);
 	return null;
@@ -65,7 +65,7 @@ function currentStep(): ForwardStep | null {
 
 /** «Помню» / «Не помню»: grade the word and count it for the streak. */
 export function gradeForwardWord(grade: ForwardGrade, now: number = Date.now()): void {
-	const step = currentStep();
+	const step = currentStep(now);
 	if (step?.kind !== 'review') return;
 	const result = grade === 'remember' ? 'success' : 'fail';
 	app.learning[step.wordId] = gradeForward(app.learning[step.wordId], result, now, app.settings.queue);
@@ -75,7 +75,7 @@ export function gradeForwardWord(grade: ForwardGrade, now: number = Date.now()):
 
 /** «Дальше» on «Новое слово» introduces the word and counts it; on «Повтор» it only moves on. */
 export function passForwardWord(now: number = Date.now()): void {
-	const step = currentStep();
+	const step = currentStep(now);
 	if (!step || step.kind === 'review') return;
 	if (step.kind === 'new') {
 		const e = app.learning[step.wordId];

@@ -14,7 +14,7 @@ export interface ClozeResult {
 
 /** Saved after every answer, so a session resumes where it stopped. */
 export interface ClozeSession extends SessionClock {
-	/** M in «N / M»: queue length at the start. */
+	/** M in «N / M»: words in the session. Words that become available join it, words no longer available leave it. */
 	total: number;
 	/** Words still to answer; the current word is queue[0]. */
 	queue: string[];
@@ -48,9 +48,9 @@ export function skipWord(s: ClozeSession, now: number): ClozeSession {
 	return { ...s, ...touch(s, now), queue: [...rest, wordId] };
 }
 
-/** Drop queued words that are no longer in Cloze (removed from learning). */
-export function pruneSession(s: ClozeSession, inCloze: (wordId: string) => boolean): ClozeSession {
-	const queue = s.queue.filter(inCloze);
+/** Drop queued words that fail `keep` (no longer available in Cloze, …). */
+export function pruneSession(s: ClozeSession, keep: (wordId: string) => boolean): ClozeSession {
+	const queue = s.queue.filter(keep);
 	return queue.length === s.queue.length ? s : { ...s, queue, total: s.total - (s.queue.length - queue.length) };
 }
 

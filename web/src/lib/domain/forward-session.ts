@@ -72,7 +72,7 @@ export function revealBlock(s: ForwardSession, blockId: string): ForwardSession 
 	return s.revealed.includes(blockId) ? s : { ...s, revealed: [...s.revealed, blockId] };
 }
 
-/** Drop screens that are no longer valid (word removed from learning, re-added, …). */
+/** Drop queued screens that fail `keep` (no longer available, word removed from learning, …). */
 export function pruneForwardSession(s: ForwardSession, keep: (step: ForwardStep) => boolean): ForwardSession {
 	const queue = s.queue.filter(keep);
 	if (queue.length === s.queue.length) return s;
