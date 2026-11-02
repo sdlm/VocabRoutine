@@ -1,9 +1,19 @@
 import { beforeEach, describe, expect, test } from 'vitest';
+import { introduceForward, newEntry } from '$lib/domain/learning';
 import { DAY, dayKey } from '$lib/domain/time';
 import { answerCloze, cloze, ensureClozeSession, finishClozeSession, nextCloze, noteRuledOut, syncClozeView, useLetterHint } from './cloze.svelte';
 import { app, resetDemo } from './store.svelte';
 
 const today = () => app.activity[dayKey(Date.now())]?.counted ?? 0;
+const introduced = () => app.activity[dayKey(Date.now())]?.introduced ?? 0;
+
+/** Answer open words correctly until `id` is the current one. */
+function answerUntil(id: string) {
+	while (cloze.view!.wordId !== id) {
+		answerCloze('correct', 'x');
+		nextCloze();
+	}
+}
 
 function start() {
 	ensureClozeSession();
@@ -204,5 +214,71 @@ describe('noteRuledOut', () => {
 		answerCloze('wrong', 'x');
 		typeInto('h');
 		expect(cloze.view!.ruledOut).toEqual([]);
+	});
+});
+
+describe('«Слова в Cloze»', () => {
+	test('«После прямого»: a word with forward interval ≥ 7 days comes in, a shorter one does not', () => {
+		app.learning.reliable.forward = { intervalMs: 7 * DAY, dueAt: Date.now() + DAY };
+		expect(start().queue).toContain('reliable');
+		expect(app.sessions.cloze!.queue).not.toContain('guy');
+	});
+
+	test('«Сразу»: words seen in forward and never seen words come as new, by adding', () => {
+		app.settings.queue.clozeEntry = 'onAdd';
+		app.settings.queue.newOrder = 'last';
+		expect(start().queue).toEqual([
+			'eat', 'house', 'borrow',
+			'often', 'cheap', 'improve', 'deploy', 'outcome', 'reliable', 'purchase', 'guy',
+			'thorough', 'mitigate', 'chill', 'awesome'
+		]);
+	});
+
+	test('«Сразу»: a word seen in forward takes no slot; the first answer of a never seen word takes one', () => {
+		app.settings.queue.clozeEntry = 'onAdd';
+		app.settings.queue.newOrder = 'first';
+		start();
+		expect(cloze.view!.wordId).toBe('often');
+		answerUntil('thorough');
+		expect(app.learning.often.cloze).not.toBeNull();
+		expect(app.sessions.cloze!.done[0]).toEqual({ wordId: 'often', outcome: 'correct', isNew: true });
+		expect(introduced()).toBe(0);
+		answerCloze('wrong', 'x');
+		expect(app.learning.thorough.clozeEnteredAt).not.toBeNull();
+		expect(app.sessions.cloze!.done.at(-1)).toEqual({ wordId: 'thorough', outcome: 'wrong', isNew: true });
+		expect(introduced()).toBe(1);
+	});
+
+	test('«Сразу»: a word introduced in forward today takes no second slot', () => {
+		app.settings.queue.clozeEntry = 'onAdd';
+		app.settings.queue.newOrder = 'first';
+		app.settings.queue.newPerDay = 1;
+		app.learning.thorough = introduceForward(app.learning.thorough, Date.now(), app.settings.queue);
+		app.activity[dayKey(Date.now())] = { counted: 1, seconds: 0, introduced: 1 };
+		const queue = start().queue;
+		expect(queue).toContain('thorough');
+		expect(queue).not.toContain('mitigate');
+		answerUntil('thorough');
+		answerCloze('correct', 'x');
+		expect(introduced()).toBe(1);
+	});
+
+	test('a word added mid-session goes to the end of the queue', () => {
+		app.settings.queue.clozeEntry = 'onAdd';
+		const s = start();
+		app.learning.dope = newEntry('dope', Date.now());
+		ensureClozeSession();
+		expect(app.sessions.cloze!.queue.at(-1)).toBe('dope');
+		expect(app.sessions.cloze!.total).toBe(s.total + 1);
+	});
+
+	test('switching back to «После прямого» drops unseen words from the session', () => {
+		app.settings.queue.clozeEntry = 'onAdd';
+		start();
+		app.settings.queue.clozeEntry = 'afterForward';
+		ensureClozeSession();
+		syncClozeView();
+		expect(app.sessions.cloze!.queue).toEqual(['eat', 'house', 'borrow']);
+		expect(cloze.view?.wordId).toBe('eat');
 	});
 });

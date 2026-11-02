@@ -1,6 +1,7 @@
 import { wordById } from '$lib/content';
 import { applyLetterHint, choices, maxHintLetters, parseCloze, ruledOut } from '$lib/domain/cloze';
 import {
+	appendWords,
 	closeWord,
 	isNewInCloze,
 	outcomeResult,
@@ -13,7 +14,7 @@ import {
 import { enterCloze, gradeCloze } from '$lib/domain/learning';
 import { availableWords } from '$lib/domain/queue';
 import { dayKey } from '$lib/domain/time';
-import { app, countForStreak, slotsUsedToday } from './store.svelte';
+import { app, countForStreak, countIntroduction, slotsUsedToday } from './store.svelte';
 
 /**
  * What the screen shows for one word. Kept in memory only: it survives opening
@@ -39,10 +40,6 @@ export interface ClozeView {
 
 export const cloze: { view: ClozeView | null } = $state({ view: null });
 
-function inCloze(wordId: string): boolean {
-	return wordById.has(wordId) && wordId in app.learning;
-}
-
 export function dueClozeWords(now: number = Date.now()): string[] {
 	return availableWords('cloze', Object.values(app.learning), app.settings.queue, now, slotsUsedToday(now))
 		.map((i) => i.wordId)
@@ -50,20 +47,25 @@ export function dueClozeWords(now: number = Date.now()): string[] {
 }
 
 /**
- * Called when the Cloze tab opens and after onboarding: drops a session from
- * another day, prunes removed words, starts a session when words are due.
- * A session that lost every word before its first answer is dropped too.
+ * Called when the Cloze tab opens and after onboarding: drops a session from another day.
+ * Today's session follows `dueClozeWords`: words no longer available leave, words that became available
+ * and are not yet in the session go to the end. A session that lost every word before its first answer
+ * is dropped; a new one starts when words are due.
  */
 export function ensureClozeSession(now: number = Date.now()): void {
+	const available = dueClozeWords(now);
 	const s = app.sessions.cloze;
 	if (s && s.day === dayKey(now)) {
-		const pruned = pruneSession(s, inCloze);
-		if (pruned.queue.length > 0 || pruned.done.length > 0) {
-			if (pruned !== s) app.sessions.cloze = pruned;
+		const keep = new Set(available);
+		const pruned = pruneSession(s, (id) => keep.has(id));
+		const inSession = new Set([...pruned.queue, ...pruned.done.map((r) => r.wordId)]);
+		const synced = appendWords(pruned, available.filter((id) => !inSession.has(id)));
+		if (synced.queue.length > 0 || synced.done.length > 0) {
+			if (synced !== s) app.sessions.cloze = synced;
 			return;
 		}
 	}
-	const queue = app.settings.cloze.onboarded ? dueClozeWords(now) : [];
+	const queue = app.settings.cloze.onboarded ? available : [];
 	app.sessions.cloze = queue.length ? startClozeSession(queue, now) : null;
 }
 
@@ -103,7 +105,7 @@ export function answerCloze(outcome: ClozeOutcome, picked: string | null, now: n
 	if (!s || !v || v.closed || v.wordId !== s.queue[0]) return;
 	const entry = app.learning[v.wordId];
 	if (!entry) {
-		app.sessions.cloze = pruneSession(s, inCloze);
+		app.sessions.cloze = pruneSession(s, (id) => id in app.learning && wordById.has(id));
 		cloze.view = null;
 		syncClozeView();
 		return;
@@ -113,7 +115,9 @@ export function answerCloze(outcome: ClozeOutcome, picked: string | null, now: n
 	const entered = first ? enterCloze(entry, now, app.settings.queue) : entry;
 	app.learning[v.wordId] = gradeCloze(entered, outcomeResult(outcome), now, app.settings.queue);
 	app.sessions.cloze = closeWord(s, outcome, isNew, now);
-	countForStreak(now);
+	// Any first answer of a word not seen in forward either takes one of today's new-word slots.
+	if (first && entry.forward === null) countIntroduction(now);
+	else countForStreak(now);
 	if (outcome === 'correct' && app.settings.cloze.autoAdvance) {
 		cloze.view = null;
 		syncClozeView();
