@@ -5,6 +5,8 @@ import {
 	leaveAddTab,
 	PAGE,
 	resetFilters,
+	saveScroll,
+	savedScroll,
 	search,
 	searchResults,
 	setSort,
@@ -24,6 +26,7 @@ beforeEach(() => {
 	resetFilters('all');
 	search.kept = { key: '', ids: [] };
 	search.shown = { key: '', limit: PAGE };
+	search.scroll = { key: '', y: 0 };
 });
 
 describe('searchResults', () => {
@@ -158,5 +161,40 @@ describe('visibleLimit / showMore', () => {
 		showMore();
 		leaveAddTab();
 		expect(visibleLimit()).toBe(2 * PAGE);
+	});
+});
+
+describe('savedScroll', () => {
+	test('starts at the top', () => {
+		expect(savedScroll()).toBe(0);
+	});
+
+	test('returns the saved offset while the list looks the same', () => {
+		saveScroll(840);
+		expect(savedScroll()).toBe(840);
+	});
+
+	test('another query starts from the top', () => {
+		saveScroll(840);
+		search.query = 'eph';
+		expect(savedScroll()).toBe(0);
+	});
+
+	test('another filter starts from the top', () => {
+		saveScroll(840);
+		search.filters.levels = ['C2'];
+		expect(savedScroll()).toBe(0);
+	});
+
+	test('another sort starts from the top', () => {
+		saveScroll(840);
+		setSort('random');
+		expect(savedScroll()).toBe(0);
+	});
+
+	test('leaving for another tab keeps the offset', () => {
+		saveScroll(840);
+		leaveAddTab();
+		expect(savedScroll()).toBe(840);
 	});
 });

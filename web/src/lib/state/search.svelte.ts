@@ -18,7 +18,9 @@ export const search = $state({
 	/** Words toggled while the list looked like `key` stay in it under «Только новые». */
 	kept: { key: '', ids: [] as string[] },
 	/** Rows shown while the list looks like `key`; another query or filter starts from one page. */
-	shown: { key: '', limit: PAGE }
+	shown: { key: '', limit: PAGE },
+	/** Scroll offset while the list looks like `key`; another query or filter starts from the top. */
+	scroll: { key: '', y: 0 }
 });
 
 export function searchResults(): Word[] {
@@ -35,6 +37,16 @@ export function visibleLimit(): number {
 /** The end of the list is in reach: draw one more page. */
 export function showMore(): void {
 	search.shown = { key: searchKey(search.query, search.filters), limit: visibleLimit() + PAGE };
+}
+
+/** Where «Добавить» was scrolled when the user left it; 0 once the list has changed. */
+export function savedScroll(): number {
+	return search.scroll.key === searchKey(search.query, search.filters) ? search.scroll.y : 0;
+}
+
+/** Leaving «Добавить»: remember the offset for the list as it looks now. */
+export function saveScroll(y: number): void {
+	search.scroll = { key: searchKey(search.query, search.filters), y };
 }
 
 /** Row tap and the card's «Учить»: toggle learning; the row stays put until the query or filters change. */
