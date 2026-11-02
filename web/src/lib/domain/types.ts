@@ -8,9 +8,13 @@ export interface SrsSettings {
 
 export type NewOrder = 'first' | 'mixed' | 'last';
 
+/** «Слова в Cloze»: after the forward interval reaches the threshold, or right after adding. */
+export type ClozeEntry = 'afterForward' | 'onAdd';
+
 export interface QueueSettings extends SrsSettings {
 	newPerDay: number;
 	newOrder: NewOrder;
+	clozeEntry: ClozeEntry;
 }
 
 export interface ModeProgress {

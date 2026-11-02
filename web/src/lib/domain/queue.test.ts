@@ -5,7 +5,7 @@ import { DAY, HOUR } from './time';
 import type { LearningEntry, QueueSettings } from './types';
 
 const NOW = new Date(2026, 9, 20, 12).getTime();
-const s: QueueSettings = { successFactor: 2.5, failFactor: 0.5, minIntervalMs: DAY, newPerDay: 10, newOrder: 'last' };
+const s: QueueSettings = { successFactor: 2.5, failFactor: 0.5, minIntervalMs: DAY, newPerDay: 10, newOrder: 'last', clozeEntry: 'afterForward' };
 
 function review(id: string, dueAt: number): LearningEntry {
 	return { ...newEntry(id, NOW - 30 * DAY), forwardIntroducedAt: NOW - 20 * DAY, forward: { intervalMs: DAY, dueAt } };

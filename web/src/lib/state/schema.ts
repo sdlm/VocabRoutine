@@ -56,7 +56,7 @@ export function defaultSettings(): Settings {
 			{ id: 'similar', mode: 'tap' }
 		],
 		cloze: { answerMode: 'typing', showTranslation: true, showMeta: false, autoAdvance: false, onboarded: false },
-		queue: { newPerDay: 10, newOrder: 'mixed', successFactor: 2.5, failFactor: 0.5, minIntervalMs: DAY },
+		queue: { newPerDay: 10, newOrder: 'mixed', clozeEntry: 'afterForward', successFactor: 2.5, failFactor: 0.5, minIntervalMs: DAY },
 		theme: 'auto'
 	};
 }

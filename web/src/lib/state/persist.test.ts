@@ -32,6 +32,13 @@ describe('parseState', () => {
 		expect(state.settings.template).toEqual(defaultSettings().template);
 	});
 
+	test('a saved queue without clozeEntry gets «После прямого»', () => {
+		const saved = { version: 1, learning: {}, activity: {}, settings: { queue: { newPerDay: 3 } } };
+		const state = parseState(JSON.stringify(saved), NOW);
+		expect(state.settings.queue.clozeEntry).toBe('afterForward');
+		expect(state.settings.queue.newPerDay).toBe(3);
+	});
+
 	test('learning: null → demo data', () => {
 		expect(parseState(JSON.stringify({ version: 1, learning: null, activity: {} }), NOW)).toEqual(makeSeed(NOW));
 	});
