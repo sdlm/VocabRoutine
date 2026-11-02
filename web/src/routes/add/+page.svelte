@@ -132,7 +132,7 @@
 		border-color: var(--border);
 	}
 	.count {
-		margin-bottom: 6px;
+		margin: 6px 0;
 		font-size: 13px;
 		color: var(--text-3);
 	}
