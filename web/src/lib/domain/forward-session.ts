@@ -84,6 +84,12 @@ export function pruneForwardSession(s: ForwardSession, keep: (step: ForwardStep)
 	};
 }
 
+/** Words that became available mid-session (added on «Добавить», …) go to the end. */
+export function appendForwardSteps(s: ForwardSession, items: QueueItem[]): ForwardSession {
+	if (items.length === 0) return s;
+	return { ...s, total: s.total + items.length, queue: [...s.queue, ...items.map(({ wordId, kind }) => ({ wordId, kind }))] };
+}
+
 export interface ForwardProgress {
 	/** Screens behind; fills the progress bar. */
 	finished: number;

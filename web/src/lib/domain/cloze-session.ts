@@ -54,6 +54,11 @@ export function pruneSession(s: ClozeSession, inCloze: (wordId: string) => boole
 	return queue.length === s.queue.length ? s : { ...s, queue, total: s.total - (s.queue.length - queue.length) };
 }
 
+/** Words that became available mid-session (added on «Добавить», …) go to the end. */
+export function appendWords(s: ClozeSession, wordIds: string[]): ClozeSession {
+	return wordIds.length === 0 ? s : { ...s, total: s.total + wordIds.length, queue: [...s.queue, ...wordIds] };
+}
+
 export interface ClozeSummary {
 	reviewed: number;
 	correct: number;

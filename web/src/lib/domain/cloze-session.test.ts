@@ -1,5 +1,6 @@
 import { describe, expect, test } from 'vitest';
 import {
+	appendWords,
 	clozeSummary,
 	closeWord,
 	IDLE_CAP_MS,
@@ -88,5 +89,18 @@ describe('clozeSummary', () => {
 		s = closeWord(s, 'wrong', false, T0 + 2000);
 		s = closeWord(s, 'gaveUp', false, T0 + 3000);
 		expect(clozeSummary(s)).toEqual({ reviewed: 3, correct: 1, wrong: 2, fresh: 1, elapsedMs: 3000 });
+	});
+});
+
+describe('appendWords', () => {
+	test('adds words to the end and grows M', () => {
+		const s = appendWords(startClozeSession(['a', 'b'], T0), ['c']);
+		expect(s.queue).toEqual(['a', 'b', 'c']);
+		expect(s.total).toBe(3);
+	});
+
+	test('nothing to add returns the same session', () => {
+		const s = startClozeSession(['a'], T0);
+		expect(appendWords(s, [])).toBe(s);
 	});
 });

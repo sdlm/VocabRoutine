@@ -1,5 +1,6 @@
 import { describe, expect, test } from 'vitest';
 import {
+	appendForwardSteps,
 	forwardProgress,
 	forwardSummary,
 	gradeStep,
@@ -131,5 +132,18 @@ describe('forwardSummary', () => {
 		s = gradeStep(s, 'remember', NOW + 20_000);
 		s = passStep(s, NOW + 30_000);
 		expect(forwardSummary(s)).toEqual({ reviewed: 3, remember: 1, forgot: 1, fresh: 1, elapsedMs: 30_000 });
+	});
+});
+
+describe('appendForwardSteps', () => {
+	test('adds screens to the end and grows M', () => {
+		const s = appendForwardSteps(start(), [{ wordId: 'dope', kind: 'new' }]);
+		expect(s.queue.at(-1)).toEqual({ wordId: 'dope', kind: 'new' });
+		expect(s.total).toBe(ITEMS.length + 1);
+	});
+
+	test('nothing to add returns the same session', () => {
+		const s = start();
+		expect(appendForwardSteps(s, [])).toBe(s);
 	});
 });
