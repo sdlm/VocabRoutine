@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { formatFactor } from '$lib/domain/srs';
 	import { DAY, HOUR } from '$lib/domain/time';
-	import type { NewOrder } from '$lib/domain/types';
+	import type { ClozeEntry, NewOrder } from '$lib/domain/types';
 	import { app } from '$lib/state/store.svelte';
 	import Group from '$lib/ui/controls/Group.svelte';
 	import ListRow from '$lib/ui/controls/ListRow.svelte';
@@ -16,6 +16,10 @@
 		{ value: 'first', label: 'Сначала' },
 		{ value: 'mixed', label: 'Вперемешку' },
 		{ value: 'last', label: 'В конце' }
+	];
+	const clozeEntries: { value: ClozeEntry; label: string }[] = [
+		{ value: 'afterForward', label: 'После прямого' },
+		{ value: 'onAdd', label: 'Сразу' }
 	];
 	const minimums = [
 		{ value: HOUR, label: '1 ч' },
@@ -37,6 +41,13 @@
 			<Segmented label="Новые слова" options={orders} bind:value={q.newOrder} />
 		</div>
 	</Group>
+	<Group label="Cloze">
+		<div class="stacked">
+			<span>Слова в Cloze</span>
+			<Segmented label="Слова в Cloze" options={clozeEntries} bind:value={q.clozeEntry} />
+		</div>
+	</Group>
+	<p class="note">После прямого — когда интервал повторения достигнет 7 дней. Сразу — после добавления; новые слова делят дневной лимит с прямым режимом.</p>
 	<Group label="Интервалы">
 		<ListRow label="При успехе" note="интервал × коэффициент">
 			<Stepper bind:value={q.successFactor} min={1.1} max={5} step={0.1} decimals={1} format={formatFactor} label="При успехе" />
