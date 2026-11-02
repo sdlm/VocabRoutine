@@ -15,11 +15,11 @@ interface SeedWord {
 	clozeInterval?: number;
 }
 
-/** Words already in learning. Intervals > 5 days are in Cloze. */
+/** Words already in learning. Intervals of 7 days and more are in Cloze. */
 const SEEN: SeedWord[] = [
 	{ id: 'house', interval: 16, dueIn: -5, clozeDueIn: -2, clozeInterval: 9 },
 	{ id: 'eat', interval: 39, dueIn: 200, clozeDueIn: -20, clozeInterval: 2.5 },
-	{ id: 'borrow', interval: 6.3, dueIn: -1, clozeDueIn: -1, clozeInterval: 2.5 },
+	{ id: 'borrow', interval: 7.5, dueIn: -1, clozeDueIn: -1, clozeInterval: 2.5 },
 	{ id: 'journey', interval: 8, dueIn: 30, clozeDueIn: 50, clozeInterval: 20 },
 	{ id: 'often', interval: 2.5, dueIn: -26 },
 	{ id: 'cheap', interval: 1, dueIn: -3 },

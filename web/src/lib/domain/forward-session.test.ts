@@ -8,11 +8,11 @@ import {
 	revealBlock,
 	startForwardSession
 } from './forward-session';
-import type { ForwardItem } from './queue';
+import type { QueueItem } from './queue';
 import { IDLE_CAP_MS } from './session';
 
 const NOW = new Date(2026, 9, 20, 12).getTime();
-const ITEMS: ForwardItem[] = [
+const ITEMS: QueueItem[] = [
 	{ wordId: 'often', kind: 'review' },
 	{ wordId: 'thorough', kind: 'new' },
 	{ wordId: 'cheap', kind: 'review' }

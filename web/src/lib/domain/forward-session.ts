@@ -1,4 +1,4 @@
-import type { ForwardItem } from './queue';
+import type { QueueItem } from './queue';
 import { startClock, touch, type SessionClock } from './session';
 
 /** 'repeat' is «Повтор»: a word marked «Не помню» comes back once at the end, all blocks open, no grade. */
@@ -29,7 +29,7 @@ export interface ForwardSession extends SessionClock {
 	revealed: string[];
 }
 
-export function startForwardSession(items: ForwardItem[], now: number): ForwardSession {
+export function startForwardSession(items: QueueItem[], now: number): ForwardSession {
 	return {
 		...startClock(now),
 		total: items.length,

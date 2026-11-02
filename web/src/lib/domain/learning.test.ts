@@ -25,17 +25,16 @@ describe('gradeForward', () => {
 		expect(e.forward).toEqual({ intervalMs: 2.5 * DAY, dueAt: T0 + DAY + 2.5 * DAY });
 	});
 
-	test('does not enter Cloze at exactly the threshold', () => {
-		const e = { ...newEntry('deploy', T0), forward: { intervalMs: 2 * DAY, dueAt: T0 } };
-		expect(gradeForward(e, 'success', T0, s).forward!.intervalMs).toBe(CLOZE_THRESHOLD_MS);
-		expect(gradeForward(e, 'success', T0, s).clozeEnteredAt).toBeNull();
+	test('never puts the word in Cloze: availability is decided by the queue', () => {
+		const e = { ...newEntry('deploy', T0), forward: { intervalMs: 8 * DAY, dueAt: T0 } };
+		const next = gradeForward(e, 'success', T0, s);
+		expect(next.forward!.intervalMs).toBe(20 * DAY);
+		expect(next.clozeEnteredAt).toBeNull();
+		expect(next.cloze).toBeNull();
 	});
 
-	test('enters Cloze due now with the minimum interval once interval > 5 days', () => {
-		const e = { ...newEntry('deploy', T0), forward: { intervalMs: 2.5 * DAY, dueAt: T0 } };
-		const next = gradeForward(e, 'success', T0, s);
-		expect(next.clozeEnteredAt).toBe(T0);
-		expect(next.cloze).toEqual({ intervalMs: DAY, dueAt: T0 });
+	test('the Cloze threshold is 7 days', () => {
+		expect(CLOZE_THRESHOLD_MS).toBe(7 * DAY);
 	});
 
 	test('a word stays in Cloze after its forward interval drops', () => {

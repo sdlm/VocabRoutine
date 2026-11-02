@@ -10,10 +10,10 @@ import {
 	type ClozeOutcome,
 	type ClozeSession
 } from '$lib/domain/cloze-session';
-import { gradeCloze } from '$lib/domain/learning';
-import { clozeQueue } from '$lib/domain/queue';
+import { enterCloze, gradeCloze } from '$lib/domain/learning';
+import { availableWords } from '$lib/domain/queue';
 import { dayKey } from '$lib/domain/time';
-import { app, countForStreak } from './store.svelte';
+import { app, countForStreak, newShownToday } from './store.svelte';
 
 /**
  * What the screen shows for one word. Kept in memory only: it survives opening
@@ -40,11 +40,13 @@ export interface ClozeView {
 export const cloze: { view: ClozeView | null } = $state({ view: null });
 
 function inCloze(wordId: string): boolean {
-	return wordById.has(wordId) && app.learning[wordId]?.cloze != null;
+	return wordById.has(wordId) && wordId in app.learning;
 }
 
 export function dueClozeWords(now: number = Date.now()): string[] {
-	return clozeQueue(Object.values(app.learning), now).filter((id) => wordById.has(id));
+	return availableWords('cloze', Object.values(app.learning), app.settings.queue, now, newShownToday(now))
+		.map((i) => i.wordId)
+		.filter((id) => wordById.has(id));
 }
 
 /**
@@ -100,14 +102,16 @@ export function answerCloze(outcome: ClozeOutcome, picked: string | null, now: n
 	const v = cloze.view;
 	if (!s || !v || v.closed || v.wordId !== s.queue[0]) return;
 	const entry = app.learning[v.wordId];
-	if (!entry?.cloze) {
+	if (!entry) {
 		app.sessions.cloze = pruneSession(s, inCloze);
 		cloze.view = null;
 		syncClozeView();
 		return;
 	}
-	const isNew = isNewInCloze(entry);
-	app.learning[v.wordId] = gradeCloze(entry, outcomeResult(outcome), now, app.settings.queue);
+	const first = entry.cloze === null;
+	const isNew = first || isNewInCloze(entry);
+	const entered = first ? enterCloze(entry, now, app.settings.queue) : entry;
+	app.learning[v.wordId] = gradeCloze(entered, outcomeResult(outcome), now, app.settings.queue);
 	app.sessions.cloze = closeWord(s, outcome, isNew, now);
 	countForStreak(now);
 	if (outcome === 'correct' && app.settings.cloze.autoAdvance) {

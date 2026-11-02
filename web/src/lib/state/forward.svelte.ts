@@ -9,7 +9,7 @@ import {
 	type ForwardStep
 } from '$lib/domain/forward-session';
 import { gradeForward, introduceForward } from '$lib/domain/learning';
-import { forwardQueue, type ForwardItem } from '$lib/domain/queue';
+import { availableWords, type QueueItem } from '$lib/domain/queue';
 import { dayKey } from '$lib/domain/time';
 import { app, countForStreak, countIntroduction, newShownToday } from './store.svelte';
 import { forwardBlocks } from './template';
@@ -21,8 +21,10 @@ function stillValid(step: ForwardStep): boolean {
 	return step.kind === 'new' ? e.forward === null : e.forward !== null;
 }
 
-export function dueForward(now: number = Date.now()): ForwardItem[] {
-	return forwardQueue(Object.values(app.learning), app.settings.queue, now, newShownToday(now)).filter((i) => wordById.has(i.wordId));
+export function dueForward(now: number = Date.now()): QueueItem[] {
+	return availableWords('forward', Object.values(app.learning), app.settings.queue, now, newShownToday(now)).filter((i) =>
+		wordById.has(i.wordId)
+	);
 }
 
 /**

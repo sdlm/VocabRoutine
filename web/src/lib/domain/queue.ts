@@ -1,8 +1,12 @@
+import { CLOZE_THRESHOLD_MS } from './learning';
 import { nextMidnight } from './time';
-import type { LearningEntry, QueueSettings } from './types';
+import type { LearningEntry, ModeProgress, QueueSettings } from './types';
 
-export interface ForwardItem {
+export type Screen = 'forward' | 'cloze';
+
+export interface QueueItem {
 	wordId: string;
+	/** 'new': not yet seen on this screen («Новое слово» in forward). */
 	kind: 'new' | 'review';
 }
 
@@ -23,24 +27,45 @@ function interleave<T>(base: T[], inserts: T[]): T[] {
 }
 
 /**
- * New words the forward queue may still take today. `shownToday` comes from the day's activity,
- * not from the entries: a word removed after «Новое слово» keeps its slot.
+ * Never seen words the screens may still take today. `slotsUsedToday` comes from the day's activity,
+ * not from the entries: a word removed after its first showing keeps its slot.
  */
-export function newLeftToday(shownToday: number, s: QueueSettings): number {
-	return Math.max(0, s.newPerDay - shownToday);
+export function newLeftToday(slotsUsedToday: number, s: QueueSettings): number {
+	return Math.max(0, s.newPerDay - slotsUsedToday);
 }
 
-/** `newShownToday`: «Новое слово» screens passed today (DayActivity.introduced). */
-export function forwardQueue(entries: LearningEntry[], s: QueueSettings, now: number, newShownToday: number): ForwardItem[] {
-	const due: ForwardItem[] = entries
-		.filter((e) => e.forward !== null && e.forward.dueAt <= now)
-		.sort((a, b) => a.forward!.dueAt - b.forward!.dueAt)
+const progressOn = (screen: Screen, e: LearningEntry): ModeProgress | null => (screen === 'forward' ? e.forward : e.cloze);
+
+/** Seen anywhere: «Новое слово» passed in forward or answered in Cloze. */
+const seenAnywhere = (e: LearningEntry): boolean => e.forward !== null || e.cloze !== null;
+
+const byAdded = (a: LearningEntry, b: LearningEntry) => a.addedAt - b.addedAt;
+
+/**
+ * Words the screen may show now.
+ * - Seen on this screen: comes back when due, nothing else is checked.
+ * - Cloze in «После прямого»: a word not seen in Cloze needs a forward interval of at least 7 days.
+ * - Not seen on this screen but seen on the other: new, takes no slot.
+ * - Never seen: new, the first by adding while today's slots last. The slots are shared by both screens:
+ *   a word stays new for both of them until its first showing on either one.
+ * New words are placed among the reviews by `newOrder`.
+ */
+export function availableWords(screen: Screen, entries: LearningEntry[], s: QueueSettings, now: number, slotsUsedToday: number): QueueItem[] {
+	const due: QueueItem[] = entries
+		.filter((e) => {
+			const p = progressOn(screen, e);
+			return p !== null && p.dueAt <= now;
+		})
+		.sort((a, b) => progressOn(screen, a)!.dueAt - progressOn(screen, b)!.dueAt)
 		.map((e) => ({ wordId: e.wordId, kind: 'review' }));
-	const fresh: ForwardItem[] = entries
-		.filter((e) => e.forward === null)
-		.sort((a, b) => a.addedAt - b.addedAt)
-		.slice(0, newLeftToday(newShownToday, s))
-		.map((e) => ({ wordId: e.wordId, kind: 'new' }));
+	const notHere = entries.filter(
+		(e) =>
+			progressOn(screen, e) === null &&
+			(screen === 'forward' || s.clozeEntry === 'onAdd' || (e.forward !== null && e.forward.intervalMs >= CLOZE_THRESHOLD_MS))
+	);
+	const free = notHere.filter(seenAnywhere);
+	const slotted = notHere.filter((e) => !seenAnywhere(e)).sort(byAdded).slice(0, newLeftToday(slotsUsedToday, s));
+	const fresh: QueueItem[] = [...free, ...slotted].sort(byAdded).map((e) => ({ wordId: e.wordId, kind: 'new' }));
 	if (s.newOrder === 'first') return [...fresh, ...due];
 	if (s.newOrder === 'last') return [...due, ...fresh];
 	return interleave(due, fresh);
@@ -49,13 +74,6 @@ export function forwardQueue(entries: LearningEntry[], s: QueueSettings, now: nu
 /** New words that tomorrow's forward queue will take: the daily limit, if enough words wait. */
 export function newTomorrow(entries: LearningEntry[], s: QueueSettings): number {
 	return Math.min(s.newPerDay, entries.filter((e) => e.forward === null).length);
-}
-
-export function clozeQueue(entries: LearningEntry[], now: number): string[] {
-	return entries
-		.filter((e) => e.cloze !== null && e.cloze.dueAt <= now)
-		.sort((a, b) => a.cloze!.dueAt - b.cloze!.dueAt)
-		.map((e) => e.wordId);
 }
 
 export interface Upcoming {
