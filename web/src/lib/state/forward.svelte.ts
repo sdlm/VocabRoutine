@@ -1,5 +1,6 @@
 import { wordById } from '$lib/content';
 import {
+	appendForwardSteps,
 	gradeStep,
 	passStep,
 	pruneForwardSession,
@@ -11,37 +12,43 @@ import {
 import { gradeForward, introduceForward } from '$lib/domain/learning';
 import { availableWords, type QueueItem } from '$lib/domain/queue';
 import { dayKey } from '$lib/domain/time';
-import { app, countForStreak, countIntroduction, newShownToday } from './store.svelte';
+import { app, countForStreak, countIntroduction, slotsUsedToday } from './store.svelte';
 import { forwardBlocks } from './template';
 
-/** A queued screen still makes sense: the word is learned and in the state the screen expects. */
-function stillValid(step: ForwardStep): boolean {
-	const e = app.learning[step.wordId];
-	if (!e || !wordById.has(step.wordId)) return false;
-	return step.kind === 'new' ? e.forward === null : e.forward !== null;
+/**
+ * Screens that still make sense: «Повтор» while the word is learned, other screens while the word
+ * is available as that kind (removed words, words whose slot went to Cloze, … are not).
+ */
+function validSteps(items: QueueItem[]): (step: ForwardStep) => boolean {
+	const available = new Set(items.map((i) => `${i.kind}:${i.wordId}`));
+	return (step) =>
+		step.kind === 'repeat' ? step.wordId in app.learning && wordById.has(step.wordId) : available.has(`${step.kind}:${step.wordId}`);
 }
 
 export function dueForward(now: number = Date.now()): QueueItem[] {
-	return availableWords('forward', Object.values(app.learning), app.settings.queue, now, newShownToday(now)).filter((i) =>
+	return availableWords('forward', Object.values(app.learning), app.settings.queue, now, slotsUsedToday(now)).filter((i) =>
 		wordById.has(i.wordId)
 	);
 }
 
 /**
  * The single entry point: the tab calls it on open, «Готово» after the summary.
- * Drops a session from another day, prunes stale screens, starts a session when words are waiting.
- * A session that lost every screen before its first answer is dropped too.
+ * Drops a session from another day. Today's session follows `dueForward`: screens no longer valid leave,
+ * words that became available and are not yet in the session go to the end. A session that lost every
+ * screen before its first answer is dropped; a new one starts when words are waiting.
  */
 export function ensureForwardSession(now: number = Date.now()): void {
+	const items = dueForward(now);
 	const s = app.sessions.forward;
 	if (s && s.day === dayKey(now)) {
-		const pruned = pruneForwardSession(s, stillValid);
-		if (pruned.queue.length > 0 || pruned.done.length > 0) {
-			if (pruned !== s) app.sessions.forward = pruned;
+		const pruned = pruneForwardSession(s, validSteps(items));
+		const inSession = new Set([...pruned.queue, ...pruned.done].map((x) => x.wordId));
+		const synced = appendForwardSteps(pruned, items.filter((i) => !inSession.has(i.wordId)));
+		if (synced.queue.length > 0 || synced.done.length > 0) {
+			if (synced !== s) app.sessions.forward = synced;
 			return;
 		}
 	}
-	const items = dueForward(now);
 	app.sessions.forward = items.length ? startForwardSession(items, now) : null;
 }
 
@@ -50,8 +57,9 @@ function currentStep(): ForwardStep | null {
 	const s = app.sessions.forward;
 	const step = s?.queue[0];
 	if (!s || !step) return null;
-	if (stillValid(step)) return step;
-	app.sessions.forward = pruneForwardSession(s, stillValid);
+	const valid = validSteps(dueForward());
+	if (valid(step)) return step;
+	app.sessions.forward = pruneForwardSession(s, valid);
 	return null;
 }
 
@@ -70,8 +78,11 @@ export function passForwardWord(now: number = Date.now()): void {
 	const step = currentStep();
 	if (!step || step.kind === 'review') return;
 	if (step.kind === 'new') {
-		app.learning[step.wordId] = introduceForward(app.learning[step.wordId], now, app.settings.queue);
-		countIntroduction(now);
+		const e = app.learning[step.wordId];
+		// A word already answered in Cloze took its slot there.
+		if (e.cloze === null) countIntroduction(now);
+		else countForStreak(now);
+		app.learning[step.wordId] = introduceForward(e, now, app.settings.queue);
 	}
 	app.sessions.forward = passStep(app.sessions.forward!, now);
 }

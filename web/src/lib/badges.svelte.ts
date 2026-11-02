@@ -1,5 +1,5 @@
 import { availableWords } from '$lib/domain/queue';
-import { app, newShownToday } from '$lib/state/store.svelte';
+import { app, slotsUsedToday } from '$lib/state/store.svelte';
 
 /** Tab badges: words in today's queue. Recomputed every minute so due words appear. */
 export const badges = $state({ forward: 0, cloze: 0 });
@@ -20,7 +20,7 @@ export function startBadges(): void {
 	});
 	$effect(() => {
 		const entries = Object.values(app.learning);
-		const used = newShownToday(tick);
+		const used = slotsUsedToday(tick);
 		badges.forward = availableWords('forward', entries, app.settings.queue, tick, used).length;
 		badges.cloze = availableWords('cloze', entries, app.settings.queue, tick, used).length;
 	});

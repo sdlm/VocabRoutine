@@ -57,13 +57,13 @@ export function countForStreak(now: number = Date.now()): void {
 	app.activity = bumpActivity(app.activity, dayKey(now), { counted: 1 });
 }
 
-/** «Новое слово»: counts for the streak and takes a slot of today's new-word limit. */
+/** A word seen for the first time on either screen: counts for the streak and takes one of today's new-word slots. */
 export function countIntroduction(now: number = Date.now()): void {
 	app.activity = bumpActivity(app.activity, dayKey(now), { counted: 1, introduced: 1 });
 }
 
-/** «Новое слово» screens passed today; removing a word does not give its slot back. */
-export function newShownToday(now: number = Date.now()): number {
+/** New-word slots taken today on both screens; removing a word does not give its slot back. */
+export function slotsUsedToday(now: number = Date.now()): number {
 	return app.activity[dayKey(now)]?.introduced ?? 0;
 }
 

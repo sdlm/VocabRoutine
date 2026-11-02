@@ -89,6 +89,33 @@ describe('ensureForwardSession', () => {
 		ensureForwardSession();
 		expect(app.sessions.forward).toBeNull();
 	});
+
+	test('a word added mid-session goes to the end of the queue', () => {
+		const s = start();
+		app.learning.dope = newEntry('dope', Date.now());
+		ensureForwardSession();
+		expect(ids().at(-1)).toBe('new:dope');
+		expect(app.sessions.forward!.total).toBe(s.total + 1);
+		expect(app.sessions.forward!.startedAt).toBe(s.startedAt);
+	});
+
+	test('a word answered in this session does not come back to it', () => {
+		start();
+		skipTo('new');
+		const id = app.sessions.forward!.queue[0].wordId;
+		passForwardWord();
+		app.learning[id].forward!.dueAt = Date.now() - 1000;
+		ensureForwardSession();
+		expect(app.sessions.forward!.queue.some((q) => q.wordId === id)).toBe(false);
+	});
+
+	test('new screens leave the session when Cloze used up today\'s slots', () => {
+		app.settings.queue.newPerDay = 4;
+		start();
+		app.activity[dayKey(Date.now())] = { counted: 4, seconds: 0, introduced: 4 };
+		ensureForwardSession();
+		expect(app.sessions.forward!.queue.filter((q) => q.kind === 'new')).toEqual([]);
+	});
 });
 
 describe('gradeForwardWord', () => {
@@ -182,6 +209,18 @@ describe('passForwardWord', () => {
 		const before = JSON.stringify(app.sessions.forward);
 		passForwardWord();
 		expect(JSON.stringify(app.sessions.forward)).toBe(before);
+	});
+
+	test('a word already answered in Cloze takes no slot on «Новое слово»', () => {
+		app.settings.queue.newPerDay = 0;
+		app.learning.dope = { ...newEntry('dope', Date.now()), clozeEnteredAt: Date.now(), cloze: { intervalMs: DAY, dueAt: Date.now() + DAY } };
+		start();
+		skipTo('new');
+		expect(app.sessions.forward!.queue[0].wordId).toBe('dope');
+		const counted = today();
+		passForwardWord();
+		expect(app.activity[dayKey(Date.now())]?.introduced ?? 0).toBe(0);
+		expect(today()).toBe(counted + 1);
 	});
 });
 

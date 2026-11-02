@@ -13,7 +13,7 @@ import {
 import { enterCloze, gradeCloze } from '$lib/domain/learning';
 import { availableWords } from '$lib/domain/queue';
 import { dayKey } from '$lib/domain/time';
-import { app, countForStreak, newShownToday } from './store.svelte';
+import { app, countForStreak, slotsUsedToday } from './store.svelte';
 
 /**
  * What the screen shows for one word. Kept in memory only: it survives opening
@@ -44,7 +44,7 @@ function inCloze(wordId: string): boolean {
 }
 
 export function dueClozeWords(now: number = Date.now()): string[] {
-	return availableWords('cloze', Object.values(app.learning), app.settings.queue, now, newShownToday(now))
+	return availableWords('cloze', Object.values(app.learning), app.settings.queue, now, slotsUsedToday(now))
 		.map((i) => i.wordId)
 		.filter((id) => wordById.has(id));
 }
