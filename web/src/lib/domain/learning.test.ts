@@ -1,5 +1,5 @@
 import { describe, expect, test } from 'vitest';
-import { CLOZE_THRESHOLD_MS, gradeCloze, gradeForward, introduceForward, newEntry } from './learning';
+import { CLOZE_THRESHOLD_MS, enterCloze, gradeCloze, gradeForward, introduceForward, newEntry } from './learning';
 import { DAY, HOUR } from './time';
 import type { SrsSettings } from './types';
 
@@ -70,5 +70,24 @@ describe('gradeCloze', () => {
 			cloze: { intervalMs: DAY, dueAt: T0 }
 		};
 		expect(gradeCloze(e, 'fail', T0, s).forward).toEqual(e.forward);
+	});
+});
+
+describe('enterCloze', () => {
+	test('puts the word in Cloze due now with the minimum interval', () => {
+		const e = enterCloze(newEntry('deploy', T0), T0 + HOUR, s);
+		expect(e.clozeEnteredAt).toBe(T0 + HOUR);
+		expect(e.cloze).toEqual({ intervalMs: DAY, dueAt: T0 + HOUR });
+		expect(e.forward).toBeNull();
+	});
+
+	test('then the first answer is graded from the minimum interval', () => {
+		const e = gradeCloze(enterCloze(newEntry('deploy', T0), T0, s), 'success', T0, s);
+		expect(e.cloze).toEqual({ intervalMs: 2.5 * DAY, dueAt: T0 + 2.5 * DAY });
+	});
+
+	test('throws for a word already in Cloze', () => {
+		const e = enterCloze(newEntry('deploy', T0), T0, s);
+		expect(() => enterCloze(e, T0, s)).toThrow('enterCloze: deploy is already in Cloze');
 	});
 });

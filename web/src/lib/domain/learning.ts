@@ -19,6 +19,12 @@ export function introduceForward(e: LearningEntry, now: number, s: SrsSettings):
 	};
 }
 
+/** First Cloze answer: the word enters Cloze due now, so the answer is graded from the minimum interval. */
+export function enterCloze(e: LearningEntry, now: number, s: SrsSettings): LearningEntry {
+	if (e.cloze !== null) throw new Error(`enterCloze: ${e.wordId} is already in Cloze`);
+	return { ...e, clozeEnteredAt: now, cloze: { intervalMs: s.minIntervalMs, dueAt: now } };
+}
+
 export function gradeForward(e: LearningEntry, result: Result, now: number, s: SrsSettings): LearningEntry {
 	if (!e.forward) throw new Error(`gradeForward: ${e.wordId} was not introduced`);
 	const intervalMs = nextInterval(e.forward.intervalMs, result, s);
