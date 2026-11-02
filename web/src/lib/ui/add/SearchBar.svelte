@@ -14,9 +14,6 @@
 
 <style>
 	.sbar {
-		position: sticky;
-		top: 0;
-		z-index: 10;
 		display: flex;
 		align-items: center;
 		gap: 8px;

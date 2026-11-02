@@ -22,6 +22,19 @@
 
 	let input: HTMLInputElement | undefined = $state();
 
+	// Filters (and the search bar) stay on top; once stuck they get the bar background.
+	let top: HTMLElement | undefined = $state();
+	let stuck = $state(false);
+	$effect(() => {
+		search.open;
+		if (!top) return;
+		const el = top;
+		const update = () => (stuck = el.getBoundingClientRect().top <= 0);
+		update();
+		window.addEventListener('scroll', update, { passive: true });
+		return () => window.removeEventListener('scroll', update);
+	});
+
 	// The open sheet lives in history (shallow routing): the system «Назад» closes it instead of leaving the tab.
 	const sheet = $derived(page.state.sheet ?? null);
 	const openSheet = (part: SheetPart) => {
@@ -57,12 +70,15 @@
 </script>
 
 <main class="page">
-	{#if search.open}
-		<SearchBar bind:input />
-	{:else}
-		<LargeTitle title="Добавить" />
+	{#if !search.open}
+		<LargeTitle title="Добавить" pinned={false} />
 	{/if}
-	<FilterChips onSearch={openSearch} onSheet={openSheet} />
+	<div bind:this={top} class="top" class:stuck class:notch={!search.open}>
+		{#if search.open}
+			<SearchBar bind:input />
+		{/if}
+		<FilterChips onSearch={openSearch} onSheet={openSheet} />
+	</div>
 	<p class="count">
 		{results.length}
 		{plural(results.length, WORD_FORMS)}{#if added > 0}&nbsp;· добавлено {added}{/if}
@@ -83,6 +99,25 @@
 {/if}
 
 <style>
+	.top {
+		position: sticky;
+		top: 0;
+		z-index: 10;
+		margin: 0 -16px;
+		padding: 0 16px;
+		border-bottom: 1px solid transparent;
+	}
+	/* Without the search bar nothing else keeps the chips out of the notch: the room is
+	   always there but overlaps the title above, so the unstuck layout does not move. */
+	.top.notch {
+		margin-top: calc(-1 * var(--safe-top));
+		padding-top: var(--safe-top);
+	}
+	.top.stuck {
+		background: var(--bar-bg);
+		backdrop-filter: blur(12px);
+		border-color: var(--border);
+	}
 	.count {
 		margin-bottom: 6px;
 		font-size: 13px;

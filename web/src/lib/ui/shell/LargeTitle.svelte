@@ -1,10 +1,12 @@
 <script lang="ts">
-	let { title }: { title: string } = $props();
+	/** `pinned={false}`: the bar only keeps the room under the notch and scrolls away with the title. */
+	let { title, pinned = true }: { title: string; pinned?: boolean } = $props();
 
 	let heading: HTMLElement;
 	let collapsed = $state(false);
 
 	$effect(() => {
+		if (!pinned) return;
 		const io = new IntersectionObserver(([e]) => (collapsed = !e.isIntersecting), {
 			rootMargin: '-44px 0px 0px 0px'
 		});
@@ -13,7 +15,7 @@
 	});
 </script>
 
-<header class="bar" class:collapsed>
+<header class="bar" class:collapsed class:static={!pinned}>
 	<span class="small">{title}</span>
 </header>
 <h1 bind:this={heading}>{title}</h1>
@@ -37,6 +39,9 @@
 		background: var(--bar-bg);
 		backdrop-filter: blur(12px);
 		border-color: var(--border);
+	}
+	.bar.static {
+		position: static;
 	}
 	.small {
 		font-size: 17px;
