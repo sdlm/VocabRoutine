@@ -1,11 +1,19 @@
 <script lang="ts">
 	import { flushSync } from 'svelte';
-	import { pushState } from '$app/navigation';
+	import { afterNavigate, beforeNavigate, pushState } from '$app/navigation';
 	import { page } from '$app/state';
 	import type { SheetPart } from '$lib/domain/search';
 	import { plural, WORD_FORMS } from '$lib/format';
 	import { href } from '$lib/nav';
-	import { search, searchResults, showMore, toggleWord, visibleLimit } from '$lib/state/search.svelte';
+	import {
+		saveScroll,
+		savedScroll,
+		search,
+		searchResults,
+		showMore,
+		toggleWord,
+		visibleLimit
+	} from '$lib/state/search.svelte';
 	import { isLearning } from '$lib/state/store.svelte';
 	import { hideTabBarWhile } from '$lib/state/ui.svelte';
 	import FilterChips from '$lib/ui/add/FilterChips.svelte';
@@ -60,6 +68,11 @@
 		io.observe(more);
 		return () => io.disconnect();
 	});
+
+	// A tab tap is a fresh navigation and SvelteKit scrolls to the top; put the list back where it was.
+	// afterNavigate runs after that reset. The rows are already drawn: visibleLimit() kept the page count.
+	beforeNavigate(() => saveScroll(window.scrollY));
+	afterNavigate(() => window.scrollTo(0, savedScroll()));
 
 	/** Runs inside the loupe tap: focusing there is what opens the keyboard on iOS. */
 	function openSearch() {
