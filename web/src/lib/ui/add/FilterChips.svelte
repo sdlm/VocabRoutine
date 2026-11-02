@@ -34,7 +34,7 @@
 		display: flex;
 		align-items: center;
 		gap: 6px;
-		margin: 4px -16px;
+		margin: 4px -16px 2px;
 		padding: 4px 16px;
 		overflow-x: auto;
 		scrollbar-width: none;
