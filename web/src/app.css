@@ -12,6 +12,8 @@
 	--accent-soft: #e3effd;
 	--success: #2f8a47;
 	--success-soft: #e6f6ea;
+	/* Solid fill under white text (Cloze «Подтвердить»); calmer than --success in dark. */
+	--success-fill: #2f8a47;
 	/* Activity calendar: tiles by minutes, and the streak pill that fades from the first day of the run. */
 	--heat-0: #e2e2e6;
 	--heat-1: #b9e4c4;
@@ -51,6 +53,7 @@
 		--accent-soft: rgba(10, 132, 255, 0.18);
 		--success: #30d158;
 		--success-soft: rgba(48, 209, 88, 0.16);
+		--success-fill: #248a3d;
 		/* Opaque, so a tile looks the same on the card and on the streak pill. */
 		--heat-0: #3a3a3c;
 		--heat-1: #2d5d3b;
@@ -83,6 +86,7 @@
 	--accent-soft: rgba(10, 132, 255, 0.18);
 	--success: #30d158;
 	--success-soft: rgba(48, 209, 88, 0.16);
+	--success-fill: #248a3d;
 	/* Opaque, so a tile looks the same on the card and on the streak pill. */
 	--heat-0: #3a3a3c;
 	--heat-1: #2d5d3b;

@@ -337,9 +337,9 @@
 		border: 1px solid var(--danger-soft);
 	}
 	.confirm {
-		background: var(--success);
+		background: var(--success-fill);
 		color: #fff;
-		border: 1px solid var(--success);
+		border: 1px solid var(--success-fill);
 	}
 	.primary {
 		display: block;
