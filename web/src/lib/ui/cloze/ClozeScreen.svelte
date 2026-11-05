@@ -84,6 +84,9 @@
 		answerCloze('gaveUp', null);
 	}
 
+	/** Empty field width, prefix included; the field widens only once the typed text no longer fits. */
+	const FIELD_CH = 9;
+
 	const live = $derived(typingState(view.prefix + view.typed, gap.answer));
 	/** A correct answer turns «Сдаться» into «Подтвердить». */
 	const ready = $derived(isCorrect(view.prefix + view.typed, gap.answer));
@@ -105,10 +108,13 @@
 	{@render words(before)}{#if view.closed}<span class="inl" class:ok={!typedWrong} class:bad={typedWrong}
 			>{closedText}</span
 		>{:else if typing}<span class="inl" data-state={live}
-			>{#if view.prefix}<b class="locked">{view.prefix}</b>{/if}<textarea
+			>{#if view.prefix}<b class="locked">{view.prefix}</b>{/if}<span
+				class="grow"
+				data-value={view.typed}
+				style:min-width="{Math.max(1, FIELD_CH - view.prefix.length)}ch"
+				><textarea
 				bind:this={input}
 				bind:value={view.typed}
-				style:width="{Math.max(6 - view.prefix.length, view.typed.length + 2)}ch"
 				rows="1"
 				wrap="off"
 				enterkeyhint="done"
@@ -132,6 +138,7 @@
 					}
 				}}
 			></textarea></span
+			></span
 		>{:else}<span class="blank"></span>{/if}{@render words(after)}
 </div>
 
@@ -217,16 +224,29 @@
 		background: var(--accent-soft);
 		line-height: 1.45;
 	}
-	.inl textarea {
+	/* Sized by an invisible copy of the typed text, so the field grows only when the text hits its edge. */
+	.grow {
+		position: relative;
 		display: inline-block;
 		vertical-align: bottom;
+	}
+	.grow::after {
+		content: attr(data-value);
+		visibility: hidden;
+		white-space: pre;
+		padding-right: 2px; /* room for the caret */
+	}
+	.inl textarea {
+		position: absolute;
+		inset: 0;
+		width: 100%;
 		border: none;
 		outline: none;
 		background: transparent;
 		font: inherit;
 		color: inherit;
 		padding: 0;
-		min-width: 1ch;
+		min-width: 0;
 		height: 1lh;
 		resize: none;
 		overflow: hidden;
