@@ -48,7 +48,7 @@
 {#if mode === 'session' && session && cloze.view}
 	<main class="page">
 		<SessionBar done={session.done.length} {position} total={session.total} settingsPath="/review/cloze/settings" />
-		<StreakBanner />
+		<StreakBanner card={cloze.view} />
 		<ClozeScreen view={cloze.view} />
 	</main>
 {:else if mode === 'summary'}

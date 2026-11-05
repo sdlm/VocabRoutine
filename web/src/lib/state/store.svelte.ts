@@ -1,5 +1,5 @@
 import { newEntry } from '$lib/domain/learning';
-import { bumpActivity } from '$lib/domain/streak';
+import { bumpActivity, streakInfo } from '$lib/domain/streak';
 import { dayKey } from '$lib/domain/time';
 import { parseState, STORAGE_KEY } from './persist';
 import type { AppState } from './schema';
@@ -14,6 +14,12 @@ function read(): string | null {
 }
 
 export const app: AppState = $state(parseState(read(), Date.now()));
+
+/** The day the app opened on, if its goal was already reached then: «Стрик засчитан» greets only a goal reached in this run. */
+export const reachedAtLaunch: string | null = (() => {
+	const day = dayKey(Date.now());
+	return streakInfo(app.activity, app.settings.dailyGoal, day).goalReachedToday ? day : null;
+})();
 
 /** Persist every change. Called once from the root layout. */
 export function startPersistence(): void {

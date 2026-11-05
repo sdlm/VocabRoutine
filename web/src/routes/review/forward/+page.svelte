@@ -38,7 +38,7 @@
 {#if mode === 'session' && session && progress}
 	<main class="page">
 		<SessionBar done={progress.finished} position={progress.position} total={progress.total} settingsPath="/review/forward/template" />
-		<StreakBanner />
+		<StreakBanner card={`${session.startedAt}:${session.total - session.queue.length}`} />
 		<ForwardScreen {session} />
 	</main>
 {:else if mode === 'summary'}
